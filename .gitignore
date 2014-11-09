@@ -17,3 +17,6 @@ hs_err_pid*
 
 # OSX files
 *.DS_Store
+
+# Local Project files
+lib/
