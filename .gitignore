@@ -15,8 +15,5 @@ hs_err_pid*
 *.idea/
 *.iml
 
-OSX files
+# OSX files
 *.DS_Store
-
-# Lib files
-!lib/**/*.jar
