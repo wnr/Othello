@@ -68,7 +68,7 @@ public interface Othello {
 	public boolean isMoveValid(String playerId, String nodeId);
 
 	/**
-	 * If the player in turn is a computer than this computer makes a move and updates the player in turn. 
+	 * If the player in turn is a computer than this computer makes a move and updates the player in turn.
 	 * 
 	 * @return the nodes that where swapped for this move, including the node where the player made the move
 	 * @throws IllegalStateException if there is not a computer in turn
@@ -77,7 +77,7 @@ public interface Othello {
 
 	/**
 	 * Validates if the move is correct and if the player is in turn. If so, then the move is made which updates the
-	 * board and the player in turn. 
+	 * board and the player in turn.
 	 * 
 	 * @param playerId the id of the player that makes the move
 	 * @param nodeId the id of the node where the player wants to move
