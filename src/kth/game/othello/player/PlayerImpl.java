@@ -5,7 +5,7 @@ package kth.game.othello.player;
  *
  * @author Lucas Wiener
  */
-public class PlayerImpl implements Player {
+public abstract class PlayerImpl implements Player {
 	String id;
 	String name;
 	Type type;
