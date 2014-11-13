@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * A board implementation storing nodes on a rectangular grid.
  */
-public class OthelloBoard implements Board {
+public class RectangularBoard implements Board {
 
 	private int width;
 	private int height;
@@ -19,7 +19,7 @@ public class OthelloBoard implements Board {
 	 * @param height The height of the board
 	 * @param board The nodes on the board
 	 */
-	public OthelloBoard(int width, int height, NodeImpl[][] board) {
+	public RectangularBoard(int width, int height, NodeImpl[][] board) {
 		this.width = width;
 		this.height = height;
 		this.board = board;

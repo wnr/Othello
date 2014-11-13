@@ -5,13 +5,13 @@ import org.junit.Test;
 
 import java.util.List;
 
-public class OthelloBoardHandlerTest {
+public class RectangularBoardHandlerTest {
 
 	@Test
 	public void initializeStartingPositionsTest() {
 		String player1 = "player1";
 		String player2 = "player2";
-		OthelloBoard board = OthelloBoardFactory.createOthelloBoard();
+		RectangularBoard board = BoardFactory.createOthelloBoard();
 		OthelloBoardHandler boardHandler = new OthelloBoardHandler(board);
 		boardHandler.initializeStartingPositions(player1, player2);
 		List<Node> nodes = board.getNodes();

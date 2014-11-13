@@ -1,8 +1,8 @@
 package kth.game.othello.board;
 
-public class OthelloBoardFactory {
+public class BoardFactory {
 
-	public static OthelloBoard createOthelloBoard() {
+	public static RectangularBoard createOthelloBoard() {
 		int width = 8;
 		int height = 8;
 		NodeImpl[][] board = new NodeImpl[width][height];
@@ -11,7 +11,7 @@ public class OthelloBoardFactory {
 				board[x][y] = new NodeImpl(null, x, y);
 			}
 		}
-		return new OthelloBoard(width, height, board);
+		return new RectangularBoard(width, height, board);
 	}
 
 }

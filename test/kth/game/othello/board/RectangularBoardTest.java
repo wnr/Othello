@@ -5,11 +5,11 @@ import org.junit.Test;
 
 import java.util.List;
 
-public class OthelloBoardTest {
+public class RectangularBoardTest {
 
 	@Test
 	public void setAndGetNodeTest() {
-		OthelloBoard board = OthelloBoardFactory.createOthelloBoard();
+		RectangularBoard board = BoardFactory.createOthelloBoard();
 		board.setNode(2, 2, board.getNode(3, 3));
 		Assert.assertEquals(board.getNode(2, 2), board.getNode(3, 3));
 		Assert.assertNotEquals(board.getNode(2, 3), board.getNode(3, 3));
@@ -17,7 +17,7 @@ public class OthelloBoardTest {
 
 	@Test
 	public void getNodesTest() {
-		OthelloBoard board = OthelloBoardFactory.createOthelloBoard();
+		RectangularBoard board = BoardFactory.createOthelloBoard();
 		List<Node> nodes = board.getNodes();
 		Assert.assertEquals(nodes.size(), board.getWidth() * board.getHeight());
 		int prev = -1;
@@ -30,7 +30,7 @@ public class OthelloBoardTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void outOfRangeTest() {
-		OthelloBoard board = new OthelloBoard(2, 2, null);
+		RectangularBoard board = new RectangularBoard(2, 2, null);
 		board.getNode(2, 1);
 	}
 

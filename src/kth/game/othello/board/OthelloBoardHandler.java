@@ -5,13 +5,13 @@ package kth.game.othello.board;
  */
 public class OthelloBoardHandler {
 
-	private OthelloBoard board;
+	private RectangularBoard board;
 
-	public OthelloBoardHandler(OthelloBoard board) {
+	public OthelloBoardHandler(RectangularBoard board) {
 		this.board = board;
 	}
 
-	public OthelloBoard getBoard() {
+	public RectangularBoard getBoard() {
 		return board;
 	}
 
