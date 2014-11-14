@@ -7,35 +7,58 @@ import java.util.List;
  * A board implementation storing nodes on a rectangular grid.
  */
 public class RectangularBoard implements Board {
-
-	private int width;
-	private int height;
-	private NodeImpl[][] board;
+	private int numRows;
+	private int numCols;
+	private ArrayList<NodeImpl> board;
 
 	/**
-	 * Constructs a new Othello board with the given dimensions and nodes.
+	 * Constructs a new Othello board with the given dimensions and fills it with un-occupied nodes.
 	 * 
-	 * @param width The width of the board
-	 * @param height The height of the board
-	 * @param board The nodes on the board
+	 * @param numRows The width of the board
+	 * @param numCols The height of the board
 	 */
-	public RectangularBoard(int width, int height, NodeImpl[][] board) {
-		this.width = width;
-		this.height = height;
-		this.board = board;
+	public RectangularBoard(int numRows, int numCols) {
+		this.numRows = numRows;
+		this.numCols = numCols;
+		board = new ArrayList<NodeImpl>(getNumNodes());
+
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numCols; j++) {
+				board.add(new NodeImpl(i, j));
+			}
+		}
+	}
+
+	@Override
+	public List<Node> getNodes() {
+		return new ArrayList<Node>(board);
 	}
 
 	/**
-	 * Place a node on a specified position.
-	 * 
-	 * @param x The x-coordinate of the node
-	 * @param y The y-coordinate of the node
-	 * @param node The node to place
-	 * @throws java.lang.IllegalArgumentException if the coordinates are outside the board
+	 * The number of nodes in the board.
+	 *
+	 * @return the number of nodes
 	 */
-	public void setNode(int x, int y, NodeImpl node) {
-		rangeCheck(x, y);
-		board[x][y] = node;
+	public int getNumNodes() {
+		return numRows * numCols;
+	}
+
+	/**
+	 * The number of rows of the board.
+	 *
+	 * @return the number of rows
+	 */
+	public int getNumRows() {
+		return numRows;
+	}
+
+	/**
+	 * The number of columns of the board.
+	 *
+	 * @return the number of columns
+	 */
+	public int getNumCols() {
+		return numCols;
 	}
 
 	/**
@@ -47,36 +70,32 @@ public class RectangularBoard implements Board {
 	 */
 	public NodeImpl getNode(int x, int y) {
 		rangeCheck(x, y);
-		return board[x][y];
-	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public int getHeight() {
-		return height;
+		return board.get(getNodeIndex(x, y));
 	}
 
 	/**
-	 * Get all the nodes on the board, ordered by x-value and then y-value.
-	 * 
-	 * @return A list containing all the nodes on the board
+	 * Checks so that the x and y coordinates are in range of the board.
+	 *
+	 * @param x the x-coordinate to check
+	 * @param y the y-coordinate to check
+	 * @throws java.lang.IllegalArgumentException if the coordinates are outside the board
 	 */
-	public List<Node> getNodes() {
-		List<Node> res = new ArrayList<Node>();
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
-				res.add(board[x][y]);
-			}
-		}
-		return res;
-	}
-
 	private void rangeCheck(int x, int y) {
-		if (x < 0 || x >= width || y < 0 || y >= height) {
+		int index = getNodeIndex(x, y);
+
+		if (index < 0 || index >= getNumNodes()) {
 			throw new IllegalArgumentException("Invalid board position: (" + x + "," + y + ")");
 		}
 	}
 
+	/**
+	 * Gets the list index of the node by x and y coordinates.
+	 *
+	 * @param x the x-coordinate
+	 * @param y the y-coordinate
+	 * @return the index of the list which responds to the given x and y coordinates
+	 */
+	private int getNodeIndex(int x, int y) {
+		return x * numCols + y;
+	}
 }
