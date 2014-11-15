@@ -93,6 +93,30 @@ public class OthelloBoardHandler {
 	}
 
 	/**
+	 * Computes the nodes that will be swapped if the player moves to the given node. It will compute all swapped nodes
+	 * in all directions from the given node.
+	 *
+	 * @param node The node that the given player will occupy.
+	 * @param playerId The player id that will occupy the given node.
+	 * @return A list of all nodes swapped in all directions starting from the given node and that it is playerId that
+	 *         will occupy the starting node. The list is empty if it is an invalid move (no swaps possible).
+	 */
+	private List<NodeImpl> getSwaps(NodeImpl node, String playerId) {
+		List<NodeImpl> swaps = new LinkedList<NodeImpl>();
+
+		swaps.addAll(getSwapsDirection(node, playerId, -1, 0));
+		swaps.addAll(getSwapsDirection(node, playerId, -1, -1));
+		swaps.addAll(getSwapsDirection(node, playerId, 0, -1));
+		swaps.addAll(getSwapsDirection(node, playerId, 1, -1));
+		swaps.addAll(getSwapsDirection(node, playerId, 1, 0));
+		swaps.addAll(getSwapsDirection(node, playerId, 1, 1));
+		swaps.addAll(getSwapsDirection(node, playerId, 0, 1));
+		swaps.addAll(getSwapsDirection(node, playerId, -1, 1));
+
+		return swaps;
+	}
+
+	/**
 	 * Computes a list of nodes that will be swapped if the given player will move to the given node. The algorithm will
 	 * start from the given node and step in the given x and y direction. If no swaps are possible the method will
 	 * return an empty list. Otherwise the list of the swapped nodes (except the start node).
@@ -121,30 +145,6 @@ public class OthelloBoardHandler {
 		}
 
 		return new LinkedList<NodeImpl>();
-	}
-
-	/**
-	 * Computes the nodes that will be swapped if the player moves to the given node. It will compute all swapped nodes
-	 * in all directions from the given node.
-	 *
-	 * @param node The node that the given player will occupy.
-	 * @param playerId The player id that will occupy the given node.
-	 * @return A list of all nodes swapped in all directions starting from the given node and that it is playerId that
-	 *         will occupy the starting node. The list is empty if it is an invalid move (no swaps possible).
-	 */
-	private List<NodeImpl> getSwaps(NodeImpl node, String playerId) {
-		List<NodeImpl> swaps = new LinkedList<NodeImpl>();
-
-		swaps.addAll(getSwapsDirection(node, playerId, -1, 0));
-		swaps.addAll(getSwapsDirection(node, playerId, -1, -1));
-		swaps.addAll(getSwapsDirection(node, playerId, 0, -1));
-		swaps.addAll(getSwapsDirection(node, playerId, 1, -1));
-		swaps.addAll(getSwapsDirection(node, playerId, 1, 0));
-		swaps.addAll(getSwapsDirection(node, playerId, 1, 1));
-		swaps.addAll(getSwapsDirection(node, playerId, 0, 1));
-		swaps.addAll(getSwapsDirection(node, playerId, -1, 1));
-
-		return swaps;
 	}
 
 	/**
