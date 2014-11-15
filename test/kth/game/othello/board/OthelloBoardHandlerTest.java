@@ -90,4 +90,40 @@ public class OthelloBoardHandlerTest {
 			Assert.assertEquals(0, boardHandle.getValidMoves(player2).size());
 		}
 	}
+
+	@Test
+	public void moveTest() {
+		String player1 = "player1";
+		String player2 = "player2";
+
+		//Test initial game setup
+		{
+			RectangularBoard board = new RectangularBoard(8, 8);
+			OthelloBoardHandler boardHandler = new OthelloBoardHandler(board);
+			boardHandler.initializeStartingPositions(player1, player2);
+
+			List<Node> swaps = boardHandler.move(player1, "2:3");
+			Assert.assertEquals(2, swaps.size());
+			Assert.assertTrue(swaps.contains(new NodeImpl(player1, 2, 3)));
+			Assert.assertTrue(swaps.contains(new NodeImpl(player1, 3, 3)));
+
+
+			swaps = boardHandler.move(player2, "4:2");
+			boardHandler.getBoard().getNode(4, 2).setOccupantPlayerId(player2);
+			boardHandler.getBoard().getNode(4, 3).setOccupantPlayerId(player2);
+			Assert.assertEquals(2, swaps.size());
+			Assert.assertTrue(swaps.contains(new NodeImpl(player2, 4, 2)));
+			Assert.assertTrue(swaps.contains(new NodeImpl(player2, 4, 3)));
+		}
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void invalidMoveTest() {
+		String player1 = "player1";
+		String player2 = "player2";
+		RectangularBoard board = new RectangularBoard(8, 8);
+		OthelloBoardHandler boardHandler = new OthelloBoardHandler(board);
+		boardHandler.initializeStartingPositions(player1, player2);
+		boardHandler.move(player1, "2:2");
+	}
 }
