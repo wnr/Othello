@@ -104,14 +104,11 @@ public class OthelloBoardHandler {
 	private List<NodeImpl> getSwaps(NodeImpl node, String playerId) {
 		List<NodeImpl> swaps = new LinkedList<NodeImpl>();
 
-		swaps.addAll(getSwapsDirection(node, playerId, -1, 0));
-		swaps.addAll(getSwapsDirection(node, playerId, -1, -1));
-		swaps.addAll(getSwapsDirection(node, playerId, 0, -1));
-		swaps.addAll(getSwapsDirection(node, playerId, 1, -1));
-		swaps.addAll(getSwapsDirection(node, playerId, 1, 0));
-		swaps.addAll(getSwapsDirection(node, playerId, 1, 1));
-		swaps.addAll(getSwapsDirection(node, playerId, 0, 1));
-		swaps.addAll(getSwapsDirection(node, playerId, -1, 1));
+		for(int i = -1; i <= 1; i++) {
+			for(int j = -1; j <= 1; j++) {
+				swaps.addAll(getSwapsDirection(node, playerId, i, j));
+			}
+		}
 
 		return swaps;
 	}
