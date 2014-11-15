@@ -72,6 +72,23 @@ public class RectangularBoard implements Board {
 	}
 
 	/**
+	 * Gets the node given a node id.
+	 *
+	 * @param nodeId The id of the node to return.
+	 * @return The node that has the given node id.
+	 * @throws java.lang.IllegalArgumentException if no node with the id exist in the board
+	 */
+	public NodeImpl getNode(String nodeId) {
+		for (NodeImpl node : board) {
+			if (node.getId().equals(nodeId)) {
+				return node;
+			}
+		}
+
+		throw new IllegalArgumentException("The node with id " + nodeId + " does not exist in the board.");
+	}
+
+	/**
 	 * Checks if the given x and y coordinates are in range of the board.
 	 *
 	 * @param x The x-coordinate to check.

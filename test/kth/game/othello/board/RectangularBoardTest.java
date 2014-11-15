@@ -44,9 +44,20 @@ public class RectangularBoardTest {
 	@Test
 	public void getNodeTest() {
 		RectangularBoard board = new RectangularBoard(3, 4);
-		Assert.assertEquals("1:1", board.getNode(1, 1).getId());
-		Assert.assertEquals("0:0", board.getNode(0, 0).getId());
-		Assert.assertEquals("2:3", board.getNode(2, 3).getId());
+
+		//getNode(x, y)
+		{
+			Assert.assertEquals("1:1", board.getNode(1, 1).getId());
+			Assert.assertEquals("0:0", board.getNode(0, 0).getId());
+			Assert.assertEquals("2:3", board.getNode(2, 3).getId());
+		}
+
+		//getNode(nodeId)
+		{
+			Assert.assertEquals("1:1", board.getNode("1:1").getId());
+			Assert.assertEquals("0:0", board.getNode("0:0").getId());
+			Assert.assertEquals("2:3", board.getNode("2:3").getId());
+		}
 	}
 
 	@Test(expected = IllegalArgumentException.class)
