@@ -31,6 +31,17 @@ public class RectangularBoardTest {
 	}
 
 	@Test
+	public void isInRange() {
+		RectangularBoard board = new RectangularBoard(3, 4);
+		Assert.assertTrue(board.isInRange(2, 2));
+		Assert.assertTrue(board.isInRange(0, 0));
+		Assert.assertTrue(board.isInRange(2, 3));
+		Assert.assertFalse(board.isInRange(-1, 2));
+		Assert.assertFalse(board.isInRange(3, 4));
+		Assert.assertFalse(board.isInRange(3, -1));
+	}
+
+	@Test
 	public void getNodeTest() {
 		RectangularBoard board = new RectangularBoard(3, 4);
 		Assert.assertEquals("1:1", board.getNode(1, 1).getId());
