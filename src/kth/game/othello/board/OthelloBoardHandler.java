@@ -1,7 +1,7 @@
 package kth.game.othello.board;
 
 /**
- * A handler implementing common actions on an othello board.
+ * A handler implementing common actions on an othello board. The board handler is responsible of mutating the board.
  *
  * @author Erik Odenman
  * @author Lucas Wiener

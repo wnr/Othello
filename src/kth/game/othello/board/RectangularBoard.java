@@ -5,6 +5,9 @@ import java.util.List;
 
 /**
  * A board implementation storing nodes on a rectangular grid.
+ *
+ * @author Erik Odenman
+ * @author Lucas Wiener
  */
 public class RectangularBoard implements Board {
 	private int numRows;

@@ -3,6 +3,9 @@ package kth.game.othello.board;
 /**
  * Representation of a node, containing information of its position in the board and an id of the occupying player (if
  * any).
+ *
+ * @author Erik Odenman
+ * @author Lucas Wiener
  */
 public class NodeImpl implements Node {
 	private String nodeId;
