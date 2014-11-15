@@ -15,14 +15,14 @@ public class NodeImplTest {
 			Assert.assertEquals(PLAYER_1, node.getOccupantPlayerId());
 			Assert.assertEquals(3, node.getXCoordinate());
 			Assert.assertEquals(5, node.getYCoordinate());
-			Assert.assertEquals(true, node.isMarked());
+			Assert.assertTrue(node.isMarked());
 		}
 		{
 			NodeImpl node = new NodeImpl(5, 3);
 			Assert.assertEquals(null, node.getOccupantPlayerId());
 			Assert.assertEquals(5, node.getXCoordinate());
 			Assert.assertEquals(3, node.getYCoordinate());
-			Assert.assertEquals(false, node.isMarked());
+			Assert.assertFalse(node.isMarked());
 		}
 	}
 
@@ -31,10 +31,10 @@ public class NodeImplTest {
 		NodeImpl node = new NodeImpl(PLAYER_1, 0, 0);
 		node.setOccupantPlayerId(PLAYER_2);
 		Assert.assertEquals(PLAYER_2, node.getOccupantPlayerId());
-		Assert.assertEquals(true, node.isMarked());
+		Assert.assertTrue(node.isMarked());
 		node.setOccupantPlayerId(null);
 		Assert.assertEquals(null, node.getOccupantPlayerId());
-		Assert.assertEquals(false, node.isMarked());
+		Assert.assertFalse(node.isMarked());
 	}
 
 	@Test

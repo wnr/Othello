@@ -25,7 +25,7 @@ public class RectangularBoardTest {
 			int xy = node.getXCoordinate() * board.getNumRows() + node.getYCoordinate();
 			Assert.assertEquals(prev + 1, xy);
 			Assert.assertEquals(null, node.getOccupantPlayerId());
-			Assert.assertEquals(false, node.isMarked());
+			Assert.assertFalse(node.isMarked());
 			prev = xy;
 		}
 	}

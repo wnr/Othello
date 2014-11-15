@@ -18,11 +18,11 @@ public class OthelloBoardHandlerTest {
 		for (Node node : nodes) {
 			if (node.getXCoordinate() == 3 && node.getYCoordinate() == 3 || node.getXCoordinate() == 4
 					&& node.getYCoordinate() == 4) {
-				Assert.assertEquals(true, node.isMarked());
+				Assert.assertTrue(node.isMarked());
 				Assert.assertEquals(player2, node.getOccupantPlayerId());
 			} else if (node.getXCoordinate() == 3 && node.getYCoordinate() == 4 || node.getXCoordinate() == 4
 					&& node.getYCoordinate() == 3) {
-				Assert.assertEquals(true, node.isMarked());
+				Assert.assertTrue(node.isMarked());
 				Assert.assertEquals(player1, node.getOccupantPlayerId());
 			}
 		}
