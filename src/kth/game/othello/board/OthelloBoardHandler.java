@@ -33,15 +33,15 @@ public class OthelloBoardHandler {
 	/**
 	 * Occupies four nodes in the middle of the board (two each for the two players).
 	 *
-	 * @param firstPlayerID The id of the starting player
-	 * @param secondPlayerID The id of the player going second
+	 * @param firstPlayerId The id of the starting player
+	 * @param secondPlayerId The id of the player going second
 	 */
-	public void initializeStartingPositions(String firstPlayerID, String secondPlayerID) {
+	public void initializeStartingPositions(String firstPlayerId, String secondPlayerId) {
 		int mid = (board.getNumCols() / 2) - 1;
-		board.getNode(mid, mid).setOccupantPlayerId(secondPlayerID);
-		board.getNode(mid, mid + 1).setOccupantPlayerId(firstPlayerID);
-		board.getNode(mid + 1, mid).setOccupantPlayerId(firstPlayerID);
-		board.getNode(mid + 1, mid + 1).setOccupantPlayerId(secondPlayerID);
+		board.getNode(mid, mid).setOccupantPlayerId(secondPlayerId);
+		board.getNode(mid, mid + 1).setOccupantPlayerId(firstPlayerId);
+		board.getNode(mid + 1, mid).setOccupantPlayerId(firstPlayerId);
+		board.getNode(mid + 1, mid + 1).setOccupantPlayerId(secondPlayerId);
 	}
 
 	/**
