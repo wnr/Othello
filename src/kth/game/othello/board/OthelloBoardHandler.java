@@ -31,7 +31,8 @@ public class OthelloBoardHandler {
 	}
 
 	/**
-	 * Occupies four nodes in the middle of the board (two each for the two players).
+	 * Occupies four nodes in the middle of the board (two each for the two players). The first player will receive the
+	 * top right and bottom left positions.
 	 *
 	 * @param firstPlayerId The id of the starting player
 	 * @param secondPlayerId The id of the player going second
@@ -50,8 +51,8 @@ public class OthelloBoardHandler {
 	 * @param playerId The player that should be checked for valid moves
 	 * @return All valid nodes the player move to
 	 */
-	public List<Node> getValidMoves(String playerId) {
-		List<Node> validNodes = new LinkedList<Node>();
+	public List<NodeImpl> getValidMoves(String playerId) {
+		List<NodeImpl> validNodes = new LinkedList<NodeImpl>();
 
 		for (int x = 0; x < board.getNumRows(); x++) {
 			for (int y = 0; y < board.getNumCols(); y++) {
@@ -74,9 +75,9 @@ public class OthelloBoardHandler {
 	 * @return A list of swapped nodes as a result of the move (including the given placed node).
 	 * @throws IllegalArgumentException if the move is not valid.
 	 */
-	public List<Node> move(String playerId, String nodeId) {
+	public List<NodeImpl> move(String playerId, String nodeId) {
 		NodeImpl node = board.getNode(nodeId);
-		List<NodeImpl> swaps = getSwaps(node, playerId);
+		List<NodeImpl> swaps = getSwaps(playerId, node);
 
 		if (swaps.isEmpty()) {
 			throw new IllegalArgumentException("The move is invalid.");
@@ -88,7 +89,7 @@ public class OthelloBoardHandler {
 			n.setOccupantPlayerId(playerId);
 		}
 
-		return new LinkedList<Node>(swaps);
+		return swaps;
 	}
 
 	/**
@@ -102,7 +103,7 @@ public class OthelloBoardHandler {
 	 */
 	public int getNumSwaps(String playerId, String nodeId) {
 		NodeImpl node = board.getNode(nodeId);
-		int numSwaps = getSwaps(node, playerId).size();
+		int numSwaps = getSwaps(playerId, node).size();
 
 		if (numSwaps == 0) {
 			throw new IllegalArgumentException("Invalid move");
@@ -119,24 +120,24 @@ public class OthelloBoardHandler {
 	 * @return True if the given move is valid
 	 */
 	private boolean isValidMove(NodeImpl node, String playerId) {
-		return !node.isMarked() && !getSwaps(node, playerId).isEmpty();
+		return !node.isMarked() && !getSwaps(playerId, node).isEmpty();
 	}
 
 	/**
 	 * Computes the nodes that will be swapped if the player moves to the given node. It will compute all swapped nodes
 	 * in all directions from the given node.
 	 *
-	 * @param node The node that the given player will occupy.
 	 * @param playerId The player id that will occupy the given node.
+	 * @param node The node that the given player will occupy.
 	 * @return A list of all nodes swapped in all directions starting from the given node and that it is playerId that
 	 *         will occupy the starting node. The list is empty if it is an invalid move (no swaps possible).
 	 */
-	private List<NodeImpl> getSwaps(NodeImpl node, String playerId) {
+	private List<NodeImpl> getSwaps(String playerId, NodeImpl node) {
 		List<NodeImpl> swaps = new LinkedList<NodeImpl>();
 
-		for (int xStep = -1; xStep <= 1; xStep++) {
-			for (int yStep = -1; yStep <= 1; yStep++) {
-				swaps.addAll(getSwapsInDirection(node, playerId, xStep, yStep));
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				swaps.addAll(getSwapsDirection(playerId, node, i, j));
 			}
 		}
 
@@ -148,17 +149,17 @@ public class OthelloBoardHandler {
 	 * start from the given node and step in the given x and y direction. If no swaps are possible the method will
 	 * return an empty list. Otherwise the list of the swapped nodes (except the start node).
 	 *
-	 * @param node The node that the player will occupy. This will be the start node.
 	 * @param playerId The player id that will occupy the given node.
-	 * @param xStep The step the algorithm should take in the x-axis (-1, 0 or 1).
-	 * @param yStep The step the algorithm should take in the y-axis (-1, 0, or 1).
-	 * @return A list of all nodes swapped in the direction given by xStep and yStep, starting from given node and that
+	 * @param node The node that the player will occupy. This will be the start node.
+	 * @param iStep The step the algorithm should take in the x-axis (-1, 0 or 1).
+	 * @param jStep The step the algorithm should take in the y-axis (-1, 0, or 1).
+	 * @return A list of all nodes swapped in the direction given by iStep and jStep, starting from given node and that
 	 *         it is playerId that will occupy the start node.
 	 */
-	private List<NodeImpl> getSwapsInDirection(NodeImpl node, String playerId, int xStep, int yStep) {
+	private List<NodeImpl> getSwapsDirection(String playerId, NodeImpl node, int iStep, int jStep) {
 		List<NodeImpl> swaps = new LinkedList<NodeImpl>();
 
-		for (int x = node.getXCoordinate() + xStep, y = node.getYCoordinate() + yStep; board.isInRange(x, y); x += xStep, y += yStep) {
+		for (int x = node.getXCoordinate() + iStep, y = node.getYCoordinate() + jStep; board.isInRange(x, y); x += iStep, y += jStep) {
 			NodeImpl n = board.getNode(x, y);
 			if (!n.isMarked()) {
 				return new LinkedList<NodeImpl>();
