@@ -1,6 +1,6 @@
 package kth.game.othello;
 
-import kth.game.othello.board.Node;
+import kth.game.othello.board.NodeImpl;
 import kth.game.othello.board.OthelloBoardHandler;
 
 import java.util.List;
@@ -31,12 +31,12 @@ public class AI {
 	 *         no possible moves for the player.
 	 */
 	public String getMoveWithMostSwaps(String playerId) {
-		List<Node> validMoves = boardHandler.getValidMoves(playerId);
+		List<NodeImpl> validMoves = boardHandler.getValidMoves(playerId);
 
 		String highestId = null;
 		int highestSwaps = 0;
 
-		for (Node n : validMoves) {
+		for (NodeImpl n : validMoves) {
 			String nodeId = n.getId();
 			int numSwaps = boardHandler.getNumSwaps(playerId, nodeId);
 			if (numSwaps > highestSwaps) {
