@@ -25,7 +25,7 @@ public class OthelloImplTest {
         Player p1Mock = Mockito.mock(Player.class);
         Player p2Mock = Mockito.mock(Player.class);
 
-        OthelloImpl othello = new OthelloImpl(obhMock, p1Mock, p2Mock);
+        OthelloImpl othello = new OthelloImpl(obhMock, p1Mock, p2Mock, null);
 
         // Test all fields
         Field obhField = othello.getClass().getDeclaredField("othelloBoardHandler");
@@ -59,7 +59,7 @@ public class OthelloImplTest {
         OthelloBoardHandler obhMock = Mockito.mock(OthelloBoardHandler.class);
         Player playerMock1 = Mockito.mock(Player.class);
         Player playerMock2 = Mockito.mock(Player.class);
-        OthelloImpl othello = new OthelloImpl(obhMock, playerMock1, playerMock2);
+        OthelloImpl othello = new OthelloImpl(obhMock, playerMock1, playerMock2, null);
 
         String playerId1 = "playerId1";
         String playerId2 = "playerId2";
@@ -113,7 +113,7 @@ public class OthelloImplTest {
         Player p1Mock = Mockito.mock(Player.class);
         Player p2Mock = Mockito.mock(Player.class);
 
-        OthelloImpl othello1 = new OthelloImpl(obhMock, p1Mock, p2Mock);
+        OthelloImpl othello1 = new OthelloImpl(obhMock, p1Mock, p2Mock, null);
 
         Field playerInTurnField = othello1.getClass().getDeclaredField("playerInTurn");
         playerInTurnField.setAccessible(true);
@@ -137,7 +137,7 @@ public class OthelloImplTest {
         Assert.assertEquals(othello1.getPlayerInTurn(), null);
         Assert.assertEquals(returnList, nodeList);
 
-        OthelloImpl othello2 = new OthelloImpl(obhMock, p1Mock, p2Mock);
+        OthelloImpl othello2 = new OthelloImpl(obhMock, p1Mock, p2Mock, null);
         playerInTurnField.setAccessible(true);
         playerInTurnField.set(othello2, p1Mock);
         othello2 = spy(othello2);
@@ -158,7 +158,7 @@ public class OthelloImplTest {
         OthelloBoardHandler obhMock = Mockito.mock(OthelloBoardHandler.class);
         Player p1Mock = Mockito.mock(Player.class);
         Player p2Mock = Mockito.mock(Player.class);
-        OthelloImpl othello1 = new OthelloImpl(obhMock, p1Mock, p2Mock);
+        OthelloImpl othello1 = new OthelloImpl(obhMock, p1Mock, p2Mock, null);
 
         String playerId1 = "playerId1";
         String playerId2 = "playerId2";
