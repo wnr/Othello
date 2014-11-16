@@ -52,13 +52,12 @@ public class OthelloBoardHandler {
 	 */
 	public List<Node> getValidMoves(String playerId) {
 		List<Node> validNodes = new LinkedList<Node>();
-		List<NodeImpl> markedBorder = getMarkedBorder();
 
-		for (NodeImpl borderNode : markedBorder) {
-			for (NodeImpl adjacentNode : getNodeBorder(borderNode)) {
-				if (!adjacentNode.isMarked() && !validNodes.contains(adjacentNode)
-						&& !getSwaps(adjacentNode, playerId).isEmpty()) {
-					validNodes.add(adjacentNode);
+		for (int x = 0; x < board.getNumRows(); x++) {
+			for (int y = 0; y < board.getNumCols(); y++) {
+				NodeImpl node = board.getNode(x, y);
+				if (isValidMove(node, playerId)) {
+					validNodes.add(node);
 				}
 			}
 		}
@@ -93,8 +92,8 @@ public class OthelloBoardHandler {
 	}
 
 	/**
-	 * Computes the number of swapped nodes if a move is made by given player to given
-	 * node. This will not perform the actual node.
+	 * Computes the number of swapped nodes if a move is made by given player to given node. This will not perform the
+	 * actual node.
 	 * 
 	 * @param playerId The player that will make the move.
 	 * @param nodeId The node that the player will move to.
@@ -105,11 +104,22 @@ public class OthelloBoardHandler {
 		NodeImpl node = board.getNode(nodeId);
 		int numSwaps = getSwaps(node, playerId).size();
 
-		if(numSwaps == 0) {
+		if (numSwaps == 0) {
 			throw new IllegalArgumentException("Invalid move");
 		}
 
 		return numSwaps;
+	}
+
+	/**
+	 * Determines if the given player can make a move by occupying the specified node.
+	 * 
+	 * @param node The node to occupy
+	 * @param playerId The player who tries to move
+	 * @return True if the given move is valid
+	 */
+	private boolean isValidMove(NodeImpl node, String playerId) {
+		return !node.isMarked() && !getSwaps(node, playerId).isEmpty();
 	}
 
 	/**
@@ -124,9 +134,9 @@ public class OthelloBoardHandler {
 	private List<NodeImpl> getSwaps(NodeImpl node, String playerId) {
 		List<NodeImpl> swaps = new LinkedList<NodeImpl>();
 
-		for (int i = -1; i <= 1; i++) {
-			for (int j = -1; j <= 1; j++) {
-				swaps.addAll(getSwapsDirection(node, playerId, i, j));
+		for (int xStep = -1; xStep <= 1; xStep++) {
+			for (int yStep = -1; yStep <= 1; yStep++) {
+				swaps.addAll(getSwapsInDirection(node, playerId, xStep, yStep));
 			}
 		}
 
@@ -140,16 +150,16 @@ public class OthelloBoardHandler {
 	 *
 	 * @param node The node that the player will occupy. This will be the start node.
 	 * @param playerId The player id that will occupy the given node.
-	 * @param iStep The step the algorithm should take in the x-axis (-1, 0 or 1).
-	 * @param jStep The step the algorithm should take in the y-axis (-1, 0, or 1).
-	 * @return A list of all nodes swapped in the direction given by iStep and jStep, starting from given node and that
+	 * @param xStep The step the algorithm should take in the x-axis (-1, 0 or 1).
+	 * @param yStep The step the algorithm should take in the y-axis (-1, 0, or 1).
+	 * @return A list of all nodes swapped in the direction given by xStep and yStep, starting from given node and that
 	 *         it is playerId that will occupy the start node.
 	 */
-	private List<NodeImpl> getSwapsDirection(NodeImpl node, String playerId, int iStep, int jStep) {
+	private List<NodeImpl> getSwapsInDirection(NodeImpl node, String playerId, int xStep, int yStep) {
 		List<NodeImpl> swaps = new LinkedList<NodeImpl>();
 
-		for (int i = node.getXCoordinate() + iStep, j = node.getYCoordinate() + jStep; board.isInRange(i, j); i += iStep, j += jStep) {
-			NodeImpl n = board.getNode(i, j);
+		for (int x = node.getXCoordinate() + xStep, y = node.getYCoordinate() + yStep; board.isInRange(x, y); x += xStep, y += yStep) {
+			NodeImpl n = board.getNode(x, y);
 			if (!n.isMarked()) {
 				return new LinkedList<NodeImpl>();
 			}
@@ -162,71 +172,5 @@ public class OthelloBoardHandler {
 		}
 
 		return new LinkedList<NodeImpl>();
-	}
-
-	/**
-	 * Gets all marked nodes that are adjacent to at least one unmarked node.
-	 * 
-	 * @return A list of all marked nodes that are adjacent to at least one unmarked node.
-	 */
-	private List<NodeImpl> getMarkedBorder() {
-		List<NodeImpl> markedBorder = new LinkedList<NodeImpl>();
-
-		for (int i = 0; i < board.getNumRows(); i++) {
-			for (int j = 0; j < board.getNumCols(); j++) {
-				NodeImpl node = board.getNode(i, j);
-				if (isMarkedNodeAdjacentToUnmarkedNodes(node)) {
-					markedBorder.add(node);
-				}
-			}
-		}
-
-		return markedBorder;
-	}
-
-	/**
-	 * Tells if the given node is marked and if there is at least one unmarked node adjacent to it.
-	 *
-	 * @param node The given node to test.
-	 * @return true if the given node is marked and has at least one unmarked nodes adjacent to it. Otherwise false.
-	 */
-	private boolean isMarkedNodeAdjacentToUnmarkedNodes(NodeImpl node) {
-		if (!node.isMarked()) {
-			return false;
-		}
-
-		List<NodeImpl> border = getNodeBorder(node);
-
-		for (Node adjacentNode : border) {
-			if (!adjacentNode.isMarked()) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Gets all nodes adjacent to the given node.
-	 *
-	 * @param node The node to get the border of.
-	 * @return A list of all nodes adjacent to the given node.
-	 */
-	private List<NodeImpl> getNodeBorder(NodeImpl node) {
-		List<NodeImpl> border = new LinkedList<NodeImpl>();
-
-		for (int i = node.getXCoordinate() - 1; i <= node.getXCoordinate() + 1; i += 1) {
-			for (int j = node.getYCoordinate() - 1; j <= node.getYCoordinate() + 1; j += 1) {
-				if (node.getXCoordinate() == i && node.getYCoordinate() == j) {
-					continue;
-				}
-
-				if (board.isInRange(i, j)) {
-					border.add(board.getNode(i, j));
-				}
-			}
-		}
-
-		return border;
 	}
 }
