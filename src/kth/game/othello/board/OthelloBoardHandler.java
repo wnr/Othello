@@ -31,7 +31,8 @@ public class OthelloBoardHandler {
 	}
 
 	/**
-	 * Occupies four nodes in the middle of the board (two each for the two players).
+	 * Occupies four nodes in the middle of the board (two each for the two players). The first player will receive the
+	 * top right and bottom left positions.
 	 *
 	 * @param firstPlayerId The id of the starting player
 	 * @param secondPlayerId The id of the player going second
@@ -93,8 +94,8 @@ public class OthelloBoardHandler {
 	}
 
 	/**
-	 * Computes the number of swapped nodes if a move is made by given player to given
-	 * node. This will not perform the actual node.
+	 * Computes the number of swapped nodes if a move is made by given player to given node. This will not perform the
+	 * actual node.
 	 * 
 	 * @param playerId The player that will make the move.
 	 * @param nodeId The node that the player will move to.
@@ -105,7 +106,7 @@ public class OthelloBoardHandler {
 		NodeImpl node = board.getNode(nodeId);
 		int numSwaps = getSwaps(node, playerId).size();
 
-		if(numSwaps == 0) {
+		if (numSwaps == 0) {
 			throw new IllegalArgumentException("Invalid move");
 		}
 
