@@ -99,7 +99,7 @@ public class OthelloBoardHandlerTest {
 		{
 			OthelloBoardHandler boardHandler = getInitialGameBoardHandler(player1, player2);
 
-			List<Node> validMoves = boardHandler.getValidMoves(player1);
+			List<NodeImpl> validMoves = boardHandler.getValidMoves(player1);
 			Assert.assertEquals(4, validMoves.size());
 			Assert.assertTrue(validMoves.contains(new NodeImpl(2, 3)));
 			Assert.assertTrue(validMoves.contains(new NodeImpl(3, 2)));
@@ -178,7 +178,7 @@ public class OthelloBoardHandlerTest {
 		{
 			OthelloBoardHandler boardHandler = getInitialGameBoardHandler(player1, player2);
 
-			List<Node> swaps = boardHandler.move(player1, "2:3");
+			List<NodeImpl> swaps = boardHandler.move(player1, "2:3");
 			Assert.assertEquals(2, swaps.size());
 			Assert.assertTrue(swaps.contains(new NodeImpl(player1, 2, 3)));
 			Assert.assertTrue(swaps.contains(new NodeImpl(player1, 3, 3)));
