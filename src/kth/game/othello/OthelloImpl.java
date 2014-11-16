@@ -19,6 +19,7 @@ public class OthelloImpl implements Othello {
 
 	List<Player> players;
 	Player playerInTurn;
+	AI ai;
 
 	/**
 	 * Constructs an Othello game instance.
@@ -26,13 +27,26 @@ public class OthelloImpl implements Othello {
 	 * @param othelloBoardHandler The handler responsible of both holding the game board and the Othello board logic
 	 * @param player1 A player needed to play the game
 	 * @param player2 The other needed player to play the game
+	 * @param ai The ai to be used by the computer players. Required if any computer players.
 	 */
-	public OthelloImpl(OthelloBoardHandler othelloBoardHandler, Player player1, Player player2) {
+	public OthelloImpl(OthelloBoardHandler othelloBoardHandler, Player player1, Player player2, AI ai) {
 		this.othelloBoardHandler = othelloBoardHandler;
 		players = new ArrayList<Player>();
 		players.add(player1);
 		players.add(player2);
 		playerInTurn = null;
+		this.ai = ai;
+	}
+
+	/**
+	 * Constructs an Othello game instance for human only games.
+	 *
+	 * @param othelloBoardHandler The handler responsible of both holding the game board and the Othello board logic
+	 * @param player1 A player needed to play the game
+	 * @param player2 The other needed player to play the game
+	 */
+	public OthelloImpl(OthelloBoardHandler othelloBoardHandler, Player player1, Player player2) {
+		this(othelloBoardHandler, player1, player2, null);
 	}
 
 	@Override
@@ -79,8 +93,13 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public List<Node> move() {
-		// TODO: Implement
-		return null;
+		if(playerInTurn.getType() != Player.Type.COMPUTER) {
+			throw new IllegalStateException("Next player in turn is not a computer");
+		}
+
+		String nodeId = ai.getMoveWithMostSwaps(playerInTurn.getId());
+
+		return move(playerInTurn.getId(), nodeId);
 	}
 
 	@Override
