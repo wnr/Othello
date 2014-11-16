@@ -93,6 +93,26 @@ public class OthelloBoardHandler {
 	}
 
 	/**
+	 * Computes the number of swapped nodes if a move is made by given player to given
+	 * node. This will not perform the actual node.
+	 * 
+	 * @param playerId The player that will make the move.
+	 * @param nodeId The node that the player will move to.
+	 * @return The number of nodes that will be swapped (not including the one moved to).
+	 * @throws IllegalArgumentException if the potential move is not valid or the given node does not exist.
+	 */
+	public int getNumSwaps(String playerId, String nodeId) {
+		NodeImpl node = board.getNode(nodeId);
+		int numSwaps = getSwaps(node, playerId).size();
+
+		if(numSwaps == 0) {
+			throw new IllegalArgumentException("Invalid move");
+		}
+
+		return numSwaps;
+	}
+
+	/**
 	 * Computes the nodes that will be swapped if the player moves to the given node. It will compute all swapped nodes
 	 * in all directions from the given node.
 	 *
@@ -104,8 +124,8 @@ public class OthelloBoardHandler {
 	private List<NodeImpl> getSwaps(NodeImpl node, String playerId) {
 		List<NodeImpl> swaps = new LinkedList<NodeImpl>();
 
-		for(int i = -1; i <= 1; i++) {
-			for(int j = -1; j <= 1; j++) {
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
 				swaps.addAll(getSwapsDirection(node, playerId, i, j));
 			}
 		}
