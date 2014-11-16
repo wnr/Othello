@@ -7,6 +7,7 @@ import java.util.Random;
 import kth.game.othello.board.Board;
 import kth.game.othello.board.Node;
 import kth.game.othello.board.OthelloBoardHandler;
+import kth.game.othello.player.HumanPlayer;
 import kth.game.othello.player.Player;
 
 /**
@@ -45,7 +46,7 @@ public class OthelloImpl implements Othello {
 	 * @param player1 A player needed to play the game
 	 * @param player2 The other needed player to play the game
 	 */
-	public OthelloImpl(OthelloBoardHandler othelloBoardHandler, Player player1, Player player2) {
+	public OthelloImpl(OthelloBoardHandler othelloBoardHandler, HumanPlayer player1, HumanPlayer player2) {
 		this(othelloBoardHandler, player1, player2, null);
 	}
 

@@ -24,8 +24,8 @@ public class OthelloFactoryImpl implements OthelloFactory {
     @Override
     public Othello createHumanGame() {
         OthelloBoardHandler boardHandler = createOthelloBoardHandler();
-        Player human1 = new HumanPlayer("human1", "HeatoN");
-        Player human2 = new HumanPlayer("human2", "Kungen");
+        HumanPlayer human1 = new HumanPlayer("human1", "HeatoN");
+        HumanPlayer human2 = new HumanPlayer("human2", "Kungen");
         return new OthelloImpl(boardHandler, human1, human2);
     }
 
