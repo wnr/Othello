@@ -2,47 +2,90 @@ package kth.game.othello.board;
 
 import org.junit.Assert;
 import org.junit.Test;
+import static org.mockito.Mockito.*;
 
 import java.util.List;
 
 public class OthelloBoardHandlerTest {
 
-	private OthelloBoardHandler getSpecialEndGameBoard(String player1, String player2) {
-		RectangularBoard board = new RectangularBoard(8, 8);
+	private OthelloBoardHandler getSpecialEndGameBoardHandler(String player1, String player2) {
+		NodeImpl[][] nodes = getNodeMatrix();
 
-		for(int i = 0; i < board.getNumRows(); i++) {
-			for(int j = 0; j < board.getNumCols(); j++) {
-				board.getNode(i, j).setOccupantPlayerId(player1);
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				nodes[i][j].setOccupantPlayerId(player1);
 			}
 		}
 
-		board.getNode(3, 7).setOccupantPlayerId(null);
-		board.getNode(4, 6).setOccupantPlayerId(null);
-		board.getNode(4, 7).setOccupantPlayerId(null);
-		board.getNode(5, 6).setOccupantPlayerId(null);
-		board.getNode(5, 7).setOccupantPlayerId(player2);
-		board.getNode(6, 7).setOccupantPlayerId(null);
+		nodes[3][7].setOccupantPlayerId(null);
+		nodes[4][6].setOccupantPlayerId(null);
+		nodes[4][7].setOccupantPlayerId(null);
+		nodes[5][6].setOccupantPlayerId(null);
+		nodes[5][7].setOccupantPlayerId(player2);
+		nodes[6][7].setOccupantPlayerId(null);
 
+		return new OthelloBoardHandler(getMockedBoard(nodes));
+	}
+
+	private OthelloBoardHandler getInitialGameBoardHandler(String player1, String player2) {
+		NodeImpl[][] nodes = getNodeMatrix();
+		nodes[3][3].setOccupantPlayerId(player2);
+		nodes[4][4].setOccupantPlayerId(player2);
+		nodes[3][4].setOccupantPlayerId(player1);
+		nodes[4][3].setOccupantPlayerId(player1);
+		RectangularBoard board = getMockedBoard(nodes);
 		return new OthelloBoardHandler(board);
+	}
+
+	private NodeImpl[][] getNodeMatrix() {
+		NodeImpl[][] nodes = new NodeImpl[8][8];
+
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				nodes[i][j] = new NodeImpl(i, j);
+			}
+		}
+
+		return nodes;
+	}
+
+	private RectangularBoard getMockedBoard(NodeImpl[][] nodes) {
+		RectangularBoard mockedBoard = mock(RectangularBoard.class);
+
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				when(mockedBoard.getNode(i, j)).thenReturn(nodes[i][j]);
+				when(mockedBoard.getNode(i + ":" + j)).thenReturn(nodes[i][j]);
+				when(mockedBoard.isInRange(i, j)).thenReturn(true);
+			}
+		}
+
+		when(mockedBoard.getNumRows()).thenReturn(8);
+		when(mockedBoard.getNumCols()).thenReturn(8);
+
+		return mockedBoard;
 	}
 
 	@Test
 	public void initializeStartingPositionsTest() {
 		String player1 = "player1";
 		String player2 = "player2";
-		RectangularBoard board = new RectangularBoard(8, 8);
-		OthelloBoardHandler boardHandler = new OthelloBoardHandler(board);
+
+		NodeImpl[][] nodes = getNodeMatrix();
+		RectangularBoard mockedBoard = getMockedBoard(nodes);
+
+		OthelloBoardHandler boardHandler = new OthelloBoardHandler(mockedBoard);
 		boardHandler.initializeStartingPositions(player1, player2);
-		List<Node> nodes = board.getNodes();
-		for (Node node : nodes) {
-			if (node.getXCoordinate() == 3 && node.getYCoordinate() == 3 || node.getXCoordinate() == 4
-					&& node.getYCoordinate() == 4) {
-				Assert.assertTrue(node.isMarked());
-				Assert.assertEquals(player2, node.getOccupantPlayerId());
-			} else if (node.getXCoordinate() == 3 && node.getYCoordinate() == 4 || node.getXCoordinate() == 4
-					&& node.getYCoordinate() == 3) {
-				Assert.assertTrue(node.isMarked());
-				Assert.assertEquals(player1, node.getOccupantPlayerId());
+
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if (i == 3 && j == 3 || i == 4 && j == 4) {
+					Assert.assertEquals(player2, nodes[i][j].getOccupantPlayerId());
+				} else if (i == 3 && j == 4 || i == 4 && j == 3) {
+					Assert.assertEquals(player1, nodes[i][j].getOccupantPlayerId());
+				} else {
+					Assert.assertFalse(nodes[i][j].isMarked());
+				}
 			}
 		}
 	}
@@ -52,11 +95,9 @@ public class OthelloBoardHandlerTest {
 		String player1 = "player1";
 		String player2 = "player2";
 
-		//Test initial game setup
+		// Test initial game setup
 		{
-			RectangularBoard board = new RectangularBoard(8, 8);
-			OthelloBoardHandler boardHandler = new OthelloBoardHandler(board);
-			boardHandler.initializeStartingPositions(player1, player2);
+			OthelloBoardHandler boardHandler = getInitialGameBoardHandler(player1, player2);
 
 			List<Node> validMoves = boardHandler.getValidMoves(player1);
 			Assert.assertEquals(4, validMoves.size());
@@ -84,9 +125,9 @@ public class OthelloBoardHandlerTest {
 			Assert.assertTrue(validMoves.contains(new NodeImpl(5, 5)));
 		}
 
-		//Test special end game boar
+		// Test special end game boar
 		{
-			OthelloBoardHandler boardHandle = getSpecialEndGameBoard(player1, player2);
+			OthelloBoardHandler boardHandle = getSpecialEndGameBoardHandler(player1, player2);
 			Assert.assertEquals(0, boardHandle.getValidMoves(player2).size());
 		}
 	}
@@ -96,17 +137,14 @@ public class OthelloBoardHandlerTest {
 		String player1 = "player1";
 		String player2 = "player2";
 
-		//Test initial game setup
+		// Test initial game setup
 		{
-			RectangularBoard board = new RectangularBoard(8, 8);
-			OthelloBoardHandler boardHandler = new OthelloBoardHandler(board);
-			boardHandler.initializeStartingPositions(player1, player2);
+			OthelloBoardHandler boardHandler = getInitialGameBoardHandler(player1, player2);
 
 			List<Node> swaps = boardHandler.move(player1, "2:3");
 			Assert.assertEquals(2, swaps.size());
 			Assert.assertTrue(swaps.contains(new NodeImpl(player1, 2, 3)));
 			Assert.assertTrue(swaps.contains(new NodeImpl(player1, 3, 3)));
-
 
 			swaps = boardHandler.move(player2, "4:2");
 			boardHandler.getBoard().getNode(4, 2).setOccupantPlayerId(player2);
@@ -121,8 +159,7 @@ public class OthelloBoardHandlerTest {
 	public void invalidMoveTest() {
 		String player1 = "player1";
 		String player2 = "player2";
-		RectangularBoard board = new RectangularBoard(8, 8);
-		OthelloBoardHandler boardHandler = new OthelloBoardHandler(board);
+		OthelloBoardHandler boardHandler = getInitialGameBoardHandler(player1, player2);
 		boardHandler.initializeStartingPositions(player1, player2);
 		boardHandler.move(player1, "2:2");
 	}
