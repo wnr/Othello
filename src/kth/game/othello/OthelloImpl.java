@@ -10,7 +10,7 @@ import kth.game.othello.board.OthelloBoardHandler;
 import kth.game.othello.player.Player;
 
 /**
- * The implementation of the interface Othello whose purpose is to represent a Othello game.
+ * The implementation of the interface Othello whose purpose is to represent an Othello game.
  * 
  * @author mathiaslindblom
  */
@@ -21,7 +21,7 @@ public class OthelloImpl implements Othello {
 	Player playerInTurn;
 
 	/**
-	 * Constructs a Othello game instance.
+	 * Constructs an Othello game instance.
 	 *
 	 * @param othelloBoardHandler The handler responsible of both holding the game board and the Othello board logic
 	 * @param player A player needed to play the game
