@@ -45,14 +45,14 @@ public class RectangularBoardTest {
 	public void getNodeTest() {
 		RectangularBoard board = new RectangularBoard(3, 4);
 
-		//getNode(x, y)
+		// getNode(x, y)
 		{
 			Assert.assertEquals("1:1", board.getNode(1, 1).getId());
 			Assert.assertEquals("0:0", board.getNode(0, 0).getId());
 			Assert.assertEquals("2:3", board.getNode(2, 3).getId());
 		}
 
-		//getNode(nodeId)
+		// getNode(nodeId)
 		{
 			Assert.assertEquals("1:1", board.getNode("1:1").getId());
 			Assert.assertEquals("0:0", board.getNode("0:0").getId());
