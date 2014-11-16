@@ -35,8 +35,8 @@ public class OthelloLab1IT {
 	@Test
 	public void someMovesBetweenAComputerAndHumanTest() {
 		Othello othello = getOthelloFactory().createHumanVersusComputerGame();
-		Player human = (othello.getPlayers().get(0).getType() == Type.COMPUTER) ?
-                othello.getPlayers().get(1) : othello.getPlayers().get(0);
+		Player human = (othello.getPlayers().get(0).getType() == Type.COMPUTER) ? othello.getPlayers().get(1) : othello
+				.getPlayers().get(0);
 		othello.start(human.getId());
 		makeAHumanMove(othello, human);
 		othello.move();

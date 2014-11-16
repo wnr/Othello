@@ -94,7 +94,7 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public List<Node> move() {
-		if(playerInTurn.getType() != Player.Type.COMPUTER) {
+		if (playerInTurn.getType() != Player.Type.COMPUTER) {
 			throw new IllegalStateException("Next player in turn is not a computer");
 		}
 
