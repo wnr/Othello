@@ -56,7 +56,7 @@ public class OthelloBoardHandler {
 		for (int x = 0; x < board.getNumRows(); x++) {
 			for (int y = 0; y < board.getNumCols(); y++) {
 				NodeImpl node = board.getNode(x, y);
-				if (isValidMove(node,playerId)) {
+				if (isValidMove(node, playerId)) {
 					validNodes.add(node);
 				}
 			}
@@ -93,6 +93,7 @@ public class OthelloBoardHandler {
 
 	/**
 	 * Determines if the given player can make a move by occupying the specified node.
+	 * 
 	 * @param node The node to occupy
 	 * @param playerId The player who tries to move
 	 * @return True if the given move is valid
