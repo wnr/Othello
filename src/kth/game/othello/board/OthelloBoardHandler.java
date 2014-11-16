@@ -52,7 +52,7 @@ public class OthelloBoardHandler {
 	 * @return All valid nodes the player move to
 	 */
 	public List<NodeImpl> getValidMoves(String playerId) {
-		List<NodeImpl> validNodes = new LinkedList<NodeImpl>();
+		List<NodeImpl> validNodes = new LinkedList<>();
 
 		for (int x = 0; x < board.getNumRows(); x++) {
 			for (int y = 0; y < board.getNumCols(); y++) {
@@ -133,7 +133,7 @@ public class OthelloBoardHandler {
 	 *         will occupy the starting node. The list is empty if it is an invalid move (no swaps possible).
 	 */
 	private List<NodeImpl> getSwaps(String playerId, NodeImpl node) {
-		List<NodeImpl> swaps = new LinkedList<NodeImpl>();
+		List<NodeImpl> swaps = new LinkedList<>();
 
 		for (int i = -1; i <= 1; i++) {
 			for (int j = -1; j <= 1; j++) {
@@ -157,12 +157,12 @@ public class OthelloBoardHandler {
 	 *         it is playerId that will occupy the start node.
 	 */
 	private List<NodeImpl> getSwapsDirection(String playerId, NodeImpl node, int iStep, int jStep) {
-		List<NodeImpl> swaps = new LinkedList<NodeImpl>();
+		List<NodeImpl> swaps = new LinkedList<>();
 
 		for (int x = node.getXCoordinate() + iStep, y = node.getYCoordinate() + jStep; board.isInRange(x, y); x += iStep, y += jStep) {
 			NodeImpl n = board.getNode(x, y);
 			if (!n.isMarked()) {
-				return new LinkedList<NodeImpl>();
+				return new LinkedList<>();
 			}
 
 			if (n.getOccupantPlayerId().equals(playerId)) {
@@ -172,6 +172,6 @@ public class OthelloBoardHandler {
 			swaps.add(n);
 		}
 
-		return new LinkedList<NodeImpl>();
+		return new LinkedList<>();
 	}
 }
