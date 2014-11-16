@@ -133,6 +133,43 @@ public class OthelloBoardHandlerTest {
 	}
 
 	@Test
+	public void getNumSwapsTest() {
+		String player1 = "player1";
+		String player2 = "player2";
+
+		// Test initial game setup
+		{
+			OthelloBoardHandler boardHandler = getInitialGameBoardHandler(player1, player2);
+
+			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, "2:3"));
+			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, "3:2"));
+			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, "4:5"));
+			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, "5:4"));
+
+		}
+
+		// Test case when more than 1 swaps will occur
+		{
+			OthelloBoardHandler boardHandler = getInitialGameBoardHandler(player1, player2);
+			boardHandler.getBoard().getNode(2, 3).setOccupantPlayerId(player2);
+
+			Assert.assertEquals(2, boardHandler.getNumSwaps(player1, "1:3"));
+			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, "3:2"));
+			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, "4:5"));
+			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, "5:4"));
+		}
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void invalidGetNumSwapsTest() {
+		String player1 = "player1";
+		String player2 = "player2";
+		OthelloBoardHandler boardHandler = getInitialGameBoardHandler(player1, player2);
+		boardHandler.initializeStartingPositions(player1, player2);
+		boardHandler.getNumSwaps(player1, "2:2");
+	}
+
+	@Test
 	public void moveTest() {
 		String player1 = "player1";
 		String player2 = "player2";
