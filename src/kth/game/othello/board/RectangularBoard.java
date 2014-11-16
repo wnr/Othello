@@ -32,11 +32,6 @@ public class RectangularBoard implements Board {
 		}
 	}
 
-	@Override
-	public List<Node> getNodes() {
-		return new ArrayList<Node>(board);
-	}
-
 	/**
 	 * The number of nodes in the board.
 	 *
@@ -66,14 +61,76 @@ public class RectangularBoard implements Board {
 
 	/**
 	 * Get the node on a specified position.
-	 * 
+	 *
 	 * @param x The x-coordinate of the node
 	 * @param y The y-coordinate of the node
 	 * @throws java.lang.IllegalArgumentException if the coordinates are outside the board
 	 */
 	public NodeImpl getNode(int x, int y) {
-		rangeCheck(x, y);
 		return board.get(getNodeIndex(x, y));
+	}
+
+	/**
+	 * Gets the node given a node id.
+	 *
+	 * @param nodeId The id of the node to return.
+	 * @return The node that has the given node id.
+	 * @throws java.lang.IllegalArgumentException if no node with the id exist in the board
+	 */
+	public NodeImpl getNode(String nodeId) {
+		for (NodeImpl node : board) {
+			if (node.getId().equals(nodeId)) {
+				return node;
+			}
+		}
+
+		throw new IllegalArgumentException("The node with id " + nodeId + " does not exist in the board.");
+	}
+
+	/**
+	 * Checks if the given x and y coordinates are in range of the board.
+	 *
+	 * @param x The x-coordinate to check.
+	 * @param y The y-coordinate to check.
+	 * @return true if the x and y coordinates are in range. Otherwise false.
+	 */
+	public boolean isInRange(int x, int y) {
+		return x >= 0 && x < numRows && y >= 0 && y < numCols;
+	}
+
+	@Override
+	public List<Node> getNodes() {
+		return new ArrayList<Node>(board);
+	}
+
+	@Override
+	public String toString() {
+		String s = "";
+
+		String first = null;
+
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numCols; j++) {
+				Node n = getNode(i, j);
+
+				if (n.getOccupantPlayerId() == null) {
+					s += "#";
+				} else {
+					if (first == null) {
+						first = n.getOccupantPlayerId();
+					}
+
+					if (first.equals(n.getOccupantPlayerId())) {
+						s += "x";
+					} else {
+						s += "o";
+					}
+				}
+			}
+			s += "\n";
+		}
+
+		return s;
 	}
 
 	/**
@@ -84,9 +141,7 @@ public class RectangularBoard implements Board {
 	 * @throws java.lang.IllegalArgumentException if the coordinates are outside the board
 	 */
 	private void rangeCheck(int x, int y) {
-		int index = getNodeIndex(x, y);
-
-		if (index < 0 || index >= getNumNodes()) {
+		if (!isInRange(x, y)) {
 			throw new IllegalArgumentException("Invalid board position: (" + x + "," + y + ")");
 		}
 	}
@@ -97,8 +152,10 @@ public class RectangularBoard implements Board {
 	 * @param x the x-coordinate
 	 * @param y the y-coordinate
 	 * @return the index of the list which responds to the given x and y coordinates
+	 * @throws java.lang.IllegalArgumentException if the coordinates are outside the board
 	 */
 	private int getNodeIndex(int x, int y) {
+		rangeCheck(x, y);
 		return x * numCols + y;
 	}
 }

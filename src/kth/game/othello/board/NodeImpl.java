@@ -73,6 +73,36 @@ public class NodeImpl implements Node {
 		return playerId != null;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		NodeImpl node = (NodeImpl) o;
+
+		if (x != node.x)
+			return false;
+		if (y != node.y)
+			return false;
+		if (!nodeId.equals(node.nodeId))
+			return false;
+		if (playerId != null ? !playerId.equals(node.playerId) : node.playerId != null)
+			return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = nodeId.hashCode();
+		result = 31 * result + (playerId != null ? playerId.hashCode() : 0);
+		result = 31 * result + x;
+		result = 31 * result + y;
+		return result;
+	}
+
 	/**
 	 * Constructs a node id by the x and y coordinates.
 	 *
