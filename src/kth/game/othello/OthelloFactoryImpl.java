@@ -18,7 +18,7 @@ public class OthelloFactoryImpl implements OthelloFactory {
         OthelloBoardHandler boardHandler = createOthelloBoardHandler();
         Player computer1 = new ComputerPlayer("computer1", "Bottler");
         Player computer2 = new ComputerPlayer("computer2", "Bigbot");
-        return new OthelloImpl(boardHandler, computer1, computer2);
+        return new OthelloImpl(boardHandler, computer1, computer2, new AI(boardHandler));
     }
 
     @Override
@@ -34,7 +34,7 @@ public class OthelloFactoryImpl implements OthelloFactory {
         OthelloBoardHandler boardHandler = createOthelloBoardHandler();
         Player human = new HumanPlayer("human", "HeatoN");
         Player computer = new ComputerPlayer("computer", "Bottler");
-        return new OthelloImpl(boardHandler, human, computer);
+        return new OthelloImpl(boardHandler, human, computer, new AI(boardHandler));
     }
 
     private OthelloBoardHandler createOthelloBoardHandler() {
