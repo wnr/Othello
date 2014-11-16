@@ -57,7 +57,7 @@ public class OthelloBoardHandler {
 		for (NodeImpl borderNode : markedBorder) {
 			for (NodeImpl adjacentNode : getNodeBorder(borderNode)) {
 				if (!adjacentNode.isMarked() && !validNodes.contains(adjacentNode)
-						&& !getSwaps(adjacentNode, playerId).isEmpty()) {
+						&& !getNodesToSwap(playerId, adjacentNode.getId()).isEmpty()) {
 					validNodes.add(adjacentNode);
 				}
 			}
@@ -76,41 +76,41 @@ public class OthelloBoardHandler {
 	 * @throws IllegalArgumentException if the move is not valid.
 	 */
 	public List<Node> move(String playerId, String nodeId) {
-		NodeImpl node = board.getNode(nodeId);
-		List<NodeImpl> swaps = getSwaps(node, playerId);
+		List<Node> swaps = getNodesToSwap(playerId, nodeId);
 
 		if (swaps.isEmpty()) {
 			throw new IllegalArgumentException("The move is invalid.");
 		}
 
+		NodeImpl node = board.getNode(nodeId);
 		swaps.add(node);
 
-		for (NodeImpl n : swaps) {
-			n.setOccupantPlayerId(playerId);
+		for (Node n : swaps) {
+			NodeImpl ni = (NodeImpl) n;
+			ni.setOccupantPlayerId(playerId);
 		}
 
 		return new LinkedList<Node>(swaps);
 	}
 
 	/**
-	 * Computes the nodes that will be swapped if the player moves to the given node. It will compute all swapped nodes
-	 * in all directions from the given node.
+	 * Returns the nodes that will be swapped for a move at the given nodeId.
 	 *
-	 * @param node The node that the given player will occupy.
-	 * @param playerId The player id that will occupy the given node.
-	 * @return A list of all nodes swapped in all directions starting from the given node and that it is playerId that
-	 *         will occupy the starting node. The list is empty if it is an invalid move (no swaps possible).
+	 * @param playerId the id of the player making the move
+	 * @param nodeId the id of the node where the move is made
+	 * @return the list of nodes that will be swapped for the given move
 	 */
-	private List<NodeImpl> getSwaps(NodeImpl node, String playerId) {
+	public List<Node> getNodesToSwap(String playerId, String nodeId) {
 		List<NodeImpl> swaps = new LinkedList<NodeImpl>();
+		NodeImpl node = board.getNode(nodeId);
 
-		for(int i = -1; i <= 1; i++) {
-			for(int j = -1; j <= 1; j++) {
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
 				swaps.addAll(getSwapsDirection(node, playerId, i, j));
 			}
 		}
 
-		return swaps;
+		return new LinkedList<Node>(swaps);
 	}
 
 	/**

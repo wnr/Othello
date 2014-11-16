@@ -10,8 +10,8 @@ public class OthelloBoardHandlerTest {
 	private OthelloBoardHandler getSpecialEndGameBoard(String player1, String player2) {
 		RectangularBoard board = new RectangularBoard(8, 8);
 
-		for(int i = 0; i < board.getNumRows(); i++) {
-			for(int j = 0; j < board.getNumCols(); j++) {
+		for (int i = 0; i < board.getNumRows(); i++) {
+			for (int j = 0; j < board.getNumCols(); j++) {
 				board.getNode(i, j).setOccupantPlayerId(player1);
 			}
 		}
@@ -52,7 +52,7 @@ public class OthelloBoardHandlerTest {
 		String player1 = "player1";
 		String player2 = "player2";
 
-		//Test initial game setup
+		// Test initial game setup
 		{
 			RectangularBoard board = new RectangularBoard(8, 8);
 			OthelloBoardHandler boardHandler = new OthelloBoardHandler(board);
@@ -84,7 +84,7 @@ public class OthelloBoardHandlerTest {
 			Assert.assertTrue(validMoves.contains(new NodeImpl(5, 5)));
 		}
 
-		//Test special end game boar
+		// Test special end game boar
 		{
 			OthelloBoardHandler boardHandle = getSpecialEndGameBoard(player1, player2);
 			Assert.assertEquals(0, boardHandle.getValidMoves(player2).size());
@@ -96,7 +96,7 @@ public class OthelloBoardHandlerTest {
 		String player1 = "player1";
 		String player2 = "player2";
 
-		//Test initial game setup
+		// Test initial game setup
 		{
 			RectangularBoard board = new RectangularBoard(8, 8);
 			OthelloBoardHandler boardHandler = new OthelloBoardHandler(board);
@@ -106,7 +106,6 @@ public class OthelloBoardHandlerTest {
 			Assert.assertEquals(2, swaps.size());
 			Assert.assertTrue(swaps.contains(new NodeImpl(player1, 2, 3)));
 			Assert.assertTrue(swaps.contains(new NodeImpl(player1, 3, 3)));
-
 
 			swaps = boardHandler.move(player2, "4:2");
 			boardHandler.getBoard().getNode(4, 2).setOccupantPlayerId(player2);
