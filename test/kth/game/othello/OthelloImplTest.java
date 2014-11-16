@@ -70,7 +70,6 @@ public class OthelloImplTest {
         when(playerMock2.getId()).thenReturn(playerId2);
         when(obhMock.getValidMoves(playerId1)).thenReturn(nodeList1);
         when(obhMock.getValidMoves(playerId2)).thenReturn(nodeList2);
-        boolean test = othello.isActive();
         Assert.assertFalse(othello.isActive());
 
         nodeList1.add(null);
