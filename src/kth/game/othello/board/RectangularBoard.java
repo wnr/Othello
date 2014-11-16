@@ -67,7 +67,6 @@ public class RectangularBoard implements Board {
 	 * @throws java.lang.IllegalArgumentException if the coordinates are outside the board
 	 */
 	public NodeImpl getNode(int x, int y) {
-		rangeCheck(x, y);
 		return board.get(getNodeIndex(x, y));
 	}
 
@@ -153,8 +152,10 @@ public class RectangularBoard implements Board {
 	 * @param x the x-coordinate
 	 * @param y the y-coordinate
 	 * @return the index of the list which responds to the given x and y coordinates
+	 * @throws java.lang.IllegalArgumentException if the coordinates are outside the board
 	 */
 	private int getNodeIndex(int x, int y) {
+		rangeCheck(x, y);
 		return x * numCols + y;
 	}
 }
