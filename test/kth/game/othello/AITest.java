@@ -17,7 +17,7 @@ public class AITest {
 	public void getMoveWithMostSwapsTest() {
 		// Test initial game board (4 equally good moves)
 		{
-			List<NodeImpl> validMoves = new LinkedList<NodeImpl>();
+			List<Node> validMoves = new LinkedList<>();
 			validMoves.add(new NodeImpl(2, 3));
 			validMoves.add(new NodeImpl(2, 3));
 			validMoves.add(new NodeImpl(4, 5));
@@ -47,7 +47,7 @@ public class AITest {
 
 		// Test with one best move
 		{
-			List<NodeImpl> validMoves = new LinkedList<NodeImpl>();
+			List<Node> validMoves = new LinkedList<>();
 			validMoves.add(new NodeImpl(1, 3));
 			validMoves.add(new NodeImpl(2, 3));
 			validMoves.add(new NodeImpl(4, 5));
@@ -70,7 +70,7 @@ public class AITest {
 		// Test with no possible moves
 		{
 			OthelloBoardHandler mockedBoardHandler = mock(OthelloBoardHandler.class);
-			when(mockedBoardHandler.getValidMoves(anyString())).thenReturn(new LinkedList<NodeImpl>());
+			when(mockedBoardHandler.getValidMoves(anyString())).thenReturn(new LinkedList<Node>());
 			AI ai = new AI(mockedBoardHandler);
 			String move = ai.getMoveWithMostSwaps("player1");
 			Assert.assertEquals(null, move);
