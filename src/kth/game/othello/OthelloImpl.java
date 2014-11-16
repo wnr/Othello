@@ -41,11 +41,6 @@ public class OthelloImpl implements Othello {
 	}
 
 	@Override
-	public List<Node> getNodesToSwap(String playerId, String nodeId) {
-		return othelloBoardHandler.getNodesToSwap(playerId, nodeId);
-	}
-
-	@Override
 	public Player getPlayerInTurn() {
 		return playerInTurn;
 	}
@@ -53,6 +48,11 @@ public class OthelloImpl implements Othello {
 	@Override
 	public List<Player> getPlayers() {
 		return players;
+	}
+
+	@Override
+	public List<Node> getNodesToSwap(String playerId, String nodeId) {
+		return othelloBoardHandler.getNodesToSwap(playerId, nodeId);
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public List<Node> move(String playerId, String nodeId) throws IllegalArgumentException {
-		if (playerInTurn.getId().equals(playerId)) {
+		if (!playerInTurn.getId().equals(playerId)) {
 			throw new IllegalArgumentException("The move is invalid. Not this players turn");
 		}
 		List<Node> swappedNodes = othelloBoardHandler.move(playerId, nodeId);
