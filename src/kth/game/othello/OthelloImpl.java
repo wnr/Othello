@@ -29,7 +29,7 @@ public class OthelloImpl implements Othello {
 	 */
 	public OthelloImpl(OthelloBoardHandler othelloBoardHandler, Player player1, Player player2) {
 		this.othelloBoardHandler = othelloBoardHandler;
-		players = new ArrayList<Player>();
+		players = new ArrayList<>();
 		players.add(player1);
 		players.add(player2);
 		playerInTurn = null;
