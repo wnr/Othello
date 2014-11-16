@@ -24,14 +24,14 @@ public class OthelloImpl implements Othello {
 	 * Constructs an Othello game instance.
 	 *
 	 * @param othelloBoardHandler The handler responsible of both holding the game board and the Othello board logic
-	 * @param player A player needed to play the game
-	 * @param anotherPlayer The other needed player to play the game
+	 * @param player1 A player needed to play the game
+	 * @param player2 The other needed player to play the game
 	 */
-	public OthelloImpl(OthelloBoardHandler othelloBoardHandler, Player player, Player anotherPlayer) {
+	public OthelloImpl(OthelloBoardHandler othelloBoardHandler, Player player1, Player player2) {
 		this.othelloBoardHandler = othelloBoardHandler;
 		players = new ArrayList<Player>();
-		players.add(player);
-		players.add(anotherPlayer);
+		players.add(player1);
+		players.add(player2);
 		playerInTurn = null;
 	}
 
