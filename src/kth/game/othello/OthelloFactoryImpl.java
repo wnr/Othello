@@ -1,8 +1,12 @@
 package kth.game.othello;
 
+import java.util.List;
+import java.util.Set;
+
 import kth.game.othello.board.BoardFactory;
 import kth.game.othello.board.OthelloBoardHandler;
 import kth.game.othello.board.RectangularBoard;
+import kth.game.othello.board.factory.NodeData;
 import kth.game.othello.player.ComputerPlayer;
 import kth.game.othello.player.HumanPlayer;
 import kth.game.othello.player.Player;
@@ -35,6 +39,11 @@ public class OthelloFactoryImpl implements OthelloFactory {
 		Player human = new HumanPlayer("human", "HeatoN");
 		Player computer = new ComputerPlayer("computer", "Bottler");
 		return new OthelloImpl(boardHandler, human, computer, new AI(boardHandler));
+	}
+
+	@Override
+	public Othello createGame(Set<NodeData> nodesData, List<Player> players) {
+		return null;
 	}
 
 	private OthelloBoardHandler createOthelloBoardHandler() {

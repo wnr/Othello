@@ -1,15 +1,19 @@
 package kth.game.othello;
 
-import kth.game.othello.board.Node;
-import kth.game.othello.board.NodeImpl;
-import kth.game.othello.board.OthelloBoardHandler;
-import org.junit.Assert;
-import org.junit.Test;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
+import kth.game.othello.board.Node;
+import kth.game.othello.board.NodeImpl;
+import kth.game.othello.board.OthelloBoardHandler;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 public class AITest {
 

@@ -1,10 +1,12 @@
 package kth.game.othello.board;
 
-import org.junit.Assert;
-import org.junit.Test;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 public class OthelloBoardHandlerTest {
 

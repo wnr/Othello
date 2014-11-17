@@ -1,8 +1,9 @@
 package kth.game.othello;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.mockito.Mockito;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -12,10 +13,9 @@ import kth.game.othello.board.Node;
 import kth.game.othello.board.OthelloBoardHandler;
 import kth.game.othello.player.Player;
 
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import org.junit.Assert;
+import org.junit.Test;
+import org.mockito.Mockito;
 
 public class OthelloImplTest {
 

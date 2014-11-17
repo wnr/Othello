@@ -1,10 +1,9 @@
 package kth.game.othello;
 
-import kth.game.othello.board.Node;
-import kth.game.othello.board.NodeImpl;
-import kth.game.othello.board.OthelloBoardHandler;
-
 import java.util.List;
+
+import kth.game.othello.board.Node;
+import kth.game.othello.board.OthelloBoardHandler;
 
 /**
  * Artificial intelligence for the Othello game. Responsible for thinking out moves for a player.

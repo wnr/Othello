@@ -9,6 +9,7 @@ import kth.game.othello.board.Node;
 import kth.game.othello.board.OthelloBoardHandler;
 import kth.game.othello.player.HumanPlayer;
 import kth.game.othello.player.Player;
+import kth.game.othello.score.Score;
 
 /**
  * The implementation of the interface Othello whose purpose is to represent an Othello game.
@@ -63,6 +64,11 @@ public class OthelloImpl implements Othello {
 	@Override
 	public List<Player> getPlayers() {
 		return players;
+	}
+
+	@Override
+	public Score getScore() {
+		return null;
 	}
 
 	@Override

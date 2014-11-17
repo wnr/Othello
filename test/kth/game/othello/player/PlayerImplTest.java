@@ -3,10 +3,22 @@ package kth.game.othello.player;
 import org.junit.Assert;
 import org.junit.Test;
 
+import kth.game.othello.player.movestrategy.MoveStrategy;
+
 public class PlayerImplTest {
 	class PlayerImplTester extends PlayerImpl {
 		public PlayerImplTester(String id, String name, Type type) {
 			super(id, name, type);
+		}
+
+		@Override
+		public MoveStrategy getMoveStrategy() {
+			return null;
+		}
+
+		@Override
+		public void setMoveStrategy(MoveStrategy moveStrategy) {
+
 		}
 	}
 

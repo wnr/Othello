@@ -1,5 +1,7 @@
 package kth.game.othello.player;
 
+import kth.game.othello.player.movestrategy.MoveStrategy;
+
 /**
  * The responsibility of the HumanPlayer is to represent a human player. It will be an extension of the Player class.
  */
@@ -13,5 +15,15 @@ public class HumanPlayer extends PlayerImpl {
 	 */
 	public HumanPlayer(String id, String name) {
 		super(id, name, Type.HUMAN);
+	}
+
+	@Override
+	public MoveStrategy getMoveStrategy() {
+		return null;
+	}
+
+	@Override
+	public void setMoveStrategy(MoveStrategy moveStrategy) {
+
 	}
 }

@@ -1,5 +1,7 @@
 package kth.game.othello.board;
 
+import java.util.Observer;
+
 /**
  * Representation of a node, containing information of its position in the board and an id of the occupying player (if
  * any).
@@ -46,6 +48,11 @@ public class NodeImpl implements Node {
 	 */
 	public void setOccupantPlayerId(String playerId) {
 		this.playerId = playerId;
+	}
+
+	@Override
+	public void addObserver(Observer observer) {
+
 	}
 
 	@Override
