@@ -31,18 +31,15 @@ public class OthelloBoardHandler {
 	}
 
 	/**
-	 * Occupies four nodes in the middle of the board (two each for the two players). The first player will receive the
-	 * top right and bottom left positions.
-	 *
-	 * @param firstPlayerId The id of the starting player
-	 * @param secondPlayerId The id of the player going second
+	 * TODO: Should in the future work in such a way that it works for any amount of players given a "working board".
+	 * TODO: The order of the list should determine the position of the players. Now wrongly assumes it is only 2
 	 */
-	public void initializeStartingPositions(String firstPlayerId, String secondPlayerId) {
+	public void initializeStartingPositions(List<String> playersIds) {
 		int mid = (board.getNumCols() / 2) - 1;
-		board.getNode(mid, mid).setOccupantPlayerId(secondPlayerId);
-		board.getNode(mid, mid + 1).setOccupantPlayerId(firstPlayerId);
-		board.getNode(mid + 1, mid).setOccupantPlayerId(firstPlayerId);
-		board.getNode(mid + 1, mid + 1).setOccupantPlayerId(secondPlayerId);
+		board.getNode(mid, mid).setOccupantPlayerId(playersIds.get(1));
+		board.getNode(mid, mid + 1).setOccupantPlayerId(playersIds.get(0));
+		board.getNode(mid + 1, mid).setOccupantPlayerId(playersIds.get(0));
+		board.getNode(mid + 1, mid + 1).setOccupantPlayerId(playersIds.get(1));
 	}
 
 	/**
@@ -121,6 +118,31 @@ public class OthelloBoardHandler {
 	 */
 	private boolean isValidMove(String playerId, NodeImpl node) {
 		return !node.isMarked() && !getNodesToSwap(playerId, node.getId()).isEmpty();
+	}
+
+	/**
+	 * Check to see if there exist a valid move for a given playerId.
+	 *
+	 * @param playerId The player to check if any valid moves exist
+	 * @return True if there exists at least one move that is valid
+	 */
+	public boolean hasAValidMove(String playerId) {
+		return !getValidMoves(playerId).isEmpty();
+	}
+
+	/**
+	 * Check to see if there exist at least one valid move for at least one of the given playerIds
+	 *
+	 * @param playerIds The ID´s of the players to check if a valid move exists.
+	 * @return True if at least one valid move was found for some player
+	 */
+	public boolean hasAValidMove(List<String> playerIds) {
+		for (String playerId : playerIds) {
+			if (hasAValidMove(playerId)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

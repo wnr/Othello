@@ -1,13 +1,10 @@
 package kth.game.othello;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import kth.game.othello.board.Board;
 import kth.game.othello.board.Node;
 import kth.game.othello.board.OthelloBoardHandler;
-import kth.game.othello.player.HumanPlayer;
 import kth.game.othello.player.Player;
 import kth.game.othello.score.Score;
 
@@ -17,26 +14,20 @@ import kth.game.othello.score.Score;
  * @author mathiaslindblom
  */
 public class OthelloImpl implements Othello {
+	private final PlayerHandler playerHandler;
 	OthelloBoardHandler othelloBoardHandler;
-
-	List<Player> players;
-	Player playerInTurn;
 	AI ai;
 
 	/**
 	 * Constructs an Othello game instance.
 	 *
 	 * @param othelloBoardHandler The handler responsible of both holding the game board and the Othello board logic
-	 * @param player1 A player needed to play the game
-	 * @param player2 The other needed player to play the game
+	 * @param playerHandler The handler responsible of both player logic and holding the players to play Othello
 	 * @param ai The ai to be used by the computer players. Required if any computer players.
 	 */
-	public OthelloImpl(OthelloBoardHandler othelloBoardHandler, Player player1, Player player2, AI ai) {
+	public OthelloImpl(OthelloBoardHandler othelloBoardHandler, PlayerHandler playerHandler, AI ai) {
 		this.othelloBoardHandler = othelloBoardHandler;
-		players = new ArrayList<>();
-		players.add(player1);
-		players.add(player2);
-		playerInTurn = null;
+		this.playerHandler = playerHandler;
 		this.ai = ai;
 	}
 
@@ -44,11 +35,10 @@ public class OthelloImpl implements Othello {
 	 * Constructs an Othello game instance for human only games.
 	 *
 	 * @param othelloBoardHandler The handler responsible of both holding the game board and the Othello board logic
-	 * @param player1 A player needed to play the game
-	 * @param player2 The other needed player to play the game
+	 * @param playerHandler The handler responsible of both player logic and holding the players to play Othello
 	 */
-	public OthelloImpl(OthelloBoardHandler othelloBoardHandler, HumanPlayer player1, HumanPlayer player2) {
-		this(othelloBoardHandler, player1, player2, null);
+	public OthelloImpl(OthelloBoardHandler othelloBoardHandler, PlayerHandler playerHandler) {
+		this(othelloBoardHandler, playerHandler, null);
 	}
 
 	@Override
@@ -58,12 +48,12 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public Player getPlayerInTurn() {
-		return playerInTurn;
+		return playerHandler.getPlayerInTurn();
 	}
 
 	@Override
 	public List<Player> getPlayers() {
-		return players;
+		return playerHandler.getPlayers();
 	}
 
 	@Override
@@ -83,8 +73,7 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public boolean isActive() {
-		return !othelloBoardHandler.getValidMoves(players.get(0).getId()).isEmpty()
-				|| !othelloBoardHandler.getValidMoves(players.get(1).getId()).isEmpty();
+		return othelloBoardHandler.hasAValidMove(playerHandler.getPlayerIds());
 	}
 
 	@Override
@@ -100,6 +89,7 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public List<Node> move() {
+		Player playerInTurn = playerHandler.getPlayerInTurn();
 		if (playerInTurn.getType() != Player.Type.COMPUTER) {
 			throw new IllegalStateException("Next player in turn is not a computer");
 		}
@@ -111,68 +101,28 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public List<Node> move(String playerId, String nodeId) throws IllegalArgumentException {
-		if (playerInTurn == null || !playerInTurn.getId().equals(playerId)) {
+		Player playerInTurn = playerHandler.getPlayerInTurn();
+		if (playerInTurn == null) {
+			throw new IllegalArgumentException("The move is invalid. Might be that the game is over or not started");
+		} else if (!playerInTurn.getId().equals(playerId)) {
 			throw new IllegalArgumentException("The move is invalid. Not this players turn");
 		}
 		List<Node> swappedNodes = othelloBoardHandler.move(playerId, nodeId);
 
-		if (!isActive()) {
-			// The game is over
-			setPlayerInTurn(null);
-		} else {
-			setPlayerInTurn(getOtherPlayer(getPlayerFromId(playerId)));
-		}
+		playerHandler.updatePlayerInTurn(this);
 
 		return swappedNodes;
 	}
 
 	@Override
 	public void start() {
-		Random random = new Random();
-		Player startingPlayer = players.get(random.nextInt(players.size()));
-		start(startingPlayer.getId());
+		start(playerHandler.initiateStartingPlayer().getId());
 	}
 
 	@Override
 	public void start(String playerId) {
-		String secondPlayerId = getOtherPlayer(getPlayerFromId(playerId)).getId();
+		playerHandler.initiateStartingPlayer(playerId);
 
-		setPlayerInTurn(getPlayerFromId(playerId));
-		othelloBoardHandler.initializeStartingPositions(playerId, secondPlayerId);
-	}
-
-	/**
-	 * Takes a playerId and return the corresponding {@link Player} object
-	 * 
-	 * @param playerId The id of the player
-	 * @return The {@link Player} object
-	 * @throws java.lang.IllegalArgumentException if the playerId does not corresponding to a player
-	 */
-	private Player getPlayerFromId(String playerId) {
-		for (Player p : players) {
-			if (p.getId().equals(playerId)) {
-				return p;
-			}
-		}
-		throw new IllegalArgumentException("PlayerId not found in player list");
-	}
-
-	/**
-	 * Gets the other player that do not equal the given player
-	 * 
-	 * @param player The player that we DO NOT want to get
-	 * @return The other player in the game
-	 */
-	private Player getOtherPlayer(Player player) {
-
-		if (players.get(0).equals(player)) {
-			return players.get(1);
-		} else {
-			return players.get(0);
-		}
-	}
-
-	private void setPlayerInTurn(Player player) {
-		playerInTurn = player;
+		othelloBoardHandler.initializeStartingPositions(playerHandler.getPlayerIdsInTurnOrder());
 	}
 }

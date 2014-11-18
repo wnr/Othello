@@ -1,5 +1,6 @@
 package kth.game.othello;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -20,25 +21,26 @@ public class OthelloFactoryImpl implements OthelloFactory {
 	@Override
 	public Othello createComputerGame() {
 		OthelloBoardHandler boardHandler = createOthelloBoardHandler();
-		Player computer1 = new ComputerPlayer("computer1", "Bottler");
-		Player computer2 = new ComputerPlayer("computer2", "Bigbot");
-		return new OthelloImpl(boardHandler, computer1, computer2, new AI(boardHandler));
+		PlayerHandler playerHandler = createPlayerHandler(new ComputerPlayer("computer1", "Bottler"),
+				new ComputerPlayer("computer2", "Bigbot"));
+
+		return new OthelloImpl(boardHandler, playerHandler, new AI(boardHandler));
 	}
 
 	@Override
 	public Othello createHumanGame() {
 		OthelloBoardHandler boardHandler = createOthelloBoardHandler();
-		HumanPlayer human1 = new HumanPlayer("human1", "HeatoN");
-		HumanPlayer human2 = new HumanPlayer("human2", "Kungen");
-		return new OthelloImpl(boardHandler, human1, human2);
+		PlayerHandler playerHandler = createPlayerHandler(new HumanPlayer("human1", "HeatoN"), new HumanPlayer(
+				"human2", "Kungen"));
+		return new OthelloImpl(boardHandler, playerHandler);
 	}
 
 	@Override
 	public Othello createHumanVersusComputerGame() {
 		OthelloBoardHandler boardHandler = createOthelloBoardHandler();
-		Player human = new HumanPlayer("human", "HeatoN");
-		Player computer = new ComputerPlayer("computer", "Bottler");
-		return new OthelloImpl(boardHandler, human, computer, new AI(boardHandler));
+		PlayerHandler playerHandler = createPlayerHandler(new HumanPlayer("human", "HeatoN"), new ComputerPlayer(
+				"computer", "Bottler"));
+		return new OthelloImpl(boardHandler, playerHandler, new AI(boardHandler));
 	}
 
 	@Override
@@ -49,5 +51,9 @@ public class OthelloFactoryImpl implements OthelloFactory {
 	private OthelloBoardHandler createOthelloBoardHandler() {
 		RectangularBoard board = BoardFactory.createOthelloBoard();
 		return new OthelloBoardHandler(board);
+	}
+
+	private PlayerHandler createPlayerHandler(Player... players) {
+		return new PlayerHandler(Arrays.asList(players));
 	}
 }

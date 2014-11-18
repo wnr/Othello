@@ -3,6 +3,8 @@ package kth.game.othello.board;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Assert;
@@ -77,7 +79,7 @@ public class OthelloBoardHandlerTest {
 		RectangularBoard mockedBoard = getMockedBoard(nodes);
 
 		OthelloBoardHandler boardHandler = new OthelloBoardHandler(mockedBoard);
-		boardHandler.initializeStartingPositions(player1, player2);
+		boardHandler.initializeStartingPositions(Arrays.asList(player1, player2));
 
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
@@ -167,7 +169,7 @@ public class OthelloBoardHandlerTest {
 		String player1 = "player1";
 		String player2 = "player2";
 		OthelloBoardHandler boardHandler = getInitialGameBoardHandler(player1, player2);
-		boardHandler.initializeStartingPositions(player1, player2);
+		boardHandler.initializeStartingPositions(Arrays.asList(player1, player2));
 		boardHandler.getNumSwaps(player1, "2:2");
 	}
 
@@ -199,7 +201,28 @@ public class OthelloBoardHandlerTest {
 		String player1 = "player1";
 		String player2 = "player2";
 		OthelloBoardHandler boardHandler = getInitialGameBoardHandler(player1, player2);
-		boardHandler.initializeStartingPositions(player1, player2);
+		boardHandler.initializeStartingPositions(Arrays.asList(player1, player2));
 		boardHandler.move(player1, "2:2");
 	}
+
+	@Test
+	public void hasAValidMoveTest() {
+		String player1 = "player1";
+		String player2 = "player2";
+		OthelloBoardHandler boardHandler = getSpecialEndGameBoardHandler(player1, player2);
+
+		Assert.assertFalse(boardHandler.hasAValidMove(player1));
+		Assert.assertFalse(boardHandler.hasAValidMove(Arrays.asList(player1, player2)));
+
+		boardHandler = getInitialGameBoardHandler(player1, player2);
+
+		boardHandler.initializeStartingPositions(Arrays.asList(player1, player2));
+		Assert.assertTrue(boardHandler.hasAValidMove(player1));
+		Assert.assertTrue(boardHandler.hasAValidMove(Arrays.asList(player1, player2)));
+
+		Assert.assertTrue(boardHandler.hasAValidMove(Arrays.asList("notPlayer1Id", player2)));
+
+	}
+
+
 }
