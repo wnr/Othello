@@ -138,7 +138,6 @@ public class OthelloImpl implements Othello {
 		String secondPlayerId = getOtherPlayer(getPlayerFromId(playerId)).getId();
 
 		setPlayerInTurn(getPlayerFromId(playerId));
-		othelloBoardHandler.initializeStartingPositions(playerId, secondPlayerId);
 	}
 
 	/**

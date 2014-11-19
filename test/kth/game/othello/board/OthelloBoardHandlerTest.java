@@ -3,6 +3,7 @@ package kth.game.othello.board;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
@@ -10,86 +11,85 @@ import org.junit.Test;
 
 public class OthelloBoardHandlerTest {
 
-	private OthelloBoardHandler getSpecialEndGameBoardHandler(String player1, String player2) {
-		NodeImpl[][] nodes = getNodeMatrix();
+	private Node[][] getMockedNodeMatrix() {
+		Node[][] nodes = new Node[8][8];
 
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				nodes[i][j].setOccupantPlayerId(player1);
-			}
-		}
-
-		nodes[3][7].setOccupantPlayerId(null);
-		nodes[4][6].setOccupantPlayerId(null);
-		nodes[4][7].setOccupantPlayerId(null);
-		nodes[5][6].setOccupantPlayerId(null);
-		nodes[5][7].setOccupantPlayerId(player2);
-		nodes[6][7].setOccupantPlayerId(null);
-
-		return new OthelloBoardHandler(getMockedBoard(nodes));
-	}
-
-	private OthelloBoardHandler getInitialGameBoardHandler(String player1, String player2) {
-		NodeImpl[][] nodes = getNodeMatrix();
-		nodes[3][3].setOccupantPlayerId(player2);
-		nodes[4][4].setOccupantPlayerId(player2);
-		nodes[3][4].setOccupantPlayerId(player1);
-		nodes[4][3].setOccupantPlayerId(player1);
-		RectangularBoard board = getMockedBoard(nodes);
-		return new OthelloBoardHandler(board);
-	}
-
-	private NodeImpl[][] getNodeMatrix() {
-		NodeImpl[][] nodes = new NodeImpl[8][8];
-
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
-				nodes[i][j] = new NodeImpl(i, j);
+				nodes[i][j] = mock(Node.class);
+				when(nodes[i][j].getId()).thenReturn(NodeIdUtil.createNodeId(i, j));
+				occupyMockedNode(nodes[i][j], null);
+				when(nodes[i][j].getXCoordinate()).thenReturn(i);
+				when(nodes[i][j].getYCoordinate()).thenReturn(j);
 			}
 		}
 
 		return nodes;
 	}
 
-	private RectangularBoard getMockedBoard(NodeImpl[][] nodes) {
-		RectangularBoard mockedBoard = mock(RectangularBoard.class);
+	private BoardImpl getMockedBoard(Node[][] nodes) {
+		BoardImpl mockedBoard = mock(BoardImpl.class);
 
+		List<Node> nodeList = new ArrayList<>();
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
+				nodeList.add(nodes[i][j]);
 				when(mockedBoard.getNode(i, j)).thenReturn(nodes[i][j]);
 				when(mockedBoard.getNode(i + ":" + j)).thenReturn(nodes[i][j]);
-				when(mockedBoard.isInRange(i, j)).thenReturn(true);
+				when(mockedBoard.containsNodeOnPosition(i, j)).thenReturn(true);
 			}
 		}
-
-		when(mockedBoard.getNumRows()).thenReturn(8);
-		when(mockedBoard.getNumCols()).thenReturn(8);
+		when(mockedBoard.getNodes()).thenReturn(nodeList);
 
 		return mockedBoard;
 	}
 
-	@Test
-	public void initializeStartingPositionsTest() {
-		String player1 = "player1";
-		String player2 = "player2";
+	private void occupyNodeOnMockedBoard(BoardImpl board, int x, int y, String playerId) {
+		occupyMockedNode(board.getNode(x, y), playerId);
 
-		NodeImpl[][] nodes = getNodeMatrix();
-		RectangularBoard mockedBoard = getMockedBoard(nodes);
+	}
 
-		OthelloBoardHandler boardHandler = new OthelloBoardHandler(mockedBoard);
-		boardHandler.initializeStartingPositions(player1, player2);
+	private void occupyMockedNode(Node node, String playerId) {
+		when(node.getOccupantPlayerId()).thenReturn(playerId);
+		when(node.isMarked()).thenReturn(playerId != null);
+	}
+
+	private OthelloBoardHandler getSpecialEndGameBoardHandler(String player1, String player2) {
+		Node[][] nodes = getMockedNodeMatrix();
 
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				if (i == 3 && j == 3 || i == 4 && j == 4) {
-					Assert.assertEquals(player2, nodes[i][j].getOccupantPlayerId());
-				} else if (i == 3 && j == 4 || i == 4 && j == 3) {
-					Assert.assertEquals(player1, nodes[i][j].getOccupantPlayerId());
-				} else {
-					Assert.assertFalse(nodes[i][j].isMarked());
-				}
+				occupyMockedNode(nodes[i][j], player1);
 			}
 		}
+
+		occupyMockedNode(nodes[3][7], null);
+		occupyMockedNode(nodes[4][6], null);
+		occupyMockedNode(nodes[4][7], null);
+		occupyMockedNode(nodes[5][6], null);
+		occupyMockedNode(nodes[5][7], player2);
+		occupyMockedNode(nodes[6][7], null);
+
+		return new OthelloBoardHandler(getMockedBoard(nodes));
+	}
+
+	private OthelloBoardHandler getInitialGameBoardHandler(String player1, String player2) {
+		Node[][] nodes = getMockedNodeMatrix();
+		occupyMockedNode(nodes[3][3], player2);
+		occupyMockedNode(nodes[4][4], player2);
+		occupyMockedNode(nodes[3][4], player1);
+		occupyMockedNode(nodes[4][3], player1);
+		BoardImpl board = getMockedBoard(nodes);
+		return new OthelloBoardHandler(board);
+	}
+
+	private boolean nodeListContainsNodeId(List<Node> list, String nodeId) {
+		for (Node node : list) {
+			if (node.getId().equals(nodeId)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Test
@@ -103,31 +103,31 @@ public class OthelloBoardHandlerTest {
 
 			List<Node> validMoves = boardHandler.getValidMoves(player1);
 			Assert.assertEquals(4, validMoves.size());
-			Assert.assertTrue(validMoves.contains(new NodeImpl(2, 3)));
-			Assert.assertTrue(validMoves.contains(new NodeImpl(3, 2)));
-			Assert.assertTrue(validMoves.contains(new NodeImpl(4, 5)));
-			Assert.assertTrue(validMoves.contains(new NodeImpl(5, 4)));
+			Assert.assertTrue(nodeListContainsNodeId(validMoves, NodeIdUtil.createNodeId(2, 3)));
+			Assert.assertTrue(nodeListContainsNodeId(validMoves, NodeIdUtil.createNodeId(3, 2)));
+			Assert.assertTrue(nodeListContainsNodeId(validMoves, NodeIdUtil.createNodeId(4, 5)));
+			Assert.assertTrue(nodeListContainsNodeId(validMoves, NodeIdUtil.createNodeId(5, 4)));
 
-			boardHandler.getBoard().getNode(2, 3).setOccupantPlayerId(player1);
-			boardHandler.getBoard().getNode(3, 3).setOccupantPlayerId(player1);
+			occupyNodeOnMockedBoard(boardHandler.getBoard(), 2, 3, player1);
+			occupyNodeOnMockedBoard(boardHandler.getBoard(), 3, 3, player1);
 			validMoves = boardHandler.getValidMoves(player2);
 			Assert.assertEquals(3, validMoves.size());
-			Assert.assertTrue(validMoves.contains(new NodeImpl(2, 2)));
-			Assert.assertTrue(validMoves.contains(new NodeImpl(4, 2)));
-			Assert.assertTrue(validMoves.contains(new NodeImpl(4, 2)));
+			Assert.assertTrue(nodeListContainsNodeId(validMoves, NodeIdUtil.createNodeId(2, 2)));
+			Assert.assertTrue(nodeListContainsNodeId(validMoves, NodeIdUtil.createNodeId(4, 2)));
+			Assert.assertTrue(nodeListContainsNodeId(validMoves, NodeIdUtil.createNodeId(2, 4)));
 
-			boardHandler.getBoard().getNode(4, 2).setOccupantPlayerId(player2);
-			boardHandler.getBoard().getNode(4, 3).setOccupantPlayerId(player2);
+			occupyNodeOnMockedBoard(boardHandler.getBoard(), 4, 2, player2);
+			occupyNodeOnMockedBoard(boardHandler.getBoard(), 4, 3, player2);
 			validMoves = boardHandler.getValidMoves(player1);
 			Assert.assertEquals(5, validMoves.size());
-			Assert.assertTrue(validMoves.contains(new NodeImpl(5, 1)));
-			Assert.assertTrue(validMoves.contains(new NodeImpl(5, 2)));
-			Assert.assertTrue(validMoves.contains(new NodeImpl(5, 3)));
-			Assert.assertTrue(validMoves.contains(new NodeImpl(5, 4)));
-			Assert.assertTrue(validMoves.contains(new NodeImpl(5, 5)));
+			Assert.assertTrue(nodeListContainsNodeId(validMoves, NodeIdUtil.createNodeId(5, 1)));
+			Assert.assertTrue(nodeListContainsNodeId(validMoves, NodeIdUtil.createNodeId(5, 2)));
+			Assert.assertTrue(nodeListContainsNodeId(validMoves, NodeIdUtil.createNodeId(5, 3)));
+			Assert.assertTrue(nodeListContainsNodeId(validMoves, NodeIdUtil.createNodeId(5, 4)));
+			Assert.assertTrue(nodeListContainsNodeId(validMoves, NodeIdUtil.createNodeId(5, 5)));
 		}
 
-		// Test special end game boar
+		// Test special end game board
 		{
 			OthelloBoardHandler boardHandle = getSpecialEndGameBoardHandler(player1, player2);
 			Assert.assertEquals(0, boardHandle.getValidMoves(player2).size());
@@ -143,32 +143,23 @@ public class OthelloBoardHandlerTest {
 		{
 			OthelloBoardHandler boardHandler = getInitialGameBoardHandler(player1, player2);
 
-			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, "2:3"));
-			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, "3:2"));
-			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, "4:5"));
-			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, "5:4"));
+			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, NodeIdUtil.createNodeId(2, 3)));
+			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, NodeIdUtil.createNodeId(3, 2)));
+			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, NodeIdUtil.createNodeId(4, 5)));
+			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, NodeIdUtil.createNodeId(5, 4)));
 
 		}
 
 		// Test case when more than 1 swaps will occur
 		{
 			OthelloBoardHandler boardHandler = getInitialGameBoardHandler(player1, player2);
-			boardHandler.getBoard().getNode(2, 3).setOccupantPlayerId(player2);
+			occupyNodeOnMockedBoard(boardHandler.getBoard(), 2, 3, player2);
 
-			Assert.assertEquals(2, boardHandler.getNumSwaps(player1, "1:3"));
-			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, "3:2"));
-			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, "4:5"));
-			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, "5:4"));
+			Assert.assertEquals(2, boardHandler.getNumSwaps(player1, NodeIdUtil.createNodeId(1, 3)));
+			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, NodeIdUtil.createNodeId(3, 2)));
+			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, NodeIdUtil.createNodeId(4, 5)));
+			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, NodeIdUtil.createNodeId(5, 4)));
 		}
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void invalidGetNumSwapsTest() {
-		String player1 = "player1";
-		String player2 = "player2";
-		OthelloBoardHandler boardHandler = getInitialGameBoardHandler(player1, player2);
-		boardHandler.initializeStartingPositions(player1, player2);
-		boardHandler.getNumSwaps(player1, "2:2");
 	}
 
 	@Test
@@ -180,17 +171,15 @@ public class OthelloBoardHandlerTest {
 		{
 			OthelloBoardHandler boardHandler = getInitialGameBoardHandler(player1, player2);
 
-			List<Node> swaps = boardHandler.move(player1, "2:3");
+			List<Node> swaps = boardHandler.move(player1, NodeIdUtil.createNodeId(2, 3));
 			Assert.assertEquals(2, swaps.size());
-			Assert.assertTrue(swaps.contains(new NodeImpl(player1, 2, 3)));
-			Assert.assertTrue(swaps.contains(new NodeImpl(player1, 3, 3)));
+			Assert.assertTrue(nodeListContainsNodeId(swaps, NodeIdUtil.createNodeId(2, 3)));
+			Assert.assertTrue(nodeListContainsNodeId(swaps, NodeIdUtil.createNodeId(3, 3)));
 
-			swaps = boardHandler.move(player2, "4:2");
-			boardHandler.getBoard().getNode(4, 2).setOccupantPlayerId(player2);
-			boardHandler.getBoard().getNode(4, 3).setOccupantPlayerId(player2);
+			swaps = boardHandler.move(player2, NodeIdUtil.createNodeId(4, 2));
 			Assert.assertEquals(2, swaps.size());
-			Assert.assertTrue(swaps.contains(new NodeImpl(player2, 4, 2)));
-			Assert.assertTrue(swaps.contains(new NodeImpl(player2, 4, 3)));
+			Assert.assertTrue(nodeListContainsNodeId(swaps, NodeIdUtil.createNodeId(4, 2)));
+			Assert.assertTrue(nodeListContainsNodeId(swaps, NodeIdUtil.createNodeId(4, 3)));
 		}
 	}
 
@@ -199,7 +188,6 @@ public class OthelloBoardHandlerTest {
 		String player1 = "player1";
 		String player2 = "player2";
 		OthelloBoardHandler boardHandler = getInitialGameBoardHandler(player1, player2);
-		boardHandler.initializeStartingPositions(player1, player2);
-		boardHandler.move(player1, "2:2");
+		boardHandler.move(player1, NodeIdUtil.createNodeId(2, 2));
 	}
 }
