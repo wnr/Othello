@@ -1,19 +1,16 @@
 package kth.game.othello.board;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
- * A board implementation storing nodes on a rectangular grid.
+ * A simple board implementation, allowing players to occupy nodes
  *
  * @author Erik Odenman
  * @author Lucas Wiener
  */
 public class BoardImpl implements Board {
 
-	private TreeMap<String, NodeImpl> nodes;
+	private HashMap<String, NodeImpl> nodes;
 
 	/**
 	 * Constructs a new BoardImpl containing the specified nodes
@@ -21,14 +18,14 @@ public class BoardImpl implements Board {
 	 * @param nodes The nodes that the board should contain
 	 */
 	public BoardImpl(Collection<NodeImpl> nodes) {
-		this.nodes = new TreeMap<>();
+		this.nodes = new HashMap<>();
 		for (NodeImpl node : nodes) {
 			this.nodes.put(node.getId(), node);
 		}
 	}
 
 	/**
-	 * The number of nodes in the board.
+	 * The number of nodes on the board.
 	 *
 	 * @return the number of nodes
 	 */
@@ -36,13 +33,7 @@ public class BoardImpl implements Board {
 		return nodes.size();
 	}
 
-	/**
-	 * Get the node on a specified position.
-	 *
-	 * @param x The x-coordinate of the node
-	 * @param y The y-coordinate of the node
-	 * @throws java.lang.IllegalArgumentException if the coordinates are outside the board
-	 */
+	@Override
 	public Node getNode(int x, int y) {
 		return getNode(NodeIdUtil.createNodeId(x, y));
 	}
@@ -62,7 +53,7 @@ public class BoardImpl implements Board {
 	}
 
 	/**
-	 * Determines if the board contains a node on the specified position
+	 * Determines if the board contains a node at the specified position
 	 *
 	 * @param x The x-coordinate to search for
 	 * @param y The y-coordinate to search for
@@ -98,10 +89,8 @@ public class BoardImpl implements Board {
 
 	@Override
 	public List<Node> getNodes() {
-		ArrayList<Node> res = new ArrayList<>();
-		for (Node node : nodes.values()) {
-			res.add(node);
-		}
-		return res;
+		ArrayList<NodeImpl> res = new ArrayList<>(nodes.values());
+		Collections.sort(res);
+		return new ArrayList<>(res);
 	}
 }

@@ -13,7 +13,7 @@ public class OthelloBoardHandler {
 	private BoardImpl board;
 
 	/**
-	 * Constructs a Othello board handler. The board should be a square shape with even side length.
+	 * Constructs a Othello board handler.
 	 *
 	 * @param board The board to handle.
 	 */

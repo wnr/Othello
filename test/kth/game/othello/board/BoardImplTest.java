@@ -20,9 +20,30 @@ public class BoardImplTest {
 
 	@Test
 	public void getNodesTest() {
-		BoardImpl board = create8x8Board();
+		ArrayList<NodeImpl> inputNodes = new ArrayList<>();
+		inputNodes.add(new NodeImpl(2, 3));
+		inputNodes.add(new NodeImpl(2, 2));
+		inputNodes.add(new NodeImpl(3, 3));
+		inputNodes.add(new NodeImpl(4, 0));
+		inputNodes.add(new NodeImpl(0, 4));
+		BoardImpl board = new BoardImpl(inputNodes);
 		List<Node> nodes = board.getNodes();
-		Assert.assertEquals(nodes.size(), 64);
+		Assert.assertEquals(nodes.size(), inputNodes.size());
+		for (int i = 0; i < nodes.size() - 1; i++) {
+			Node n1 = nodes.get(i);
+			Node n2 = nodes.get(i + 1);
+			Assert.assertTrue(n1.getXCoordinate() < n2.getXCoordinate() || n1.getXCoordinate() == n2.getXCoordinate()
+					&& n1.getYCoordinate() < n2.getYCoordinate());
+		}
+	}
+
+	@Test
+	public void occupyTest() {
+		String player = "Playaah";
+		BoardImpl board = create8x8Board();
+		Assert.assertEquals(board.getNode(0, 2).getOccupantPlayerId(), null);
+		board.occupyNode(NodeIdUtil.createNodeId(0, 2), player);
+		Assert.assertEquals(board.getNode(0, 2).getOccupantPlayerId(), player);
 	}
 
 	@Test

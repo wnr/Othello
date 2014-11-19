@@ -38,6 +38,18 @@ public class NodeImplTest {
 	}
 
 	@Test
+	public void compareToTest() {
+		NodeImpl n1 = new NodeImpl(3, 3);
+		NodeImpl n2 = new NodeImpl(3, 4);
+		NodeImpl n3 = new NodeImpl(0, 10);
+		Assert.assertEquals(n1.compareTo(n1), 0);
+		Assert.assertEquals(n1.compareTo(n2), -1);
+		Assert.assertEquals(n2.compareTo(n1), 1);
+		Assert.assertEquals(n1.compareTo(n3), 1);
+		Assert.assertEquals(n3.compareTo(n2), -1);
+	}
+
+	@Test
 	public void nodeIDTest() {
 		{
 			NodeImpl node = new NodeImpl(2, 7);

@@ -35,7 +35,7 @@ public class OthelloBoardHandlerTest {
 			for (int j = 0; j < 8; j++) {
 				nodeList.add(nodes[i][j]);
 				when(mockedBoard.getNode(i, j)).thenReturn(nodes[i][j]);
-				when(mockedBoard.getNode(i + ":" + j)).thenReturn(nodes[i][j]);
+				when(mockedBoard.getNode(NodeIdUtil.createNodeId(i, j))).thenReturn(nodes[i][j]);
 				when(mockedBoard.containsNodeOnPosition(i, j)).thenReturn(true);
 			}
 		}
