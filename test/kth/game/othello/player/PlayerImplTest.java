@@ -4,21 +4,12 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import kth.game.othello.player.movestrategy.MoveStrategy;
+import org.mockito.Mockito;
 
 public class PlayerImplTest {
 	class PlayerImplTester extends PlayerImpl {
 		public PlayerImplTester(String id, String name, Type type) {
 			super(id, name, type);
-		}
-
-		@Override
-		public MoveStrategy getMoveStrategy() {
-			return null;
-		}
-
-		@Override
-		public void setMoveStrategy(MoveStrategy moveStrategy) {
-
 		}
 	}
 
@@ -54,5 +45,27 @@ public class PlayerImplTest {
 			PlayerImpl player = new PlayerImplTester(null, null, Player.Type.HUMAN);
 			Assert.assertEquals(Player.Type.HUMAN, player.getType());
 		}
+	}
+
+	@Test
+	public void moveStrategyTest() {
+		PlayerImpl player = new PlayerImplTester(null, null, Player.Type.COMPUTER);
+		MoveStrategy mockedMoveStrategy = Mockito.mock(MoveStrategy.class);
+
+		Assert.assertEquals(null, player.getMoveStrategy());
+		player.setMoveStrategy(mockedMoveStrategy);
+		Assert.assertEquals(mockedMoveStrategy, player.getMoveStrategy());
+	}
+
+	@Test(expected = UnsupportedOperationException.class)
+	public void getMoveStrategyHumanTest() {
+		PlayerImpl player = new PlayerImplTester(null, null, Player.Type.HUMAN);
+		player.getMoveStrategy();
+	}
+
+	@Test(expected = UnsupportedOperationException.class)
+	public void setMoveStrategyHumanTest() {
+		PlayerImpl player = new PlayerImplTester(null, null, Player.Type.HUMAN);
+		player.setMoveStrategy(null);
 	}
 }
