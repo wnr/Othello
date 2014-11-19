@@ -14,18 +14,18 @@ import java.util.List;
  * @author Lucas Wiener
  */
 public class GreedyStrategy implements MoveStrategy {
-    OthelloBoardHandlerFactory boardHandlerFactory;
+	OthelloBoardHandlerFactory boardHandlerFactory;
 
-    /**
-     * Creates the greedy move strategy instance.
-     *
-     * @param boardHandlerFactory The factory to create othello board handlers.
-     */
-    public GreedyStrategy(OthelloBoardHandlerFactory boardHandlerFactory) {
-        this.boardHandlerFactory = boardHandlerFactory;
-    }
+	/**
+	 * Creates the greedy move strategy instance.
+	 *
+	 * @param boardHandlerFactory The factory to create othello board handlers.
+	 */
+	public GreedyStrategy(OthelloBoardHandlerFactory boardHandlerFactory) {
+		this.boardHandlerFactory = boardHandlerFactory;
+	}
 
-    @Override
+	@Override
 	public String getName() {
 		return "Greedy";
 	}

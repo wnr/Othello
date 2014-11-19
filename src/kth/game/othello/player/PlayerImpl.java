@@ -56,7 +56,7 @@ public abstract class PlayerImpl implements Player {
 
 	@Override
 	public MoveStrategy getMoveStrategy() {
-		if(type == Type.HUMAN) {
+		if (type == Type.HUMAN) {
 			throw new UnsupportedOperationException("Players of type HUMAN cannot have a move strategy");
 		}
 
@@ -65,7 +65,7 @@ public abstract class PlayerImpl implements Player {
 
 	@Override
 	public void setMoveStrategy(MoveStrategy moveStrategy) {
-		if(type == Type.HUMAN) {
+		if (type == Type.HUMAN) {
 			throw new UnsupportedOperationException("Players of type HUMAN cannot have a move strategy");
 		}
 
