@@ -34,7 +34,7 @@ public class OthelloFactoryImpl implements OthelloFactory {
 		OthelloBoardHandler boardHandler = createOthelloBoardHandler();
 		PlayerHandler playerHandler = createPlayerHandler(new HumanPlayer("human1", "HeatoN"), new HumanPlayer(
 				"human2", "Kungen"));
-		return new OthelloImpl(boardHandler, playerHandler);
+		return new OthelloImpl(boardHandler, playerHandler, null);
 	}
 
 	@Override

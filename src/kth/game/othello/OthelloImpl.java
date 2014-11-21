@@ -32,16 +32,6 @@ public class OthelloImpl implements Othello {
 		this.ai = ai;
 	}
 
-	/**
-	 * Constructs an Othello game instance for human only games.
-	 *
-	 * @param othelloBoardHandler The handler responsible of both holding the game board and the Othello board logic
-	 * @param playerHandler The handler responsible of both player logic and holding the players to play Othello
-	 */
-	public OthelloImpl(OthelloBoardHandler othelloBoardHandler, PlayerHandler playerHandler) {
-		this(othelloBoardHandler, playerHandler, null);
-	}
-
 	@Override
 	public Board getBoard() {
 		return othelloBoardHandler.getBoard();
