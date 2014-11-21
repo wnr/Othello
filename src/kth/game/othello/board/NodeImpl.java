@@ -1,6 +1,6 @@
 package kth.game.othello.board;
 
-import java.util.Observer;
+import java.util.Observable;
 
 /**
  * Representation of a node, containing information of its position in the board and an id of the occupying player (if
@@ -9,7 +9,7 @@ import java.util.Observer;
  * @author Erik Odenman
  * @author Lucas Wiener
  */
-public class NodeImpl implements Node {
+public class NodeImpl extends Observable implements Node {
 	private String nodeId;
 	private String playerId;
 	private int x;
@@ -47,12 +47,13 @@ public class NodeImpl implements Node {
 	 * @param playerId The player id of the player that should be occupying the node. Null if none.
 	 */
 	public void setOccupantPlayerId(String playerId) {
+		String previousOccupantPlayerId = this.playerId;
 		this.playerId = playerId;
-	}
 
-	@Override
-	public void addObserver(Observer observer) {
-
+		if (!isOccupiedPlayerEqual(previousOccupantPlayerId, playerId)) {
+			setChanged();
+			notifyObservers(previousOccupantPlayerId);
+		}
 	}
 
 	@Override
@@ -119,5 +120,24 @@ public class NodeImpl implements Node {
 	 */
 	private String createNodeID(int x, int y) {
 		return x + ":" + y;
+	}
+
+	/**
+	 * Tells if two player ids are equal. If both are null, they are considered to also be equal.
+	 *
+	 * @param playerId1 The player id to compare with the other
+	 * @param playerId2 The other player id to compare with the first
+	 * @return True if both id's are equal or both are null.
+	 */
+	private boolean isOccupiedPlayerEqual(String playerId1, String playerId2) {
+		if (playerId1 == null) {
+			playerId1 = "";
+		}
+
+		if (playerId2 == null) {
+			playerId2 = "";
+		}
+
+		return playerId1.equals(playerId2);
 	}
 }

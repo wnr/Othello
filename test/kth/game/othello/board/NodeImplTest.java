@@ -2,6 +2,9 @@ package kth.game.othello.board;
 
 import org.junit.Assert;
 import org.junit.Test;
+import static org.mockito.Mockito.*;
+
+import java.util.Observer;
 
 public class NodeImplTest {
 
@@ -43,6 +46,28 @@ public class NodeImplTest {
 			NodeImpl node = new NodeImpl(2, 7);
 			Assert.assertEquals("2:7", node.getId());
 		}
+	}
+
+	@Test
+	public void observableTest() {
+		Observer observer = mock(Observer.class);
+
+		NodeImpl node = new NodeImpl(2, 7);
+		node.addObserver(observer);
+		node.notifyObservers(null);
+		node.setOccupantPlayerId("player1");
+
+		verify(observer).update(node, null);
+
+		node.setOccupantPlayerId("player2");
+		verify(observer).update(node, "player1");
+
+		node.setOccupantPlayerId(null);
+		verify(observer).update(node, "player2");
+
+		node.setOccupantPlayerId(null);
+		verify(observer, times(1)).update(node, null); // This method should not have been called (thats why the times
+														// is 1 for the previous call)
 	}
 
 }
