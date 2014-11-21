@@ -11,7 +11,7 @@ public class OthelloBoardHandlerFactory {
 	 * @param board The board instance to handle.
 	 * @return An OthelloBoardHandler instance to handle the given board.
 	 */
-	public OthelloBoardHandler createOthelloBoardHandler(RectangularBoard board) {
+	public OthelloBoardHandler createOthelloBoardHandler(BoardImpl board) {
 		return new OthelloBoardHandler(board);
 	}
 }

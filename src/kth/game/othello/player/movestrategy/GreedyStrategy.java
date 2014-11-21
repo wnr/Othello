@@ -1,10 +1,7 @@
 package kth.game.othello.player.movestrategy;
 
 import kth.game.othello.Othello;
-import kth.game.othello.board.Node;
-import kth.game.othello.board.OthelloBoardHandler;
-import kth.game.othello.board.OthelloBoardHandlerFactory;
-import kth.game.othello.board.RectangularBoard;
+import kth.game.othello.board.*;
 
 import java.util.List;
 
@@ -33,10 +30,8 @@ public class GreedyStrategy implements MoveStrategy {
 
 	@Override
 	public Node move(String playerId, Othello othello) {
-		// TODO: When BoardImpl exists, a BoardImpl instance should be created by giving it a Board to copy (or
-		// TODO: something like that).
-		// TODO: So the copying of the board should be handled here.
-		RectangularBoard board = (RectangularBoard) othello.getBoard();
+		// TODO: Make a copy of the Board before creating an board handler with it.
+		BoardImpl board = (BoardImpl) othello.getBoard();
 		OthelloBoardHandler boardHandler = boardHandlerFactory.createOthelloBoardHandler(board);
 
 		List<Node> validMoves = boardHandler.getValidMoves(playerId);
