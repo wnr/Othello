@@ -44,7 +44,7 @@ public class OthelloBoardHandlerTest {
 		return mockedBoard;
 	}
 
-	private void occupyNodeOnMockedBoard(BoardImpl board, int x, int y, String playerId) {
+	private void occupyNodeOnMockedBoard(Board board, int x, int y, String playerId) {
 		occupyMockedNode(board.getNode(x, y), playerId);
 
 	}

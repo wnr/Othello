@@ -26,7 +26,7 @@ public class OthelloBoardHandler {
 	 *
 	 * @return The board that the handler is operating on.
 	 */
-	public BoardImpl getBoard() {
+	public Board getBoard() {
 		return board;
 	}
 

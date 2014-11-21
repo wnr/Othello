@@ -28,7 +28,7 @@ public class BoardImplTest {
 		inputNodes.add(new NodeImpl(0, 4));
 		BoardImpl board = new BoardImpl(inputNodes);
 		List<Node> nodes = board.getNodes();
-		Assert.assertEquals(nodes.size(), inputNodes.size());
+		Assert.assertEquals(inputNodes.size(), nodes.size());
 		for (int i = 0; i < nodes.size() - 1; i++) {
 			Node n1 = nodes.get(i);
 			Node n2 = nodes.get(i + 1);
@@ -41,9 +41,9 @@ public class BoardImplTest {
 	public void occupyTest() {
 		String player = "Playaah";
 		BoardImpl board = create8x8Board();
-		Assert.assertEquals(board.getNode(0, 2).getOccupantPlayerId(), null);
+		Assert.assertEquals(null, board.getNode(0, 2).getOccupantPlayerId());
 		board.occupyNode(NodeIdUtil.createNodeId(0, 2), player);
-		Assert.assertEquals(board.getNode(0, 2).getOccupantPlayerId(), player);
+		Assert.assertEquals(player, board.getNode(0, 2).getOccupantPlayerId());
 	}
 
 	@Test
