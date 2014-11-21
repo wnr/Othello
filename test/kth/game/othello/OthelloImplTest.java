@@ -1,18 +1,15 @@
 package kth.game.othello;
 
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import kth.game.othello.board.Node;
 import kth.game.othello.board.OthelloBoardHandler;
 import kth.game.othello.player.Player;
+import kth.game.othello.player.PlayerHandler;
 
 import org.junit.Assert;
 import org.junit.Test;

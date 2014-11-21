@@ -11,6 +11,8 @@ import kth.game.othello.board.factory.NodeData;
 import kth.game.othello.player.ComputerPlayer;
 import kth.game.othello.player.HumanPlayer;
 import kth.game.othello.player.Player;
+import kth.game.othello.player.PlayerHandler;
+import kth.game.othello.player.turnrotator.DefaultTurnRotator;
 
 /**
  * Implementation of the OthelloFactory interface.
@@ -54,6 +56,6 @@ public class OthelloFactoryImpl implements OthelloFactory {
 	}
 
 	private PlayerHandler createPlayerHandler(Player... players) {
-		return new PlayerHandler(Arrays.asList(players));
+		return new PlayerHandler(Arrays.asList(players), new DefaultTurnRotator());
 	}
 }
