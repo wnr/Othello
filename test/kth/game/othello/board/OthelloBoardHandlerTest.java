@@ -3,7 +3,6 @@ package kth.game.othello.board;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -212,15 +211,15 @@ public class OthelloBoardHandlerTest {
 		OthelloBoardHandler boardHandler = getSpecialEndGameBoardHandler(player1, player2);
 
 		Assert.assertFalse(boardHandler.hasAValidMove(player1));
-		Assert.assertFalse(boardHandler.hasAValidMove(Arrays.asList(player1, player2)));
+		Assert.assertFalse(boardHandler.hasAnyAValidMove(Arrays.asList(player1, player2)));
 
 		boardHandler = getInitialGameBoardHandler(player1, player2);
 
 		boardHandler.initializeStartingPositions(Arrays.asList(player1, player2));
 		Assert.assertTrue(boardHandler.hasAValidMove(player1));
-		Assert.assertTrue(boardHandler.hasAValidMove(Arrays.asList(player1, player2)));
+		Assert.assertTrue(boardHandler.hasAnyAValidMove(Arrays.asList(player1, player2)));
 
-		Assert.assertTrue(boardHandler.hasAValidMove(Arrays.asList("notPlayer1Id", player2)));
+		Assert.assertTrue(boardHandler.hasAnyAValidMove(Arrays.asList("notPlayer1Id", player2)));
 
 	}
 

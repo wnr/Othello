@@ -64,7 +64,7 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public boolean isActive() {
-		return othelloBoardHandler.hasAValidMove(playerHandler.getPlayerIds());
+		return othelloBoardHandler.hasAnyAValidMove(playerHandler.getPlayerIds());
 	}
 
 	@Override

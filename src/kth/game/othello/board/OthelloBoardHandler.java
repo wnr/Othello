@@ -136,7 +136,7 @@ public class OthelloBoardHandler {
 	 * @param playerIds The ID´s of the players to check if a valid move exists.
 	 * @return True if at least one valid move was found for some player
 	 */
-	public boolean hasAValidMove(List<String> playerIds) {
+	public boolean hasAnyAValidMove(List<String> playerIds) {
 		for (String playerId : playerIds) {
 			if (hasAValidMove(playerId)) {
 				return true;
