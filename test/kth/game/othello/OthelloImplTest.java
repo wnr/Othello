@@ -1,9 +1,6 @@
 package kth.game.othello;
 
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -168,7 +165,6 @@ public class OthelloImplTest {
 		Field playerInTurnField = othello1.getClass().getDeclaredField("playerInTurn");
 		Assert.assertNull(playerInTurnField.get(othello1));
 		othello1.start(playerId2);
-		verify(obhMock).initializeStartingPositions(playerId2, playerId1);
 		Assert.assertEquals(playerInTurnField.get(othello1), p2Mock);
 	}
 }
