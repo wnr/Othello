@@ -84,7 +84,7 @@ public class PlayerHandler {
 	}
 
 	/**
-	 * Returns the player corresponding the the given player ID.
+	 * Returns the player corresponding the given player ID.
 	 * 
 	 * @param playerId The ID of the player.
 	 * @return The {@link Player} matching the player ID.
