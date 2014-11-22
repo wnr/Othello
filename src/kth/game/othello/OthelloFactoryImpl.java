@@ -3,6 +3,7 @@ package kth.game.othello;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import kth.game.othello.board.BoardFactory;
 import kth.game.othello.board.OthelloBoardHandler;
@@ -56,6 +57,8 @@ public class OthelloFactoryImpl implements OthelloFactory {
 	}
 
 	private PlayerHandler createPlayerHandler(Player... players) {
-		return new PlayerHandler(Arrays.asList(players), new DefaultTurnRotator());
+		List<Player> playerList = Arrays.asList(players);
+		return new PlayerHandler(playerList, new DefaultTurnRotator(playerList.stream().map(Player::getId)
+				.collect(Collectors.toList())));
 	}
 }

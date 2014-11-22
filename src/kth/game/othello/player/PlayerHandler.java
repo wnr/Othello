@@ -36,8 +36,8 @@ public class PlayerHandler {
 	 *
 	 * @return The {@link Player} that was selected using the given player ID.
 	 */
-	public Player initiateStartingPlayer(String playerId) {
-		turnRotator.initialize(getPlayerIds(), playerId);
+	public Player setStartingPlayer(String playerId) {
+		turnRotator.setFirstPlayerInTurn(playerId);
 		return getPlayerInTurn();
 	}
 
@@ -107,7 +107,7 @@ public class PlayerHandler {
 	 * @return A list of players that were in turn but were skipped since they could not make a move.
 	 */
 	public List<Player> updatePlayerInTurn(Othello othello) {
-		return getPlayersFromIds(turnRotator.updateNextPlayerInTurn(othello));
+		return getPlayersFromIds(turnRotator.updatePlayerInTurn(othello));
 	}
 
 	/**

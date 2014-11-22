@@ -24,8 +24,8 @@ public class PlayerHandlerTest {
 	public void initiateStartingPlayerTest() throws NoSuchFieldException, IllegalAccessException {
 		TurnRotator trMock = Mockito.mock(TurnRotator.class);
 		PlayerHandler ph = createPlayerHandler(trMock, Ids[0], Ids[1]);
-		ph.initiateStartingPlayer(Ids[1]);
-		verify(trMock).initialize(ph.getPlayerIds(), Ids[1]);
+		ph.setStartingPlayer(Ids[1]);
+		verify(trMock).setFirstPlayerInTurn(Ids[1]);
 	}
 
 	@Test

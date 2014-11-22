@@ -18,12 +18,13 @@ public class DefaultTurnRotator implements TurnRotator {
 	List<String> players;
 	int playerInTurnIndex;
 
-	public DefaultTurnRotator() {
+	public DefaultTurnRotator(List<String> players) {
 		playerInTurnIndex = NO_PLAYER_IN_TURN;
+		this.players = players;
 	}
 
 	@Override
-	public List<String> updateNextPlayerInTurn(Othello othello) {
+	public List<String> updatePlayerInTurn(Othello othello) {
 		List<String> skippedTurns = new ArrayList<>();
 
 		if (!othello.isActive()) {
@@ -49,14 +50,13 @@ public class DefaultTurnRotator implements TurnRotator {
 	}
 
 	@Override
-	public void initialize(List<String> playerIds, String startingPlayerId) {
-		this.players = playerIds;
+	public void setFirstPlayerInTurn(String startingPlayerId) {
 		playerInTurnIndex = players.indexOf(startingPlayerId);
 	}
 
 	@Override
 	public List<String> getAllPlayersInTurnOrder() {
-		if (!aPlayerIsInTurn()) {
+		if (noPlayerIsInTurn()) {
 			return new ArrayList<>();
 		}
 		List<String> playersInTurn = new ArrayList<>(players);
@@ -66,13 +66,13 @@ public class DefaultTurnRotator implements TurnRotator {
 
 	@Override
 	public String getPlayerInTurn() {
-		if (!aPlayerIsInTurn()) {
+		if (noPlayerIsInTurn()) {
 			return null;
 		}
 		return players.get(playerInTurnIndex);
 	}
 
-	private boolean aPlayerIsInTurn() {
-		return playerInTurnIndex != NO_PLAYER_IN_TURN;
+	private boolean noPlayerIsInTurn() {
+		return playerInTurnIndex == NO_PLAYER_IN_TURN;
 	}
 }
