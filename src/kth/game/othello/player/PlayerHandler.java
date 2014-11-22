@@ -51,7 +51,7 @@ public class PlayerHandler {
 	}
 
 	/**
-	 * Will return a ordered list of the players starting from the next player in turn and ending with the last player
+	 * Will return an ordered list of the players starting from the next player in turn and ending with the last player
 	 * that will have a turn. Each player will be represented exactly once in the list unless no player is currently the
 	 * next player in turn. Does not take in consideration if a player can not move or if a player has several moves
 	 * before another player has a turn.
