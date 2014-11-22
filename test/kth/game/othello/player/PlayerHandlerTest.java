@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import kth.game.othello.player.turnrotator.TurnRotator;
+import kth.game.othello.player.turndecider.TurnDecider;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -22,7 +22,7 @@ public class PlayerHandlerTest {
 
 	@Test
 	public void initiateStartingPlayerTest() throws NoSuchFieldException, IllegalAccessException {
-		TurnRotator trMock = Mockito.mock(TurnRotator.class);
+		TurnDecider trMock = Mockito.mock(TurnDecider.class);
 		PlayerHandler ph = createPlayerHandler(trMock, Ids[0], Ids[1]);
 		ph.setStartingPlayer(Ids[1]);
 		verify(trMock).setFirstPlayerInTurn(Ids[1]);
@@ -38,7 +38,7 @@ public class PlayerHandlerTest {
 
 	@Test
 	public void getAllPlayersInTurnOrderTest() {
-		TurnRotator trMock = Mockito.mock(TurnRotator.class);
+		TurnDecider trMock = Mockito.mock(TurnDecider.class);
 		PlayerHandler ph = createPlayerHandler(trMock, Ids);
 		when(trMock.getAllPlayersInTurnOrder()).thenReturn(Arrays.asList(Ids));
 		List<Player> returnList = ph.getAllPlayersInTurnOrder();
@@ -46,13 +46,13 @@ public class PlayerHandlerTest {
 		Assert.assertEquals(ph.getPlayers(), returnList);
 	}
 
-	private PlayerHandler createPlayerHandler(TurnRotator turnRotator, String... IDs) {
+	private PlayerHandler createPlayerHandler(TurnDecider turnDecider, String... IDs) {
 		List<Player> players = new ArrayList<>();
 		for (int i = 0; i < IDs.length; i++) {
 			Player playerMock = Mockito.mock(Player.class);
 			when(playerMock.getId()).thenReturn(IDs[i]);
 			players.add(playerMock);
 		}
-		return new PlayerHandler(players, turnRotator);
+		return new PlayerHandler(players, turnDecider);
 	}
 }

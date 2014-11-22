@@ -7,7 +7,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import kth.game.othello.Othello;
-import kth.game.othello.player.turnrotator.TurnRotator;
+import kth.game.othello.player.turndecider.TurnDecider;
 
 /**
  * A handler with the overall responsibility regarding the players in the game.
@@ -16,18 +16,18 @@ import kth.game.othello.player.turnrotator.TurnRotator;
  */
 public class PlayerHandler {
 	private final List<Player> players;
-	private final TurnRotator turnRotator;
+	private final TurnDecider  turnDecider;
 
 	/**
-	 * Constructor stores the players and the {@link TurnRotator} to be used when deciding which player is the next one
+	 * Constructor stores the players and the {@link kth.game.othello.player.turndecider.TurnDecider} to be used when deciding which player is the next one
 	 * to make a move.
 	 *
 	 * @param players The list of players to play the game.
-	 * @param turnRotator The {@link TurnRotator} to be used by the handler.
+	 * @param turnDecider The {@link kth.game.othello.player.turndecider.TurnDecider} to be used by the handler.
 	 */
-	public PlayerHandler(List<Player> players, TurnRotator turnRotator) {
+	public PlayerHandler(List<Player> players, TurnDecider turnDecider) {
 		this.players = players;
-		this.turnRotator = turnRotator;
+		this.turnDecider = turnDecider;
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class PlayerHandler {
 	 * @return The {@link Player} that was selected using the given player ID.
 	 */
 	public Player setStartingPlayer(String playerId) {
-		turnRotator.setFirstPlayerInTurn(playerId);
+		turnDecider.setFirstPlayerInTurn(playerId);
 		return getPlayerInTurn();
 	}
 
@@ -60,7 +60,7 @@ public class PlayerHandler {
 	 *         turn. Returns a empty list if no player is currently in turn.
 	 */
 	public List<Player> getAllPlayersInTurnOrder() {
-		List<String> playerIds = turnRotator.getAllPlayersInTurnOrder();
+		List<String> playerIds = turnDecider.getAllPlayersInTurnOrder();
 
 		return getPlayers(playerIds);
 	}
@@ -72,7 +72,7 @@ public class PlayerHandler {
 	 *         turn. Returns a empty list if no player is currently in turn.
 	 */
 	public List<String> getPlayerIdsInTurnOrder() {
-		return turnRotator.getAllPlayersInTurnOrder();
+		return turnDecider.getAllPlayersInTurnOrder();
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class PlayerHandler {
 	 * @return A list of players that were in turn but were skipped since they could not make a move.
 	 */
 	public List<Player> updatePlayerInTurn(Othello othello) {
-		return getPlayers(turnRotator.updatePlayerInTurn(othello));
+		return getPlayers(turnDecider.updatePlayerInTurn(othello));
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class PlayerHandler {
 	 * @return The player in turn. Null if no player is in turn.
 	 */
 	public Player getPlayerInTurn() {
-		return getPlayer(turnRotator.getPlayerInTurn());
+		return getPlayer(turnDecider.getPlayerInTurn());
 	}
 
 	/**

@@ -1,4 +1,4 @@
-package kth.game.othello.player.turnrotator;
+package kth.game.othello.player.turndecider;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import kth.game.othello.Othello;
  *
  * @author Mathias Lindblom
  */
-public interface TurnRotator {
+public interface TurnDecider {
 
 	/**
 	 * Will update the next player in turn that is able to make a move. Will return a list containing the ID´ of the

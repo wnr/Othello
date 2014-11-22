@@ -13,7 +13,7 @@ import kth.game.othello.player.ComputerPlayer;
 import kth.game.othello.player.HumanPlayer;
 import kth.game.othello.player.Player;
 import kth.game.othello.player.PlayerHandler;
-import kth.game.othello.player.turnrotator.DefaultTurnRotator;
+import kth.game.othello.player.turndecider.NaturalRotation;
 
 /**
  * Implementation of the OthelloFactory interface.
@@ -58,7 +58,7 @@ public class OthelloFactoryImpl implements OthelloFactory {
 
 	private PlayerHandler createPlayerHandler(Player... players) {
 		List<Player> playerList = Arrays.asList(players);
-		return new PlayerHandler(playerList, new DefaultTurnRotator(playerList.stream().map(Player::getId)
+		return new PlayerHandler(playerList, new NaturalRotation(playerList.stream().map(Player::getId)
 				.collect(Collectors.toList())));
 	}
 }

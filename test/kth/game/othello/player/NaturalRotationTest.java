@@ -7,8 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import kth.game.othello.Othello;
-import kth.game.othello.player.turnrotator.DefaultTurnRotator;
-import kth.game.othello.player.turnrotator.TurnRotator;
+import kth.game.othello.player.turndecider.NaturalRotation;
+import kth.game.othello.player.turndecider.TurnDecider;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,13 +17,13 @@ import org.mockito.Mockito;
 /**
  * @author Mathias Lindblom
  */
-public class DefaultTurnRotatorTest {
+public class NaturalRotationTest {
 
 	private static final String[] Ids = { "playerId1", "playerId2", "playerId3" };
 
 	@Test
 	public void initiateTest() {
-		TurnRotator tr = new DefaultTurnRotator(Arrays.asList(Ids));
+		TurnDecider tr = new NaturalRotation(Arrays.asList(Ids));
 
 		tr.setFirstPlayerInTurn(Ids[2]);
 		Assert.assertEquals(Ids[2], tr.getPlayerInTurn());
@@ -35,7 +35,7 @@ public class DefaultTurnRotatorTest {
 
 	@Test
 	public void getPlayersIdsInTurnOrderTest() {
-		TurnRotator tr = createDefaultTurnRotator(Ids[1], Ids);
+		TurnDecider tr = createDefaultTurnRotator(Ids[1], Ids);
 		List<String> expectedList = new ArrayList<>();
 		expectedList.add(Ids[1]);
 		expectedList.add(Ids[2]);
@@ -48,7 +48,7 @@ public class DefaultTurnRotatorTest {
 
 	@Test
 	public void updateNextPlayerInTurnTest() {
-		TurnRotator tr = createDefaultTurnRotator(Ids[1], Ids);
+		TurnDecider tr = createDefaultTurnRotator(Ids[1], Ids);
 		Othello othelloMock = Mockito.mock(Othello.class);
 
 		when(othelloMock.isActive()).thenReturn(false);
@@ -85,9 +85,9 @@ public class DefaultTurnRotatorTest {
 	 * @param playerIds
 	 * @return
 	 */
-	private TurnRotator createDefaultTurnRotator(String startingPlayer, String... playerIds) {
-		TurnRotator turnRotator = new DefaultTurnRotator(Arrays.asList(playerIds));
-		turnRotator.setFirstPlayerInTurn(startingPlayer);
-		return turnRotator;
+	private TurnDecider createDefaultTurnRotator(String startingPlayer, String... playerIds) {
+		TurnDecider turnDecider = new NaturalRotation(Arrays.asList(playerIds));
+		turnDecider.setFirstPlayerInTurn(startingPlayer);
+		return turnDecider;
 	}
 }
