@@ -16,7 +16,6 @@ public class NodeImpl extends Observable implements Node, Comparable<NodeImpl> {
 	private String playerId;
 	private int x;
 	private int y;
-	private ArrayList<Observer> observers;
 
 	/**
 	 * Constructs a node instance. The node-id is determined by the values of x and y. A node should be identified
@@ -31,7 +30,6 @@ public class NodeImpl extends Observable implements Node, Comparable<NodeImpl> {
 		this.playerId = playerId;
 		this.x = x;
 		this.y = y;
-		observers = new ArrayList<>();
 	}
 
 	/**
