@@ -54,7 +54,7 @@ public class OthelloBoardHandler {
 		for (int x = 0; x < board.getNumRows(); x++) {
 			for (int y = 0; y < board.getNumCols(); y++) {
 				NodeImpl node = board.getNode(x, y);
-				if (isValidMove(playerId, node)) {
+				if (isMoveValid(playerId, node.getId())) {
 					validNodes.add(node);
 				}
 			}
@@ -91,6 +91,18 @@ public class OthelloBoardHandler {
 	}
 
 	/**
+	 * Determines if the given player can make a move by occupying the specified node.
+	 *
+	 * @param playerId The player who tries to move
+	 * @param nodeId The node to occupy
+	 * @return True if the given move is valid
+	 */
+	public boolean isMoveValid(String playerId, String nodeId) {
+		Node node = board.getNode(nodeId);
+		return !node.isMarked() && !getNodesToSwap(playerId, node.getId()).isEmpty();
+	}
+
+	/**
 	 * Computes the number of swapped nodes if a move is made by given player to given node. This will not perform the
 	 * actual node.
 	 * 
@@ -107,17 +119,6 @@ public class OthelloBoardHandler {
 		}
 
 		return numSwaps;
-	}
-
-	/**
-	 * Determines if the given player can make a move by occupying the specified node.
-	 * 
-	 * @param node The node to occupy
-	 * @param playerId The player who tries to move
-	 * @return True if the given move is valid
-	 */
-	private boolean isValidMove(String playerId, NodeImpl node) {
-		return !node.isMarked() && !getNodesToSwap(playerId, node.getId()).isEmpty();
 	}
 
 	/**

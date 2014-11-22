@@ -70,13 +70,7 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public boolean isMoveValid(String playerId, String nodeId) {
-		List<Node> validMovesList = othelloBoardHandler.getValidMoves(playerId);
-		for (Node n : validMovesList) {
-			if (n.getId().equals(nodeId)) {
-				return true;
-			}
-		}
-		return false;
+		return othelloBoardHandler.isMoveValid(playerId, nodeId);
 	}
 
 	@Override

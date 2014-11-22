@@ -17,32 +17,6 @@ import org.mockito.Mockito;
 
 public class OthelloImplTest {
 
-
-	@Test
-	public void isMoveValidTest() {
-		OthelloBoardHandler obhMock = Mockito.mock(OthelloBoardHandler.class);
-		Node nodeMock1 = Mockito.mock(Node.class);
-		Node nodeMock2 = Mockito.mock(Node.class);
-		OthelloImpl othello = new OthelloImpl(obhMock, null, null);
-
-		String playerId = "playerId";
-		String nodeId = "nodeId";
-		String nodeIdWrong = "otherNodeId";
-
-		List<Node> nodeList = new ArrayList<>();
-
-		when(nodeMock1.getId()).thenReturn(nodeId);
-		when(nodeMock2.getId()).thenReturn(nodeIdWrong);
-		when(obhMock.getValidMoves(playerId)).thenReturn(nodeList);
-		Assert.assertFalse(othello.isMoveValid(playerId, nodeId));
-
-		nodeList.add(nodeMock2);
-		Assert.assertFalse(othello.isMoveValid(playerId, nodeId));
-
-		nodeList.add(nodeMock1);
-		Assert.assertTrue(othello.isMoveValid(playerId, nodeId));
-	}
-
 	@Test
 	public void moveTest() throws NoSuchFieldException, IllegalAccessException {
 		OthelloBoardHandler obhMock = Mockito.mock(OthelloBoardHandler.class);
