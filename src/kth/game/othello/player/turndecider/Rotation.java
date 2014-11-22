@@ -1,18 +1,17 @@
 package kth.game.othello.player.turndecider;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import kth.game.othello.Othello;
 
 /**
- * This {@link TurnDecider} will simply loop the player turns according to the order in the player list given in the
- * constructor.
+ * This {@link TurnDecider} will simply loop (rotate) the player turns according to the order in the player list given
+ * in the constructor.
  * 
  * @author Mathias Lindblom
  */
-public class NaturalRotation implements TurnDecider {
+public class Rotation implements TurnDecider {
 	private static final int NO_PLAYER_IN_TURN = -1;
 
 	List<String> players;
@@ -23,7 +22,7 @@ public class NaturalRotation implements TurnDecider {
 	 * 
 	 * @param players The players that will play the game.
 	 */
-	public NaturalRotation(List<String> players) {
+	public Rotation(List<String> players) {
 		playerInTurnIndex = NO_PLAYER_IN_TURN;
 		this.players = players;
 	}
@@ -57,16 +56,6 @@ public class NaturalRotation implements TurnDecider {
 	@Override
 	public void setFirstPlayerInTurn(String startingPlayerId) {
 		playerInTurnIndex = players.indexOf(startingPlayerId);
-	}
-
-	@Override
-	public List<String> getAllPlayersInTurnOrder() {
-		if (noPlayerIsInTurn()) {
-			return new ArrayList<>();
-		}
-		List<String> playersInTurn = new ArrayList<>(players);
-		Collections.rotate(playersInTurn, players.size() - playerInTurnIndex);
-		return playersInTurn;
 	}
 
 	@Override

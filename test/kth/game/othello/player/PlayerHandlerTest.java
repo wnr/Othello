@@ -29,7 +29,7 @@ public class PlayerHandlerTest {
 	}
 
 	@Test
-	public void getPlayerFromIdTest() {
+	public void getPlayerTest() {
 		PlayerHandler ph = createPlayerHandler(null, Ids);
 		Assert.assertEquals(Ids[1], ph.getPlayer(Ids[1]).getId());
 		Player returnedPlayer = ph.getPlayer("This is not an ID");
@@ -37,13 +37,12 @@ public class PlayerHandlerTest {
 	}
 
 	@Test
-	public void getAllPlayersInTurnOrderTest() {
-		TurnDecider trMock = Mockito.mock(TurnDecider.class);
-		PlayerHandler ph = createPlayerHandler(trMock, Ids);
-		when(trMock.getAllPlayersInTurnOrder()).thenReturn(Arrays.asList(Ids));
-		List<Player> returnList = ph.getAllPlayersInTurnOrder();
-
-		Assert.assertEquals(ph.getPlayers(), returnList);
+	public void getPlayersTest() {
+		PlayerHandler ph = createPlayerHandler(null, Ids);
+		List<Player> players = ph.getPlayers();
+		List<String> playerIds = Arrays.asList(Ids);
+		Assert.assertEquals(playerIds, ph.getPlayerIds(players));
+		Assert.assertEquals(players, ph.getPlayers(playerIds));
 	}
 
 	private PlayerHandler createPlayerHandler(TurnDecider turnDecider, String... IDs) {
@@ -53,6 +52,6 @@ public class PlayerHandlerTest {
 			when(playerMock.getId()).thenReturn(IDs[i]);
 			players.add(playerMock);
 		}
-		return new PlayerHandler(players, turnDecider);
+		return new PlayerHandler(players, turnDecider, null);
 	}
 }

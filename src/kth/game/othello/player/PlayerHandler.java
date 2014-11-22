@@ -7,146 +7,136 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import kth.game.othello.Othello;
+import kth.game.othello.player.startpositiondecider.StartPositionDecider;
 import kth.game.othello.player.turndecider.TurnDecider;
 
 /**
  * A handler with the overall responsibility regarding the players in the game.
- * 
+ *
  * @author Mathias Lindblom
  */
 public class PlayerHandler {
-	private final List<Player> players;
-	private final TurnDecider  turnDecider;
+    private final List<Player>         players;
+    private final TurnDecider          turnDecider;
+    private final StartPositionDecider startPositionDecider;
 
-	/**
-	 * Constructor stores the players and the {@link kth.game.othello.player.turndecider.TurnDecider} to be used when deciding which player is the next one
-	 * to make a move.
-	 *
-	 * @param players The list of players to play the game.
-	 * @param turnDecider The {@link kth.game.othello.player.turndecider.TurnDecider} to be used by the handler.
-	 */
-	public PlayerHandler(List<Player> players, TurnDecider turnDecider) {
-		this.players = players;
-		this.turnDecider = turnDecider;
-	}
+    /**
+     * Constructor stores the players and the {@link kth.game.othello.player.turndecider.TurnDecider} to be used when deciding which player is the next one
+     * to make a move.
+     *
+     * @param players     The list of players to play the game.
+     * @param turnDecider The {@link kth.game.othello.player.turndecider.TurnDecider} to be used by the handler.
+     */
+    public PlayerHandler(List<Player> players, TurnDecider turnDecider, StartPositionDecider startPositionDecider) {
+        this.players = players;
+        this.turnDecider = turnDecider;
+        this.startPositionDecider = startPositionDecider;
+    }
 
-	/**
-	 * Sets the starting player according to the given player ID.
-	 * 
-	 * @param playerId The player ID that corresponds to the starting player.
-	 *
-	 * @return The {@link Player} that was selected using the given player ID.
-	 */
-	public Player setStartingPlayer(String playerId) {
-		turnDecider.setFirstPlayerInTurn(playerId);
-		return getPlayerInTurn();
-	}
+    /**
+     * Sets the starting player according to the given player ID.
+     *
+     * @param playerId The player ID that corresponds to the starting player.
+     * @return The {@link Player} that was selected using the given player ID.
+     */
+    public Player setStartingPlayer(String playerId) {
+        turnDecider.setFirstPlayerInTurn(playerId);
+        return getPlayerInTurn();
+    }
 
-	/**
-	 * 
-	 * @return A copy of the list of players.
-	 */
-	public List<Player> getPlayers() {
-		return new ArrayList<>(players);
-	}
+    /**
+     * @return A copy of the list of players.
+     */
+    public List<Player> getPlayers() {
+        return new ArrayList<>(players);
+    }
 
-	/**
-	 * Will return an ordered list of the players starting from the next player in turn and ending with the last player
-	 * that will have a turn. Each player will be represented exactly once in the list unless no player is currently the
-	 * next player in turn. Does not take in consideration if a player can not move or if a player has several moves
-	 * before another player has a turn.
-	 *
-	 * @return A list of players, in order starting from the next player in turn and ending with the last player in
-	 *         turn. Returns a empty list if no player is currently in turn.
-	 */
-	public List<Player> getAllPlayersInTurnOrder() {
-		List<String> playerIds = turnDecider.getAllPlayersInTurnOrder();
+    /**
+     * @return A list of all playerIds
+     */
+    public List<String> getPlayerIds() {
+        return getPlayerIds(players);
+    }
 
-		return getPlayers(playerIds);
-	}
+    /**
+     * Returns the player corresponding the given player ID.
+     *
+     * @param playerId The ID of the player.
+     * @return The {@link Player} matching the player ID.
+     */
+    public Player getPlayer(String playerId) {
+        Optional<Player> oPlayer = getPlayers().stream().filter(t -> playerId != null && t.getId().equals(playerId))
+                                               .findAny();
+        if (oPlayer.isPresent()) {
+            return oPlayer.get();
+        }
+        return null;
+    }
 
-	/**
-	 * The same as {@link PlayerHandler#getAllPlayersInTurnOrder} but returns ID´s instead of the actual players.
-	 *
-	 * @return A list of player ID´s, in order starting from the next player in turn and ending with the last player in
-	 *         turn. Returns a empty list if no player is currently in turn.
-	 */
-	public List<String> getPlayerIdsInTurnOrder() {
-		return turnDecider.getAllPlayersInTurnOrder();
-	}
+    /**
+     * Will update the next player in turn that is able to make a move. Will return a list containing the ID´ of the
+     * players that had their turn skipped in order from the the first skipped turn to the last. A turn is skipped when
+     * the player in turn is not able to make a move. If no player is skipped or if no player can make a move. The
+     * returned list will be empty.
+     *
+     * @param othello The othello game to check for valid moves TODO: Will become a OthelloBoardInspector
+     * @return A list of players that were in turn but were skipped since they could not make a move.
+     */
+    public List<Player> updatePlayerInTurn(Othello othello) {
+        return getPlayers(turnDecider.updatePlayerInTurn(othello));
+    }
 
-	/**
-	 * 
-	 * @return A list of all playerIds
-	 */
-	public List<String> getPlayerIds() {
-		return getPlayerIds(players);
-	}
+    /**
+     * @return The player in turn. Null if no player is in turn.
+     */
+    public Player getPlayerInTurn() {
+        return getPlayer(turnDecider.getPlayerInTurn());
+    }
 
-	/**
-	 * Returns the player corresponding the given player ID.
-	 * 
-	 * @param playerId The ID of the player.
-	 * @return The {@link Player} matching the player ID.
-	 */
-	public Player getPlayer(String playerId) {
-		// if (playerId == null) {
-		// return null;
-		// }
-		Optional<Player> oPlayer = getPlayers().stream().filter(t -> playerId != null && t.getId().equals(playerId))
-				.findAny();
-		if (oPlayer.isPresent()) {
-			return oPlayer.get();
-		}
-		return null;
-	}
+    /**
+     * @return The number of players.
+     */
+    public int getNumPlayers() {
+        return getPlayers().size();
+    }
 
-	/**
-	 * Will update the next player in turn that is able to make a move. Will return a list containing the ID´ of the
-	 * players that had their turn skipped in order from the the first skipped turn to the last. A turn is skipped when
-	 * the player in turn is not able to make a move. If no player is skipped or if no player can make a move. The
-	 * returned list will be empty.
-	 *
-	 * @param othello The othello game to check for valid moves TODO: Will become a OthelloBoardInspector
-	 * @return A list of players that were in turn but were skipped since they could not make a move.
-	 */
-	public List<Player> updatePlayerInTurn(Othello othello) {
-		return getPlayers(turnDecider.updatePlayerInTurn(othello));
-	}
+    /**
+     * @return A random player.
+     */
+    public Player getRandomPlayer() {
+        return players.get(new Random().nextInt(players.size()));
+    }
 
-	/**
-	 * 
-	 * @return The player in turn. Null if no player is in turn.
-	 */
-	public Player getPlayerInTurn() {
-		return getPlayer(turnDecider.getPlayerInTurn());
-	}
+    /**
+     * Converts a list of type {@link Player} to a list of player ID´s.
+     *
+     * @param players The list of players to convert to ID´s.
+     * @return A list of player ID's.
+     */
+    public List<String> getPlayerIds(List<Player> players) {
+        return players.stream().map(Player::getId).collect(Collectors.toList());
+    }
 
-	/**
-	 * 
-	 * @return The number of players.
-	 */
-	public int getNumPlayers() {
-		return getPlayers().size();
-	}
+    /**
+     * Converts a list of player ID´s to a list of type {@link Player}.
+     *
+     * @param playerIds The list of player ID´s to convert.
+     * @return The players that corresponded to the given ID´s.
+     */
+    public List<Player> getPlayers(List<String> playerIds) {
+        List<Player> playersInTurn = new ArrayList<>();
+        for (int i = 0; i < playerIds.size(); i++) {
+            playersInTurn.add(getPlayer(playerIds.get(i)));
+        }
+        return playersInTurn;
+    }
 
-	/**
-	 *
-	 * @return A random player.
-	 */
-	public Player getRandomPlayer() {
-		return players.get(new Random().nextInt(players.size()));
-	}
-
-	private List<String> getPlayerIds(List<Player> players) {
-		return players.stream().map(Player::getId).collect(Collectors.toList());
-	}
-
-	private List<Player> getPlayers(List<String> playerIds) {
-		List<Player> playersInTurn = new ArrayList<>();
-		for (int i = 0; i < playerIds.size(); i++) {
-			playersInTurn.add(getPlayer(playerIds.get(i)));
-		}
-		return playersInTurn;
-	}
+    /**
+     * Retrieves the starting positions of the players.
+     *
+     * @return The initial starting positions for the players on the board.
+     */
+    public List<Player> getStartingPositions() {
+        return getPlayers(startPositionDecider.getStartingPositions());
+    }
 }
