@@ -14,8 +14,7 @@ public interface TurnRotator {
 	/**
 	 * Will update the next player in turn that is able to make a move. Will return a list containing the ID´ of the
 	 * players that had their turn skipped in order from the the first skipped turn to the last. A turn is skipped when
-	 * the player in turn is not able to make a move. If no player is skipped or if no player can make a move, the
-	 * returned list will be empty.
+	 * the player in turn is not able to make a move. If no player is skipped, the returned list will be empty.
 	 * 
 	 * @param othello The othello game to check for valid moves TODO: Will become a OthelloBoardInspector
 	 * @return A list of ID´s of the players that were in turn but were skipped since they could not make a move.
