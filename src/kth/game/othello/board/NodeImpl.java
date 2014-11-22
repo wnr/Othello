@@ -134,14 +134,12 @@ public class NodeImpl extends Observable implements Node, Comparable<NodeImpl> {
 	 * @return True if both id's are equal or both are null.
 	 */
 	private boolean isOccupiedPlayerEqual(String playerId1, String playerId2) {
-		if (playerId1 == null) {
-			playerId1 = "";
+		if (playerId1 == null && playerId2 == null) {
+			return true;
+		} else if(playerId1 != null && playerId2 != null) {
+			return playerId1.equals(playerId2);
 		}
 
-		if (playerId2 == null) {
-			playerId2 = "";
-		}
-
-		return playerId1.equals(playerId2);
+		return false;
 	}
 }
