@@ -62,7 +62,7 @@ public class PlayerHandler {
 	public List<Player> getAllPlayersInTurnOrder() {
 		List<String> playerIds = turnRotator.getAllPlayersInTurnOrder();
 
-		return getPlayersFromIds(playerIds);
+		return getPlayers(playerIds);
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class PlayerHandler {
 	 * @return A list of all playerIds
 	 */
 	public List<String> getPlayerIds() {
-		return getPlayerIdsFromPlayers(players);
+		return getPlayerIds(players);
 	}
 
 	/**
@@ -88,14 +88,17 @@ public class PlayerHandler {
 	 * 
 	 * @param playerId The ID of the player.
 	 * @return The {@link Player} matching the player ID.
-	 * @throws java.lang.IllegalArgumentException If playerId does not match a player in the list of players.
 	 */
-	public Player getPlayerFromId(String playerId) {
-		Player player = getPlayerFromIdPrivate(playerId);
-		if (player == null) {
-			throw new IllegalArgumentException("Unknown Player ID: " + playerId);
+	public Player getPlayer(String playerId) {
+		// if (playerId == null) {
+		// return null;
+		// }
+		Optional<Player> oPlayer = getPlayers().stream().filter(t -> playerId != null && t.getId().equals(playerId))
+				.findAny();
+		if (oPlayer.isPresent()) {
+			return oPlayer.get();
 		}
-		return player;
+		return null;
 	}
 
 	/**
@@ -108,7 +111,7 @@ public class PlayerHandler {
 	 * @return A list of players that were in turn but were skipped since they could not make a move.
 	 */
 	public List<Player> updatePlayerInTurn(Othello othello) {
-		return getPlayersFromIds(turnRotator.updatePlayerInTurn(othello));
+		return getPlayers(turnRotator.updatePlayerInTurn(othello));
 	}
 
 	/**
@@ -116,7 +119,7 @@ public class PlayerHandler {
 	 * @return The player in turn. Null if no player is in turn.
 	 */
 	public Player getPlayerInTurn() {
-		return getPlayerFromIdPrivate(turnRotator.getPlayerInTurn());
+		return getPlayer(turnRotator.getPlayerInTurn());
 	}
 
 	/**
@@ -135,33 +138,15 @@ public class PlayerHandler {
 		return players.get(new Random().nextInt(players.size()));
 	}
 
-	private List<String> getPlayerIdsFromPlayers(List<Player> players) {
+	private List<String> getPlayerIds(List<Player> players) {
 		return players.stream().map(Player::getId).collect(Collectors.toList());
 	}
 
-	private List<Player> getPlayersFromIds(List<String> playerIds) {
+	private List<Player> getPlayers(List<String> playerIds) {
 		List<Player> playersInTurn = new ArrayList<>();
 		for (int i = 0; i < playerIds.size(); i++) {
-			playersInTurn.add(getPlayerFromId(playerIds.get(i)));
+			playersInTurn.add(getPlayer(playerIds.get(i)));
 		}
 		return playersInTurn;
-	}
-
-	/**
-	 * Like {@link PlayerHandler#getPlayerFromId} but returns null instead of throwing an exception if the ID does not
-	 * match a player.
-	 * 
-	 * @param playerId The id to convert to a {@link Player}.
-	 * @return The player matching the ID. Null if no match was found.
-	 */
-	private Player getPlayerFromIdPrivate(String playerId) {
-		if (playerId == null) {
-			return null;
-		}
-		Optional<Player> oPlayer = getPlayers().stream().filter(t -> t.getId().equals(playerId)).findAny();
-		if (oPlayer.isPresent()) {
-			return oPlayer.get();
-		}
-		return null;
 	}
 }

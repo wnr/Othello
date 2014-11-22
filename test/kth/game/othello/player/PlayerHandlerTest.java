@@ -31,13 +31,9 @@ public class PlayerHandlerTest {
 	@Test
 	public void getPlayerFromIdTest() {
 		PlayerHandler ph = createPlayerHandler(null, Ids);
-		Assert.assertEquals(Ids[1], ph.getPlayerFromId(Ids[1]).getId());
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void getPlayerFromIdTest2() {
-		PlayerHandler ph = createPlayerHandler(null, Ids);
-		ph.getPlayerFromId("This is not a ID");
+		Assert.assertEquals(Ids[1], ph.getPlayer(Ids[1]).getId());
+		Player returnedPlayer = ph.getPlayer("This is not an ID");
+		Assert.assertEquals(null, returnedPlayer);
 	}
 
 	@Test
