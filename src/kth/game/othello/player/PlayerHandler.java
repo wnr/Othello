@@ -3,7 +3,6 @@ package kth.game.othello.player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 import kth.game.othello.Othello;
@@ -28,16 +27,6 @@ public class PlayerHandler {
 	public PlayerHandler(List<Player> players, TurnRotator turnRotator) {
 		this.players = players;
 		this.turnRotator = turnRotator;
-	}
-
-	/**
-	 * Randomly sets a player as the starting player.
-	 * 
-	 * @return The player that was selected.
-	 */
-	public Player initiateStartingPlayer() {
-		initiateStartingPlayer(players.get(new Random().nextInt(players.size())).getId());
-		return getPlayerInTurn();
 	}
 
 	/**

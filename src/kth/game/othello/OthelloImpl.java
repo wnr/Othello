@@ -1,6 +1,7 @@
 package kth.game.othello;
 
 import java.util.List;
+import java.util.Random;
 
 import kth.game.othello.board.Board;
 import kth.game.othello.board.Node;
@@ -107,7 +108,8 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public void start() {
-		start(playerHandler.initiateStartingPlayer().getId());
+		List<String> playerIds = playerHandler.getPlayerIds();
+		start(playerIds.get(new Random().nextInt(playerIds.size())));
 	}
 
 	@Override
