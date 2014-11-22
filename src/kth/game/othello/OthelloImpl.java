@@ -102,8 +102,7 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public void start() {
-		List<String> playerIds = playerHandler.getPlayerIds();
-		start(playerIds.get(new Random().nextInt(playerIds.size())));
+		start(playerHandler.getRandomPlayer().getId());
 	}
 
 	@Override
