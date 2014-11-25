@@ -17,14 +17,14 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class LowestTest {
+public class GreedyStrategyTest {
 	@Test
 	public void moveMultipleEquallyGoodTest() {
 		// Test initial game board (4 equally good moves)
 		{
 			List<Node> validMoves = new LinkedList<>();
 			validMoves.add(new NodeImpl(2, 3));
-			validMoves.add(new NodeImpl(2, 3));
+			validMoves.add(new NodeImpl(3, 2));
 			validMoves.add(new NodeImpl(4, 5));
 			validMoves.add(new NodeImpl(5, 4));
 
@@ -36,9 +36,9 @@ public class LowestTest {
 			when(mockedBoardHandler.getValidMoves(anyString())).thenReturn(validMoves);
 
 			Othello mockedOthello = getMockedOthello();
-			MoveStrategy lowestStrategy = getMockedStrategy(mockedBoardHandler);
+			GreedyStrategy greedyStrategy = getMockedStrategy(mockedBoardHandler);
 
-			Node move = lowestStrategy.move("player1", mockedOthello);
+			Node move = greedyStrategy.move("player1", mockedOthello);
 
 			boolean found = false;
 			for (Node n : validMoves) {
@@ -62,17 +62,17 @@ public class LowestTest {
 
 		OthelloBoardHandler mockedBoardHandler = mock(OthelloBoardHandler.class);
 		when(mockedBoardHandler.getNumSwaps(anyString(), eq("1:3"))).thenReturn(2);
-		when(mockedBoardHandler.getNumSwaps(anyString(), eq("2:3"))).thenReturn(2);
-		when(mockedBoardHandler.getNumSwaps(anyString(), eq("4:5"))).thenReturn(2);
+		when(mockedBoardHandler.getNumSwaps(anyString(), eq("3:2"))).thenReturn(1);
+		when(mockedBoardHandler.getNumSwaps(anyString(), eq("4:5"))).thenReturn(1);
 		when(mockedBoardHandler.getNumSwaps(anyString(), eq("5:4"))).thenReturn(1);
 		when(mockedBoardHandler.getValidMoves(anyString())).thenReturn(validMoves);
 
 		Othello mockedOthello = getMockedOthello();
-		MoveStrategy lowestStrategy = getMockedStrategy(mockedBoardHandler);
+		GreedyStrategy greedyStrategy = getMockedStrategy(mockedBoardHandler);
 
-		Node move = lowestStrategy.move("player1", mockedOthello);
+		Node move = greedyStrategy.move("player1", mockedOthello);
 
-		Assert.assertEquals("5:4", move.getId());
+		Assert.assertEquals("1:3", move.getId());
 	}
 
 	@Test
@@ -81,9 +81,9 @@ public class LowestTest {
 		when(mockedBoardHandler.getValidMoves(anyString())).thenReturn(new LinkedList<>());
 
 		Othello mockedOthello = getMockedOthello();
-		MoveStrategy lowestStrategy = getMockedStrategy(mockedBoardHandler);
+		GreedyStrategy greedyStrategy = getMockedStrategy(mockedBoardHandler);
 
-		Node move = lowestStrategy.move("player1", mockedOthello);
+		Node move = greedyStrategy.move("player1", mockedOthello);
 		Assert.assertEquals(null, move);
 	}
 
@@ -93,10 +93,10 @@ public class LowestTest {
 		return mockedOthello;
 	}
 
-	private MoveStrategy getMockedStrategy(OthelloBoardHandler boardHandler) {
+	private GreedyStrategy getMockedStrategy(OthelloBoardHandler boardHandler) {
 		OthelloBoardHandlerFactory mockedFactory = mock(OthelloBoardHandlerFactory.class);
 		when(mockedFactory.createOthelloBoardHandler(anyObject())).thenReturn(boardHandler);
 
-		return new Lowest(mockedFactory);
+		return new GreedyStrategy(mockedFactory);
 	}
 }

@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author Lucas Wiener
  */
-public class Greedy implements MoveStrategy {
+public class GreedyStrategy implements MoveStrategy {
 	OthelloBoardHandlerFactory boardHandlerFactory;
 
 	/**
@@ -19,7 +19,7 @@ public class Greedy implements MoveStrategy {
 	 *
 	 * @param boardHandlerFactory The factory to create othello board handlers.
 	 */
-	public Greedy(OthelloBoardHandlerFactory boardHandlerFactory) {
+	public GreedyStrategy(OthelloBoardHandlerFactory boardHandlerFactory) {
 		this.boardHandlerFactory = boardHandlerFactory;
 	}
 

@@ -17,7 +17,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class RandomTest {
+public class LowestStrategyTest {
 	@Test
 	public void moveMultipleEquallyGoodTest() {
 		// Test initial game board (4 equally good moves)
@@ -53,6 +53,29 @@ public class RandomTest {
 	}
 
 	@Test
+	public void moveOneBestTest() {
+		List<Node> validMoves = new LinkedList<>();
+		validMoves.add(new NodeImpl(1, 3));
+		validMoves.add(new NodeImpl(2, 3));
+		validMoves.add(new NodeImpl(4, 5));
+		validMoves.add(new NodeImpl(5, 4));
+
+		OthelloBoardHandler mockedBoardHandler = mock(OthelloBoardHandler.class);
+		when(mockedBoardHandler.getNumSwaps(anyString(), eq("1:3"))).thenReturn(2);
+		when(mockedBoardHandler.getNumSwaps(anyString(), eq("2:3"))).thenReturn(2);
+		when(mockedBoardHandler.getNumSwaps(anyString(), eq("4:5"))).thenReturn(2);
+		when(mockedBoardHandler.getNumSwaps(anyString(), eq("5:4"))).thenReturn(1);
+		when(mockedBoardHandler.getValidMoves(anyString())).thenReturn(validMoves);
+
+		Othello mockedOthello = getMockedOthello();
+		MoveStrategy lowestStrategy = getMockedStrategy(mockedBoardHandler);
+
+		Node move = lowestStrategy.move("player1", mockedOthello);
+
+		Assert.assertEquals("5:4", move.getId());
+	}
+
+	@Test
 	public void moveNotPossibleTest() {
 		OthelloBoardHandler mockedBoardHandler = mock(OthelloBoardHandler.class);
 		when(mockedBoardHandler.getValidMoves(anyString())).thenReturn(new LinkedList<>());
@@ -74,6 +97,6 @@ public class RandomTest {
 		OthelloBoardHandlerFactory mockedFactory = mock(OthelloBoardHandlerFactory.class);
 		when(mockedFactory.createOthelloBoardHandler(anyObject())).thenReturn(boardHandler);
 
-		return new Lowest(mockedFactory);
+		return new LowestStrategy(mockedFactory);
 	}
 }

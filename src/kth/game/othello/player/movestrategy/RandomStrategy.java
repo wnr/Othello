@@ -9,26 +9,26 @@ import kth.game.othello.board.OthelloBoardHandlerFactory;
 import java.util.List;
 
 /**
- * A really bad move strategy that will make the move that result in the least node swaps. If there are multiple
- * candidates one Node will just be picked.
+ * A really move strategy that will make the move by random. It will simply choose a random node among the possible
+ * nodes to move to.
  *
  * @author Lucas Wiener
  */
-public class Lowest implements MoveStrategy {
+public class RandomStrategy implements MoveStrategy {
 	OthelloBoardHandlerFactory boardHandlerFactory;
 
 	/**
-	 * Creates the lowest move strategy instance.
+	 * Creates the random move strategy instance.
 	 *
 	 * @param boardHandlerFactory The factory to create othello board handlers.
 	 */
-	public Lowest(OthelloBoardHandlerFactory boardHandlerFactory) {
+	public RandomStrategy(OthelloBoardHandlerFactory boardHandlerFactory) {
 		this.boardHandlerFactory = boardHandlerFactory;
 	}
 
 	@Override
 	public String getName() {
-		return "Lowest";
+		return "Random";
 	}
 
 	@Override
@@ -36,21 +36,7 @@ public class Lowest implements MoveStrategy {
 		// TODO: Make a copy of the Board before creating a board handler with it.
 		BoardImpl board = (BoardImpl) othello.getBoard();
 		OthelloBoardHandler boardHandler = boardHandlerFactory.createOthelloBoardHandler(board);
-
 		List<Node> validMoves = boardHandler.getValidMoves(playerId);
-
-		Node lowestNode = null;
-		int lowestSwaps = Integer.MAX_VALUE;
-
-		for (Node n : validMoves) {
-			String nodeId = n.getId();
-			int numSwaps = boardHandler.getNumSwaps(playerId, nodeId);
-			if (numSwaps < lowestSwaps) {
-				lowestSwaps = numSwaps;
-				lowestNode = n;
-			}
-		}
-
-		return lowestNode;
+		return validMoves.get(new java.util.Random().nextInt(validMoves.size()));
 	}
 }
