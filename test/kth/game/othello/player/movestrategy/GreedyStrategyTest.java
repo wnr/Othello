@@ -24,7 +24,7 @@ public class GreedyStrategyTest {
 		{
 			List<Node> validMoves = new LinkedList<>();
 			validMoves.add(new NodeImpl(2, 3));
-			validMoves.add(new NodeImpl(2, 3));
+			validMoves.add(new NodeImpl(3, 2));
 			validMoves.add(new NodeImpl(4, 5));
 			validMoves.add(new NodeImpl(5, 4));
 
