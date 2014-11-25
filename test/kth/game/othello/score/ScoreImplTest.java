@@ -13,25 +13,11 @@ import java.util.Observer;
 
 public class ScoreImplTest {
 	@Test
-	public void constructorAddSelfAsObserverTest() {
-		Node node1 = mock(Node.class);
-		Node node2 = mock(Node.class);
-		List<Node> nodes = new ArrayList<>();
-		nodes.add(node1);
-		nodes.add(node2);
-
-		ScoreImpl score = new ScoreImpl(new ArrayList<>(), nodes);
-
-		verify(node1, times(1)).addObserver(score);
-		verify(node2, times(1)).addObserver(score);
-	}
-
-	@Test
 	public void getPlayersScoreTest() {
 		List<ScoreItem> scores = new ArrayList<>();
 		scores.add(new ScoreItem("player1", 0));
 		scores.add(new ScoreItem("player2", 0));
-		ScoreImpl score = new ScoreImpl(scores, new ArrayList<>());
+		ScoreImpl score = new ScoreImpl(scores);
 
 		Assert.assertArrayEquals(scores.toArray(), score.getPlayersScore().toArray());
 	}
@@ -44,7 +30,7 @@ public class ScoreImplTest {
 		List<ScoreItem> scores = new ArrayList<>();
 		scores.add(score1);
 		scores.add(score2);
-		ScoreImpl score = new ScoreImpl(scores, new ArrayList<>());
+		ScoreImpl score = new ScoreImpl(scores);
 
 		Assert.assertEquals(score1.getScore(), score.getPoints("player1"));
 		Assert.assertEquals(score2.getScore(), score.getPoints("player2"));
@@ -65,7 +51,7 @@ public class ScoreImplTest {
 		NodeImpl node1 = mock(NodeImpl.class);
 		when(node1.getOccupantPlayerId()).thenReturn(score1.getPlayerId());
 
-		ScoreImpl score = new ScoreImpl(scores, new ArrayList<>());
+		ScoreImpl score = new ScoreImpl(scores);
 		score.addObserver(observer1);
 		score.addObserver(observer2);
 
