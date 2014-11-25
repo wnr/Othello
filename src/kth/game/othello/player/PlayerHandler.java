@@ -7,7 +7,6 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import kth.game.othello.Othello;
-import kth.game.othello.player.startpositiondecider.StartPositionDecider;
 import kth.game.othello.player.turndecider.TurnDecider;
 
 /**
@@ -18,7 +17,6 @@ import kth.game.othello.player.turndecider.TurnDecider;
 public class PlayerHandler {
 	private final List<Player> players;
 	private final TurnDecider turnDecider;
-	private final StartPositionDecider startPositionDecider;
 
 	/**
 	 * Constructor stores the players and the {@link kth.game.othello.player.turndecider.TurnDecider} to be used when
@@ -27,10 +25,9 @@ public class PlayerHandler {
 	 * @param players The list of players to play the game.
 	 * @param turnDecider The {@link kth.game.othello.player.turndecider.TurnDecider} to be used by the handler.
 	 */
-	public PlayerHandler(List<Player> players, TurnDecider turnDecider, StartPositionDecider startPositionDecider) {
+	public PlayerHandler(List<Player> players, TurnDecider turnDecider) {
 		this.players = players;
 		this.turnDecider = turnDecider;
-		this.startPositionDecider = startPositionDecider;
 	}
 
 	/**
@@ -129,14 +126,5 @@ public class PlayerHandler {
 			playersInTurn.add(getPlayer(playerIds.get(i)));
 		}
 		return playersInTurn;
-	}
-
-	/**
-	 * Retrieves the starting positions of the players.
-	 *
-	 * @return The initial starting positions for the players on the board.
-	 */
-	public List<Player> getStartingPositions() {
-		return getPlayers(startPositionDecider.getStartingPositions());
 	}
 }

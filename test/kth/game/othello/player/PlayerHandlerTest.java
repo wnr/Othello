@@ -52,6 +52,6 @@ public class PlayerHandlerTest {
 			when(playerMock.getId()).thenReturn(IDs[i]);
 			players.add(playerMock);
 		}
-		return new PlayerHandler(players, turnDecider, null);
+		return new PlayerHandler(players, turnDecider);
 	}
 }

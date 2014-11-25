@@ -13,8 +13,6 @@ import kth.game.othello.player.ComputerPlayer;
 import kth.game.othello.player.HumanPlayer;
 import kth.game.othello.player.Player;
 import kth.game.othello.player.PlayerHandler;
-import kth.game.othello.player.startpositiondecider.Standard;
-import kth.game.othello.player.startpositiondecider.StartPositionDecider;
 import kth.game.othello.player.turndecider.Rotation;
 import kth.game.othello.player.turndecider.TurnDecider;
 
@@ -65,7 +63,6 @@ public class OthelloFactoryImpl implements OthelloFactory {
 		List<Player> playerList = Arrays.asList(players);
 		List<String> playerIdList = playerList.stream().map(Player::getId).collect(Collectors.toList());
 		TurnDecider turnDecider = new Rotation(playerIdList);
-		StartPositionDecider startPositionDecider = new Standard(playerIdList);
-		return new PlayerHandler(playerList, turnDecider, startPositionDecider);
+		return new PlayerHandler(playerList, turnDecider);
 	}
 }
