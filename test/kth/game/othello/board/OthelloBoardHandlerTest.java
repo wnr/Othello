@@ -4,6 +4,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Assert;
@@ -162,6 +163,14 @@ public class OthelloBoardHandlerTest {
 		}
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void invalidGetNumSwapsTest() {
+		String player1 = "player1";
+		String player2 = "player2";
+		OthelloBoardHandler boardHandler = getInitialGameBoardHandler(player1, player2);
+		boardHandler.getNumSwaps(player1, "2:2");
+	}
+
 	@Test
 	public void moveTest() {
 		String player1 = "player1";
@@ -189,5 +198,23 @@ public class OthelloBoardHandlerTest {
 		String player2 = "player2";
 		OthelloBoardHandler boardHandler = getInitialGameBoardHandler(player1, player2);
 		boardHandler.move(player1, NodeIdUtil.createNodeId(2, 2));
+	}
+
+	@Test
+	public void hasAValidMoveTest() {
+		String player1 = "player1";
+		String player2 = "player2";
+		OthelloBoardHandler boardHandler = getSpecialEndGameBoardHandler(player1, player2);
+
+		Assert.assertFalse(boardHandler.hasAValidMove(player1));
+		Assert.assertFalse(boardHandler.hasAnyAValidMove(Arrays.asList(player1, player2)));
+
+		boardHandler = getInitialGameBoardHandler(player1, player2);
+
+		Assert.assertTrue(boardHandler.hasAValidMove(player1));
+		Assert.assertTrue(boardHandler.hasAnyAValidMove(Arrays.asList(player1, player2)));
+
+		Assert.assertTrue(boardHandler.hasAnyAValidMove(Arrays.asList("notPlayer1Id", player2)));
+
 	}
 }

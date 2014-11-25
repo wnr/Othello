@@ -2,6 +2,7 @@ package kth.game.othello.board;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A handler implementing common actions on an othello board. The board handler is responsible of mutating the board.
@@ -37,15 +38,8 @@ public class OthelloBoardHandler {
 	 * @return All valid nodes the player move to
 	 */
 	public List<Node> getValidMoves(String playerId) {
-		List<Node> validNodes = new LinkedList<>();
-
-		for (Node node : board.getNodes()) {
-			if (isValidMove(playerId, node)) {
-				validNodes.add(node);
-			}
-		}
-
-		return validNodes;
+		return board.getNodes().stream().filter(node -> isMoveValid(playerId, node.getId()))
+				.collect(Collectors.toCollection(LinkedList::new));
 	}
 
 	/**
@@ -75,6 +69,18 @@ public class OthelloBoardHandler {
 	}
 
 	/**
+	 * Determines if the given player can make a move by occupying the specified node.
+	 *
+	 * @param playerId The player who tries to move
+	 * @param nodeId The node to occupy
+	 * @return True if the given move is valid
+	 */
+	public boolean isMoveValid(String playerId, String nodeId) {
+		Node node = board.getNode(nodeId);
+		return !node.isMarked() && !getNodesToSwap(playerId, node.getId()).isEmpty();
+	}
+
+	/**
 	 * Computes the number of swapped nodes if a move is made by given player to given node. This will not perform the
 	 * actual node.
 	 * 
@@ -94,14 +100,28 @@ public class OthelloBoardHandler {
 	}
 
 	/**
-	 * Determines if the given player can make a move by occupying the specified node.
-	 * 
-	 * @param node The node to occupy
-	 * @param playerId The player who tries to move
-	 * @return True if the given move is valid
+	 * Check to see if there exist a valid move for a given playerId.
+	 *
+	 * @param playerId The player to check if any valid moves exist
+	 * @return True if there exists at least one move that is valid
 	 */
-	private boolean isValidMove(String playerId, Node node) {
-		return !node.isMarked() && !getNodesToSwap(playerId, node.getId()).isEmpty();
+	public boolean hasAValidMove(String playerId) {
+		return !getValidMoves(playerId).isEmpty();
+	}
+
+	/**
+	 * Check to see if there exist at least one valid move for at least one of the given playerIds
+	 *
+	 * @param playerIds The ID´s of the players to check if a valid move exists.
+	 * @return True if at least one valid move was found for some player
+	 */
+	public boolean hasAnyAValidMove(List<String> playerIds) {
+		for (String playerId : playerIds) {
+			if (hasAValidMove(playerId)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
