@@ -28,7 +28,7 @@ public class Lowest implements MoveStrategy {
 
     @Override
     public String getName() {
-        return "Greedy";
+        return "Lowest";
     }
 
     @Override
