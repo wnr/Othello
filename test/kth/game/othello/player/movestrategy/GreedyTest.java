@@ -17,7 +17,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class GreedyStrategyTest {
+public class GreedyTest {
 	@Test
 	public void moveMultipleEquallyGoodTest() {
 		// Test initial game board (4 equally good moves)
@@ -36,9 +36,9 @@ public class GreedyStrategyTest {
 			when(mockedBoardHandler.getValidMoves(anyString())).thenReturn(validMoves);
 
 			Othello mockedOthello = getMockedOthello();
-			GreedyStrategy greedyStrategy = getMockedStrategy(mockedBoardHandler);
+			Greedy greedy = getMockedStrategy(mockedBoardHandler);
 
-			Node move = greedyStrategy.move("player1", mockedOthello);
+			Node move = greedy.move("player1", mockedOthello);
 
 			boolean found = false;
 			for (Node n : validMoves) {
@@ -68,9 +68,9 @@ public class GreedyStrategyTest {
 		when(mockedBoardHandler.getValidMoves(anyString())).thenReturn(validMoves);
 
 		Othello mockedOthello = getMockedOthello();
-		GreedyStrategy greedyStrategy = getMockedStrategy(mockedBoardHandler);
+		Greedy greedy = getMockedStrategy(mockedBoardHandler);
 
-		Node move = greedyStrategy.move("player1", mockedOthello);
+		Node move = greedy.move("player1", mockedOthello);
 
 		Assert.assertEquals("1:3", move.getId());
 	}
@@ -81,9 +81,9 @@ public class GreedyStrategyTest {
 		when(mockedBoardHandler.getValidMoves(anyString())).thenReturn(new LinkedList<>());
 
 		Othello mockedOthello = getMockedOthello();
-		GreedyStrategy greedyStrategy = getMockedStrategy(mockedBoardHandler);
+		Greedy greedy = getMockedStrategy(mockedBoardHandler);
 
-		Node move = greedyStrategy.move("player1", mockedOthello);
+		Node move = greedy.move("player1", mockedOthello);
 		Assert.assertEquals(null, move);
 	}
 
@@ -93,10 +93,10 @@ public class GreedyStrategyTest {
 		return mockedOthello;
 	}
 
-	private GreedyStrategy getMockedStrategy(OthelloBoardHandler boardHandler) {
+	private Greedy getMockedStrategy(OthelloBoardHandler boardHandler) {
 		OthelloBoardHandlerFactory mockedFactory = mock(OthelloBoardHandlerFactory.class);
 		when(mockedFactory.createOthelloBoardHandler(anyObject())).thenReturn(boardHandler);
 
-		return new GreedyStrategy(mockedFactory);
+		return new Greedy(mockedFactory);
 	}
 }
