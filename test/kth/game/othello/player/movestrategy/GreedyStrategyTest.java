@@ -1,8 +1,6 @@
 package kth.game.othello.player.movestrategy;
 
-import kth.game.othello.AI;
 import kth.game.othello.Othello;
-import kth.game.othello.OthelloImpl;
 import kth.game.othello.board.Node;
 import kth.game.othello.board.NodeImpl;
 import kth.game.othello.board.OthelloBoardHandler;

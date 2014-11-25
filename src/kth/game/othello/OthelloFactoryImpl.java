@@ -8,11 +8,14 @@ import java.util.stream.Collectors;
 import kth.game.othello.board.BoardFactory;
 import kth.game.othello.board.BoardImpl;
 import kth.game.othello.board.OthelloBoardHandler;
+import kth.game.othello.board.OthelloBoardHandlerFactory;
 import kth.game.othello.board.factory.NodeData;
 import kth.game.othello.player.ComputerPlayer;
 import kth.game.othello.player.HumanPlayer;
 import kth.game.othello.player.Player;
 import kth.game.othello.player.PlayerHandler;
+import kth.game.othello.player.movestrategy.GreedyStrategy;
+import kth.game.othello.player.movestrategy.MoveStrategy;
 import kth.game.othello.player.turndecider.Rotation;
 import kth.game.othello.player.turndecider.TurnDecider;
 
@@ -24,11 +27,13 @@ import kth.game.othello.player.turndecider.TurnDecider;
 public class OthelloFactoryImpl implements OthelloFactory {
 	@Override
 	public Othello createComputerGame() {
-		Player computer1 = new ComputerPlayer("computer1", "Bottler");
-		Player computer2 = new ComputerPlayer("computer2", "Bigbot");
+		MoveStrategy greedyMoveStrategy = new GreedyStrategy(new OthelloBoardHandlerFactory());
+		Player computer1 = new ComputerPlayer("computer1", "Bottler", greedyMoveStrategy);
+		Player computer2 = new ComputerPlayer("computer2", "Bigbot", greedyMoveStrategy);
 		PlayerHandler playerHandler = createPlayerHandler(computer1, computer2);
 		OthelloBoardHandler boardHandler = createOthelloBoardHandler(computer1, computer2);
-		return new OthelloImpl(boardHandler, playerHandler, new AI(boardHandler));
+
+		return new OthelloImpl(boardHandler, playerHandler);
 	}
 
 	@Override
@@ -37,16 +42,17 @@ public class OthelloFactoryImpl implements OthelloFactory {
 		HumanPlayer human2 = new HumanPlayer("human2", "Kungen");
 		PlayerHandler playerHandler = createPlayerHandler(human1, human2);
 		OthelloBoardHandler boardHandler = createOthelloBoardHandler(human1, human2);
-		return new OthelloImpl(boardHandler, playerHandler, null);
+		return new OthelloImpl(boardHandler, playerHandler);
 	}
 
 	@Override
 	public Othello createHumanVersusComputerGame() {
+		MoveStrategy greedyMoveStrategy = new GreedyStrategy(new OthelloBoardHandlerFactory());
 		Player human = new HumanPlayer("human", "HeatoN");
-		Player computer = new ComputerPlayer("computer", "Bottler");
+		Player computer = new ComputerPlayer("computer", "Bottler", greedyMoveStrategy);
 		PlayerHandler playerHandler = createPlayerHandler(human, computer);
 		OthelloBoardHandler boardHandler = createOthelloBoardHandler(human, computer);
-		return new OthelloImpl(boardHandler, playerHandler, new AI(boardHandler));
+		return new OthelloImpl(boardHandler, playerHandler);
 	}
 
 	@Override

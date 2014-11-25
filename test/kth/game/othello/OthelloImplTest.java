@@ -20,7 +20,7 @@ public class OthelloImplTest {
 		OthelloBoardHandler obhMock = mock(OthelloBoardHandler.class);
 		PlayerHandler phMock = mock(PlayerHandler.class);
 
-		OthelloImpl othello1 = new OthelloImpl(obhMock, phMock, null);
+		OthelloImpl othello1 = new OthelloImpl(obhMock, phMock);
 
 		Player playerMock = mock(Player.class);
 		String playerId1 = "playerId1";
@@ -40,7 +40,7 @@ public class OthelloImplTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void moveExceptionTest() {
 		PlayerHandler phMock = mock(PlayerHandler.class);
-		OthelloImpl othello = new OthelloImpl(null, phMock, null);
+		OthelloImpl othello = new OthelloImpl(null, phMock);
 		when(phMock.getPlayerInTurn()).thenReturn(null);
 		othello.move("playerId", "nodeId");
 	}
@@ -49,7 +49,7 @@ public class OthelloImplTest {
 	public void moveExceptionTest2() {
 		PlayerHandler phMock = mock(PlayerHandler.class);
 		Player playerMock = mock(Player.class);
-		OthelloImpl othello = new OthelloImpl(null, phMock, null);
+		OthelloImpl othello = new OthelloImpl(null, phMock);
 
 		when(phMock.getPlayerInTurn()).thenReturn(playerMock);
 		when(playerMock.getId()).thenReturn("playerId1");

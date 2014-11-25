@@ -17,19 +17,16 @@ import kth.game.othello.score.Score;
 public class OthelloImpl implements Othello {
 	private final PlayerHandler playerHandler;
 	OthelloBoardHandler othelloBoardHandler;
-	AI ai;
 
 	/**
 	 * Constructs an Othello game instance.
 	 *
 	 * @param othelloBoardHandler The handler responsible of both holding the game board and the Othello board logic
 	 * @param playerHandler The handler responsible of both player logic and holding the players to play Othello
-	 * @param ai The ai to be used by the computer players. Required if any computer players.
 	 */
-	public OthelloImpl(OthelloBoardHandler othelloBoardHandler, PlayerHandler playerHandler, AI ai) {
+	public OthelloImpl(OthelloBoardHandler othelloBoardHandler, PlayerHandler playerHandler) {
 		this.othelloBoardHandler = othelloBoardHandler;
 		this.playerHandler = playerHandler;
-		this.ai = ai;
 	}
 
 	@Override
@@ -79,7 +76,7 @@ public class OthelloImpl implements Othello {
 			throw new IllegalStateException("Next player in turn is not a computer");
 		}
 
-		String nodeId = ai.getMoveWithMostSwaps(playerInTurn.getId());
+		String nodeId = playerInTurn.getMoveStrategy().move(playerInTurn.getId(), this).getId();
 
 		return move(playerInTurn.getId(), nodeId);
 	}
