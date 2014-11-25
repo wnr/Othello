@@ -18,85 +18,85 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class LowestTest {
-    @Test
-    public void moveMultipleEquallyGoodTest() {
-        // Test initial game board (4 equally good moves)
-        {
-            List<Node> validMoves = new LinkedList<>();
-            validMoves.add(new NodeImpl(2, 3));
-            validMoves.add(new NodeImpl(2, 3));
-            validMoves.add(new NodeImpl(4, 5));
-            validMoves.add(new NodeImpl(5, 4));
+	@Test
+	public void moveMultipleEquallyGoodTest() {
+		// Test initial game board (4 equally good moves)
+		{
+			List<Node> validMoves = new LinkedList<>();
+			validMoves.add(new NodeImpl(2, 3));
+			validMoves.add(new NodeImpl(2, 3));
+			validMoves.add(new NodeImpl(4, 5));
+			validMoves.add(new NodeImpl(5, 4));
 
-            OthelloBoardHandler mockedBoardHandler = mock(OthelloBoardHandler.class);
-            when(mockedBoardHandler.getNumSwaps(anyString(), eq("2:3"))).thenReturn(1);
-            when(mockedBoardHandler.getNumSwaps(anyString(), eq("3:2"))).thenReturn(1);
-            when(mockedBoardHandler.getNumSwaps(anyString(), eq("4:5"))).thenReturn(1);
-            when(mockedBoardHandler.getNumSwaps(anyString(), eq("5:4"))).thenReturn(1);
-            when(mockedBoardHandler.getValidMoves(anyString())).thenReturn(validMoves);
+			OthelloBoardHandler mockedBoardHandler = mock(OthelloBoardHandler.class);
+			when(mockedBoardHandler.getNumSwaps(anyString(), eq("2:3"))).thenReturn(1);
+			when(mockedBoardHandler.getNumSwaps(anyString(), eq("3:2"))).thenReturn(1);
+			when(mockedBoardHandler.getNumSwaps(anyString(), eq("4:5"))).thenReturn(1);
+			when(mockedBoardHandler.getNumSwaps(anyString(), eq("5:4"))).thenReturn(1);
+			when(mockedBoardHandler.getValidMoves(anyString())).thenReturn(validMoves);
 
-            Othello mockedOthello = getMockedOthello();
-            MoveStrategy lowestStrategy = getMockedStrategy(mockedBoardHandler);
+			Othello mockedOthello = getMockedOthello();
+			MoveStrategy lowestStrategy = getMockedStrategy(mockedBoardHandler);
 
-            Node move = lowestStrategy.move("player1", mockedOthello);
+			Node move = lowestStrategy.move("player1", mockedOthello);
 
-            boolean found = false;
-            for (Node n : validMoves) {
-                if (n.equals(move)) {
-                    found = true;
-                    break;
-                }
-            }
+			boolean found = false;
+			for (Node n : validMoves) {
+				if (n.equals(move)) {
+					found = true;
+					break;
+				}
+			}
 
-            Assert.assertTrue(found);
-        }
-    }
+			Assert.assertTrue(found);
+		}
+	}
 
-    @Test
-    public void moveOneBestTest() {
-        List<Node> validMoves = new LinkedList<>();
-        validMoves.add(new NodeImpl(1, 3));
-        validMoves.add(new NodeImpl(2, 3));
-        validMoves.add(new NodeImpl(4, 5));
-        validMoves.add(new NodeImpl(5, 4));
+	@Test
+	public void moveOneBestTest() {
+		List<Node> validMoves = new LinkedList<>();
+		validMoves.add(new NodeImpl(1, 3));
+		validMoves.add(new NodeImpl(2, 3));
+		validMoves.add(new NodeImpl(4, 5));
+		validMoves.add(new NodeImpl(5, 4));
 
-        OthelloBoardHandler mockedBoardHandler = mock(OthelloBoardHandler.class);
-        when(mockedBoardHandler.getNumSwaps(anyString(), eq("1:3"))).thenReturn(2);
-        when(mockedBoardHandler.getNumSwaps(anyString(), eq("2:3"))).thenReturn(2);
-        when(mockedBoardHandler.getNumSwaps(anyString(), eq("4:5"))).thenReturn(2);
-        when(mockedBoardHandler.getNumSwaps(anyString(), eq("5:4"))).thenReturn(1);
-        when(mockedBoardHandler.getValidMoves(anyString())).thenReturn(validMoves);
+		OthelloBoardHandler mockedBoardHandler = mock(OthelloBoardHandler.class);
+		when(mockedBoardHandler.getNumSwaps(anyString(), eq("1:3"))).thenReturn(2);
+		when(mockedBoardHandler.getNumSwaps(anyString(), eq("2:3"))).thenReturn(2);
+		when(mockedBoardHandler.getNumSwaps(anyString(), eq("4:5"))).thenReturn(2);
+		when(mockedBoardHandler.getNumSwaps(anyString(), eq("5:4"))).thenReturn(1);
+		when(mockedBoardHandler.getValidMoves(anyString())).thenReturn(validMoves);
 
-        Othello mockedOthello = getMockedOthello();
-        MoveStrategy lowestStrategy = getMockedStrategy(mockedBoardHandler);
+		Othello mockedOthello = getMockedOthello();
+		MoveStrategy lowestStrategy = getMockedStrategy(mockedBoardHandler);
 
-        Node move = lowestStrategy.move("player1", mockedOthello);
+		Node move = lowestStrategy.move("player1", mockedOthello);
 
-        Assert.assertEquals("5:4", move.getId());
-    }
+		Assert.assertEquals("5:4", move.getId());
+	}
 
-    @Test
-    public void moveNotPossibleTest() {
-        OthelloBoardHandler mockedBoardHandler = mock(OthelloBoardHandler.class);
-        when(mockedBoardHandler.getValidMoves(anyString())).thenReturn(new LinkedList<>());
+	@Test
+	public void moveNotPossibleTest() {
+		OthelloBoardHandler mockedBoardHandler = mock(OthelloBoardHandler.class);
+		when(mockedBoardHandler.getValidMoves(anyString())).thenReturn(new LinkedList<>());
 
-        Othello mockedOthello = getMockedOthello();
-        MoveStrategy lowestStrategy = getMockedStrategy(mockedBoardHandler);
+		Othello mockedOthello = getMockedOthello();
+		MoveStrategy lowestStrategy = getMockedStrategy(mockedBoardHandler);
 
-        Node move = lowestStrategy.move("player1", mockedOthello);
-        Assert.assertEquals(null, move);
-    }
+		Node move = lowestStrategy.move("player1", mockedOthello);
+		Assert.assertEquals(null, move);
+	}
 
-    private Othello getMockedOthello() {
-        Othello mockedOthello = mock(Othello.class);
-        when(mockedOthello.getBoard()).thenReturn(null);
-        return mockedOthello;
-    }
+	private Othello getMockedOthello() {
+		Othello mockedOthello = mock(Othello.class);
+		when(mockedOthello.getBoard()).thenReturn(null);
+		return mockedOthello;
+	}
 
-    private MoveStrategy getMockedStrategy(OthelloBoardHandler boardHandler) {
-        OthelloBoardHandlerFactory mockedFactory = mock(OthelloBoardHandlerFactory.class);
-        when(mockedFactory.createOthelloBoardHandler(anyObject())).thenReturn(boardHandler);
+	private MoveStrategy getMockedStrategy(OthelloBoardHandler boardHandler) {
+		OthelloBoardHandlerFactory mockedFactory = mock(OthelloBoardHandlerFactory.class);
+		when(mockedFactory.createOthelloBoardHandler(anyObject())).thenReturn(boardHandler);
 
-        return new Lowest(mockedFactory);
-    }
+		return new Lowest(mockedFactory);
+	}
 }

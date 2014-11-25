@@ -15,28 +15,28 @@ import java.util.List;
  * @author Lucas Wiener
  */
 public class Random implements MoveStrategy {
-    OthelloBoardHandlerFactory boardHandlerFactory;
+	OthelloBoardHandlerFactory boardHandlerFactory;
 
-    /**
-     * Creates the random move strategy instance.
-     *
-     * @param boardHandlerFactory The factory to create othello board handlers.
-     */
-    public Random(OthelloBoardHandlerFactory boardHandlerFactory) {
-        this.boardHandlerFactory = boardHandlerFactory;
-    }
+	/**
+	 * Creates the random move strategy instance.
+	 *
+	 * @param boardHandlerFactory The factory to create othello board handlers.
+	 */
+	public Random(OthelloBoardHandlerFactory boardHandlerFactory) {
+		this.boardHandlerFactory = boardHandlerFactory;
+	}
 
-    @Override
-    public String getName() {
-        return "Random";
-    }
+	@Override
+	public String getName() {
+		return "Random";
+	}
 
-    @Override
-    public Node move(String playerId, Othello othello) {
-        // TODO: Make a copy of the Board before creating a board handler with it.
-        BoardImpl board = (BoardImpl) othello.getBoard();
-        OthelloBoardHandler boardHandler = boardHandlerFactory.createOthelloBoardHandler(board);
-        List<Node> validMoves = boardHandler.getValidMoves(playerId);
-        return validMoves.get(new java.util.Random().nextInt(validMoves.size()));
-    }
+	@Override
+	public Node move(String playerId, Othello othello) {
+		// TODO: Make a copy of the Board before creating a board handler with it.
+		BoardImpl board = (BoardImpl) othello.getBoard();
+		OthelloBoardHandler boardHandler = boardHandlerFactory.createOthelloBoardHandler(board);
+		List<Node> validMoves = boardHandler.getValidMoves(playerId);
+		return validMoves.get(new java.util.Random().nextInt(validMoves.size()));
+	}
 }
