@@ -107,7 +107,5 @@ public class OthelloImpl implements Othello {
 	@Override
 	public void start(String playerId) {
 		playerHandler.setStartingPlayer(playerId);
-
-		othelloBoardHandler.initializeStartingPositions(playerHandler.getPlayerIds(playerHandler.getStartingPositions()));
 	}
 }

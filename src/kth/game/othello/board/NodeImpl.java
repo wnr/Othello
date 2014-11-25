@@ -1,5 +1,6 @@
 package kth.game.othello.board;
 
+import java.util.ArrayList;
 import java.util.Observer;
 
 /**
@@ -9,11 +10,12 @@ import java.util.Observer;
  * @author Erik Odenman
  * @author Lucas Wiener
  */
-public class NodeImpl implements Node {
+public class NodeImpl implements Node, Comparable<NodeImpl> {
 	private String nodeId;
 	private String playerId;
 	private int x;
 	private int y;
+	private ArrayList<Observer> observers;
 
 	/**
 	 * Constructs a node instance. The node-id is determined by the values of x and y. A node should be identified
@@ -24,10 +26,11 @@ public class NodeImpl implements Node {
 	 * @param y The y-coordinate of the node
 	 */
 	public NodeImpl(String playerId, int x, int y) {
-		this.nodeId = createNodeID(x, y);
+		this.nodeId = NodeIdUtil.createNodeId(x, y);
 		this.playerId = playerId;
 		this.x = x;
 		this.y = y;
+		observers = new ArrayList<>();
 	}
 
 	/**
@@ -52,7 +55,7 @@ public class NodeImpl implements Node {
 
 	@Override
 	public void addObserver(Observer observer) {
-
+		observers.add(observer);
 	}
 
 	@Override
@@ -102,22 +105,24 @@ public class NodeImpl implements Node {
 	}
 
 	@Override
+	public int compareTo(NodeImpl n) {
+		if (x < n.x)
+			return -1;
+		if (x > n.x)
+			return 1;
+		if (y < n.y)
+			return -1;
+		if (y > n.y)
+			return 1;
+		return 0;
+	}
+
+	@Override
 	public int hashCode() {
 		int result = nodeId.hashCode();
 		result = 31 * result + (playerId != null ? playerId.hashCode() : 0);
 		result = 31 * result + x;
 		result = 31 * result + y;
 		return result;
-	}
-
-	/**
-	 * Constructs a node id by the x and y coordinates.
-	 *
-	 * @param x the x-coordinate
-	 * @param y the y-coordinate
-	 * @return the id of the node given the x and y coordinates
-	 */
-	private String createNodeID(int x, int y) {
-		return x + ":" + y;
 	}
 }

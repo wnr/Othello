@@ -1,7 +1,5 @@
 package kth.game.othello.player;
 
-import kth.game.othello.player.movestrategy.MoveStrategy;
-
 /**
  * The responsibility of the ComputerPlayer is to represent a computer player. It will be an extension of the Player
  * class.
@@ -15,15 +13,5 @@ public class ComputerPlayer extends PlayerImpl {
 	 */
 	public ComputerPlayer(String id, String name) {
 		super(id, name, Player.Type.COMPUTER);
-	}
-
-	@Override
-	public MoveStrategy getMoveStrategy() {
-		return null;
-	}
-
-	@Override
-	public void setMoveStrategy(MoveStrategy moveStrategy) {
-
 	}
 }

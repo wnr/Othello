@@ -1,7 +1,6 @@
 package kth.game.othello;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,22 +12,21 @@ import kth.game.othello.player.PlayerHandler;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 public class OthelloImplTest {
 
 	@Test
 	public void moveTest() throws NoSuchFieldException, IllegalAccessException {
-		OthelloBoardHandler obhMock = Mockito.mock(OthelloBoardHandler.class);
-		PlayerHandler phMock = Mockito.mock(PlayerHandler.class);
+		OthelloBoardHandler obhMock = mock(OthelloBoardHandler.class);
+		PlayerHandler phMock = mock(PlayerHandler.class);
 
 		OthelloImpl othello1 = new OthelloImpl(obhMock, phMock, null);
 
-		Player playerMock = Mockito.mock(Player.class);
+		Player playerMock = mock(Player.class);
 		String playerId1 = "playerId1";
 		String nodeId = "nodeId";
 		List<Node> nodeList = new ArrayList<>();
-		nodeList.add(Mockito.mock(Node.class));
+		nodeList.add(mock(Node.class));
 
 		when(obhMock.move(playerId1, nodeId)).thenReturn(nodeList);
 		when(phMock.getPlayerInTurn()).thenReturn(playerMock);
@@ -41,7 +39,7 @@ public class OthelloImplTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void moveExceptionTest() {
-		PlayerHandler phMock = Mockito.mock(PlayerHandler.class);
+		PlayerHandler phMock = mock(PlayerHandler.class);
 		OthelloImpl othello = new OthelloImpl(null, phMock, null);
 		when(phMock.getPlayerInTurn()).thenReturn(null);
 		othello.move("playerId", "nodeId");
@@ -49,8 +47,8 @@ public class OthelloImplTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void moveExceptionTest2() {
-		PlayerHandler phMock = Mockito.mock(PlayerHandler.class);
-		Player playerMock = Mockito.mock(Player.class);
+		PlayerHandler phMock = mock(PlayerHandler.class);
+		Player playerMock = mock(Player.class);
 		OthelloImpl othello = new OthelloImpl(null, phMock, null);
 
 		when(phMock.getPlayerInTurn()).thenReturn(playerMock);

@@ -2,6 +2,7 @@ package kth.game.othello.board;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A handler implementing common actions on an othello board. The board handler is responsible of mutating the board.
@@ -10,14 +11,14 @@ import java.util.List;
  * @author Lucas Wiener
  */
 public class OthelloBoardHandler {
-	private RectangularBoard board;
+	private BoardImpl board;
 
 	/**
-	 * Constructs a Othello board handler. The board should be a square shape with even side length.
+	 * Constructs a Othello board handler.
 	 *
 	 * @param board The board to handle.
 	 */
-	public OthelloBoardHandler(RectangularBoard board) {
+	public OthelloBoardHandler(BoardImpl board) {
 		this.board = board;
 	}
 
@@ -26,20 +27,8 @@ public class OthelloBoardHandler {
 	 *
 	 * @return The board that the handler is operating on.
 	 */
-	public RectangularBoard getBoard() {
+	public Board getBoard() {
 		return board;
-	}
-
-	/**
-	 * TODO: Should in the future work in such a way that it works for any amount of players given a "working board".
-	 * TODO: The order of the list should determine the position of the players. Now wrongly assumes it is only 2
-	 */
-	public void initializeStartingPositions(List<String> playersIds) {
-		int mid = (board.getNumCols() / 2) - 1;
-		board.getNode(mid, mid).setOccupantPlayerId(playersIds.get(1));
-		board.getNode(mid, mid + 1).setOccupantPlayerId(playersIds.get(0));
-		board.getNode(mid + 1, mid).setOccupantPlayerId(playersIds.get(0));
-		board.getNode(mid + 1, mid + 1).setOccupantPlayerId(playersIds.get(1));
 	}
 
 	/**
@@ -49,18 +38,8 @@ public class OthelloBoardHandler {
 	 * @return All valid nodes the player move to
 	 */
 	public List<Node> getValidMoves(String playerId) {
-		List<Node> validNodes = new LinkedList<>();
-
-		for (int x = 0; x < board.getNumRows(); x++) {
-			for (int y = 0; y < board.getNumCols(); y++) {
-				NodeImpl node = board.getNode(x, y);
-				if (isMoveValid(playerId, node.getId())) {
-					validNodes.add(node);
-				}
-			}
-		}
-
-		return validNodes;
+		return board.getNodes().stream().filter(node -> isMoveValid(playerId, node.getId()))
+				.collect(Collectors.toCollection(LinkedList::new));
 	}
 
 	/**
@@ -73,7 +52,7 @@ public class OthelloBoardHandler {
 	 * @throws IllegalArgumentException if the move is not valid.
 	 */
 	public List<Node> move(String playerId, String nodeId) {
-		NodeImpl node = board.getNode(nodeId);
+		Node node = board.getNode(nodeId);
 		List<Node> swaps = getNodesToSwap(playerId, nodeId);
 
 		if (swaps.isEmpty()) {
@@ -83,8 +62,7 @@ public class OthelloBoardHandler {
 		swaps.add(node);
 
 		for (Node n : swaps) {
-			NodeImpl ni = (NodeImpl) n;
-			ni.setOccupantPlayerId(playerId);
+			board.occupyNode(n.getId(), playerId);
 		}
 
 		return swaps;
@@ -155,7 +133,7 @@ public class OthelloBoardHandler {
 	 *         will occupy the starting node. The list is empty if it is an invalid move (no swaps possible).
 	 */
 	public List<Node> getNodesToSwap(String playerId, String nodeId) {
-		List<NodeImpl> swaps = new LinkedList<>();
+		List<Node> swaps = new LinkedList<>();
 
 		for (int i = -1; i <= 1; i++) {
 			for (int j = -1; j <= 1; j++) {
@@ -177,11 +155,12 @@ public class OthelloBoardHandler {
 	 * @return A list of all nodes swapped in the direction given by iStep and jStep, starting from given node and that
 	 *         it is playerId that will occupy the start node.
 	 */
-	private List<NodeImpl> getSwapsDirection(String playerId, NodeImpl node, int iStep, int jStep) {
-		List<NodeImpl> swaps = new LinkedList<>();
+	private List<Node> getSwapsDirection(String playerId, Node node, int iStep, int jStep) {
+		List<Node> swaps = new LinkedList<>();
 
-		for (int x = node.getXCoordinate() + iStep, y = node.getYCoordinate() + jStep; board.isInRange(x, y); x += iStep, y += jStep) {
-			NodeImpl n = board.getNode(x, y);
+		for (int x = node.getXCoordinate() + iStep, y = node.getYCoordinate() + jStep; board.containsNodeOnPosition(x,
+				y); x += iStep, y += jStep) {
+			Node n = board.getNode(x, y);
 			if (!n.isMarked()) {
 				return new LinkedList<>();
 			}
