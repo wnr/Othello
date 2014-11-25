@@ -18,17 +18,12 @@ public class ScoreImpl extends Observable implements Score, Observer {
 	 * 
 	 * @param playerScoreItems A list of the player score items that the Score instance should handle. This list must
 	 *            contain all players that are able to occupy any of the given nodes
-	 * @param nodes A list of all nodes that the players will be able to occupy, which the score instance will observe
 	 */
-	public ScoreImpl(List<ScoreItem> playerScoreItems, List<Node> nodes) {
+	public ScoreImpl(List<ScoreItem> playerScoreItems) {
 		playerScores = new HashMap<>();
 
 		for (ScoreItem scoreItem : playerScoreItems) {
 			playerScores.put(scoreItem.getPlayerId(), scoreItem);
-		}
-
-		for (Node node : nodes) {
-			node.addObserver(this);
 		}
 	}
 
