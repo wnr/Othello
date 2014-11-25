@@ -61,7 +61,7 @@ public class OthelloFactoryImpl implements OthelloFactory {
 	}
 
 	private OthelloBoardHandler createOthelloBoardHandler(Player player1, Player player2) {
-		BoardImpl board = BoardFactory.createOthelloBoard(player1, player2);
+		BoardImpl board = new BoardFactory().createOthelloBoard(player1, player2);
 		return new OthelloBoardHandler(board);
 	}
 
