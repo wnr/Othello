@@ -14,6 +14,7 @@ import kth.game.othello.board.Node;
 import kth.game.othello.board.OthelloBoardHandler;
 import kth.game.othello.board.OthelloBoardHandlerFactory;
 import kth.game.othello.board.factory.NodeData;
+import kth.game.othello.board.factory.Square;
 import kth.game.othello.player.ComputerPlayer;
 import kth.game.othello.player.HumanPlayer;
 import kth.game.othello.player.Player;
@@ -68,10 +69,10 @@ public class OthelloFactoryImpl implements OthelloFactory {
 	}
 
 	private OthelloImpl create2PlayerSquareOthelloGame(Player player1, Player player2) {
-		PlayerHandler playerHandler = createPlayerHandler(getPlayerList(player1, player2));
-		BoardImpl board = new BoardFactory().createOthelloBoard(player1, player2);
-		OthelloBoardHandler boardHandler = new OthelloBoardHandler(board);
-		Score score = createScore(board.getNodes(), getPlayerList(player1, player2));
+		List<Player> players = getPlayerList(player1, player2);
+		PlayerHandler playerHandler = createPlayerHandler(players);
+		OthelloBoardHandler boardHandler = createOthelloBoardHandler(new Square().getNodes(8, players));
+		Score score = createScore(boardHandler.getBoard().getNodes(), players);
 		return new OthelloImpl(boardHandler, playerHandler, score);
 	}
 
