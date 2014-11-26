@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
  * @author Erik Odenman
  * @author Lucas Wiener
  */
-public class OthelloBoardHandler {
+public class BoardHandler {
 	private BoardImpl board;
 
 	/**
@@ -18,7 +18,7 @@ public class OthelloBoardHandler {
 	 *
 	 * @param board The board to handle.
 	 */
-	public OthelloBoardHandler(BoardImpl board) {
+	public BoardHandler(BoardImpl board) {
 		this.board = board;
 	}
 

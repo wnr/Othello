@@ -3,8 +3,8 @@ package kth.game.othello;
 import java.util.List;
 
 import kth.game.othello.board.Board;
+import kth.game.othello.board.BoardHandler;
 import kth.game.othello.board.Node;
-import kth.game.othello.board.OthelloBoardHandler;
 import kth.game.othello.player.Player;
 import kth.game.othello.player.PlayerHandler;
 import kth.game.othello.score.Score;
@@ -16,25 +16,25 @@ import kth.game.othello.score.Score;
  */
 public class OthelloImpl implements Othello {
 	private final PlayerHandler playerHandler;
-	private final OthelloBoardHandler othelloBoardHandler;
+	private final BoardHandler boardHandler;
 	private final Score score;
 
 	/**
 	 * Constructs an Othello game instance.
 	 *
-	 * @param othelloBoardHandler The handler responsible of both holding the game board and the Othello board logic
+	 * @param boardHandler The handler responsible of both holding the game board and the Othello board logic
 	 * @param playerHandler The handler responsible of both player logic and holding the players to play Othello
 	 * @param score The score object responsible of storing the game score for the players
 	 */
-	public OthelloImpl(OthelloBoardHandler othelloBoardHandler, PlayerHandler playerHandler, Score score) {
-		this.othelloBoardHandler = othelloBoardHandler;
+	public OthelloImpl(BoardHandler boardHandler, PlayerHandler playerHandler, Score score) {
+		this.boardHandler = boardHandler;
 		this.playerHandler = playerHandler;
 		this.score = score;
 	}
 
 	@Override
 	public Board getBoard() {
-		return othelloBoardHandler.getBoard();
+		return boardHandler.getBoard();
 	}
 
 	@Override
@@ -54,22 +54,22 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public List<Node> getNodesToSwap(String playerId, String nodeId) {
-		return othelloBoardHandler.getNodesToSwap(playerId, nodeId);
+		return boardHandler.getNodesToSwap(playerId, nodeId);
 	}
 
 	@Override
 	public boolean hasValidMove(String playerId) {
-		return !othelloBoardHandler.getValidMoves(playerId).isEmpty();
+		return !boardHandler.getValidMoves(playerId).isEmpty();
 	}
 
 	@Override
 	public boolean isActive() {
-		return othelloBoardHandler.hasAnyAValidMove(playerHandler.getPlayerIds());
+		return boardHandler.hasAnyAValidMove(playerHandler.getPlayerIds());
 	}
 
 	@Override
 	public boolean isMoveValid(String playerId, String nodeId) {
-		return othelloBoardHandler.isMoveValid(playerId, nodeId);
+		return boardHandler.isMoveValid(playerId, nodeId);
 	}
 
 	@Override
@@ -92,7 +92,7 @@ public class OthelloImpl implements Othello {
 		} else if (!playerInTurn.getId().equals(playerId)) {
 			throw new IllegalArgumentException("The move is invalid. Not this players turn");
 		}
-		List<Node> swappedNodes = othelloBoardHandler.move(playerId, nodeId);
+		List<Node> swappedNodes = boardHandler.move(playerId, nodeId);
 
 		playerHandler.updatePlayerInTurn(this);
 

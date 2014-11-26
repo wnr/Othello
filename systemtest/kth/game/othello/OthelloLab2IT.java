@@ -6,10 +6,9 @@ import java.util.List;
 import java.util.Random;
 
 import kth.game.othello.board.Node;
-import kth.game.othello.board.OthelloBoardHandlerFactory;
+import kth.game.othello.board.BoardHandlerFactory;
 import kth.game.othello.board.factory.Diamond;
 import kth.game.othello.player.ComputerPlayer;
-import kth.game.othello.player.HumanPlayer;
 import kth.game.othello.player.Player;
 import kth.game.othello.player.Player.Type;
 import kth.game.othello.player.movestrategy.GreedyStrategy;
@@ -25,13 +24,13 @@ public class OthelloLab2IT {
 	private MoveStrategy getNewMoveStrategy() {
 		int randomNumber = new Random().nextInt(3);
 		if (randomNumber == 0) {
-			return new GreedyStrategy(new OthelloBoardHandlerFactory());
+			return new GreedyStrategy(new BoardHandlerFactory());
 		}
 		if (randomNumber == 1) {
-			return new RandomStrategy(new OthelloBoardHandlerFactory());
+			return new RandomStrategy(new BoardHandlerFactory());
 		}
 		if (randomNumber == 2) {
-			return new LowestStrategy(new OthelloBoardHandlerFactory());
+			return new LowestStrategy(new BoardHandlerFactory());
 		}
 		return null;
 	}

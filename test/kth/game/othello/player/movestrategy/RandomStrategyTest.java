@@ -9,9 +9,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import kth.game.othello.Othello;
+import kth.game.othello.board.BoardHandler;
 import kth.game.othello.board.Node;
 import kth.game.othello.board.NodeImpl;
-import kth.game.othello.board.OthelloBoardHandler;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,7 +27,7 @@ public class RandomStrategyTest {
 			validMoves.add(new NodeImpl(4, 5));
 			validMoves.add(new NodeImpl(5, 4));
 
-			OthelloBoardHandler mockedBoardHandler = mock(OthelloBoardHandler.class);
+			BoardHandler mockedBoardHandler = mock(BoardHandler.class);
 			when(mockedBoardHandler.getNumSwaps(anyString(), eq("2:3"))).thenReturn(1);
 			when(mockedBoardHandler.getNumSwaps(anyString(), eq("3:2"))).thenReturn(1);
 			when(mockedBoardHandler.getNumSwaps(anyString(), eq("4:5"))).thenReturn(1);
@@ -53,7 +53,7 @@ public class RandomStrategyTest {
 
 	@Test
 	public void moveNotPossibleTest() {
-		OthelloBoardHandler mockedBoardHandler = mock(OthelloBoardHandler.class);
+		BoardHandler mockedBoardHandler = mock(BoardHandler.class);
 		when(mockedBoardHandler.getValidMoves(anyString())).thenReturn(new LinkedList<>());
 
 		Othello mockedOthello = getMockedOthello();
@@ -67,7 +67,7 @@ public class RandomStrategyTest {
 		return MoveStrategyTestHelper.getMockedOthello();
 	}
 
-	private RandomStrategy getMockedStrategy(OthelloBoardHandler boardHandler) {
+	private RandomStrategy getMockedStrategy(BoardHandler boardHandler) {
 		return new RandomStrategy(MoveStrategyTestHelper.getMockedBoardHandlerFactory(boardHandler));
 	}
 }

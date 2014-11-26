@@ -8,11 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import kth.game.othello.board.BoardFactory;
-import kth.game.othello.board.BoardImpl;
-import kth.game.othello.board.Node;
-import kth.game.othello.board.OthelloBoardHandler;
-import kth.game.othello.board.OthelloBoardHandlerFactory;
+import kth.game.othello.board.*;
+import kth.game.othello.board.BoardHandler;
 import kth.game.othello.board.factory.NodeData;
 import kth.game.othello.board.factory.Square;
 import kth.game.othello.player.ComputerPlayer;
@@ -35,7 +32,7 @@ import kth.game.othello.score.ScoreItem;
 public class OthelloFactoryImpl implements OthelloFactory {
 	@Override
 	public Othello createComputerGame() {
-		MoveStrategy greedyMoveStrategy = new GreedyStrategy(new OthelloBoardHandlerFactory());
+		MoveStrategy greedyMoveStrategy = new GreedyStrategy(new BoardHandlerFactory());
 		Player computer1 = new ComputerPlayer("computer1", "Bottler", greedyMoveStrategy);
 		Player computer2 = new ComputerPlayer("computer2", "Bigbot", greedyMoveStrategy);
 		return create2PlayerSquareOthelloGame(computer1, computer2);
@@ -50,7 +47,7 @@ public class OthelloFactoryImpl implements OthelloFactory {
 
 	@Override
 	public Othello createHumanVersusComputerGame() {
-		MoveStrategy greedyMoveStrategy = new GreedyStrategy(new OthelloBoardHandlerFactory());
+		MoveStrategy greedyMoveStrategy = new GreedyStrategy(new BoardHandlerFactory());
 		Player human = new HumanPlayer("human", "HeatoN");
 		Player computer = new ComputerPlayer("computer", "Bottler", greedyMoveStrategy);
 		return create2PlayerSquareOthelloGame(human, computer);
@@ -58,20 +55,20 @@ public class OthelloFactoryImpl implements OthelloFactory {
 
 	@Override
 	public Othello createGame(Set<NodeData> nodesData, List<Player> players) {
-		OthelloBoardHandler boardHandler = createOthelloBoardHandler(nodesData);
+		BoardHandler boardHandler = createOthelloBoardHandler(nodesData);
 		PlayerHandler playerHandler = createPlayerHandler(players);
 		Score score = createScore(boardHandler.getBoard().getNodes(), players);
 		return new OthelloImpl(boardHandler, playerHandler, score);
 	}
 
-	private OthelloBoardHandler createOthelloBoardHandler(Set<NodeData> nodeData) {
-		return new OthelloBoardHandler(new BoardFactory().createBoard(nodeData));
+	private BoardHandler createOthelloBoardHandler(Set<NodeData> nodeData) {
+		return new BoardHandler(new BoardFactory().createBoard(nodeData));
 	}
 
 	private OthelloImpl create2PlayerSquareOthelloGame(Player player1, Player player2) {
 		List<Player> players = getPlayerList(player1, player2);
 		PlayerHandler playerHandler = createPlayerHandler(players);
-		OthelloBoardHandler boardHandler = createOthelloBoardHandler(new Square().getNodes(8, players));
+		BoardHandler boardHandler = createOthelloBoardHandler(new Square().getNodes(8, players));
 		Score score = createScore(boardHandler.getBoard().getNodes(), players);
 		return new OthelloImpl(boardHandler, playerHandler, score);
 	}

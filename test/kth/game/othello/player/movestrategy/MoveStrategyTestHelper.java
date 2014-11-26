@@ -6,8 +6,8 @@ import static org.mockito.Mockito.when;
 
 import kth.game.othello.Othello;
 import kth.game.othello.board.BoardImpl;
-import kth.game.othello.board.OthelloBoardHandler;
-import kth.game.othello.board.OthelloBoardHandlerFactory;
+import kth.game.othello.board.BoardHandler;
+import kth.game.othello.board.BoardHandlerFactory;
 
 public class MoveStrategyTestHelper {
 	public static Othello getMockedOthello() {
@@ -18,8 +18,8 @@ public class MoveStrategyTestHelper {
 		return mockedOthello;
 	}
 
-	public static OthelloBoardHandlerFactory getMockedBoardHandlerFactory(OthelloBoardHandler boardHandler) {
-		OthelloBoardHandlerFactory mockedFactory = mock(OthelloBoardHandlerFactory.class);
+	public static BoardHandlerFactory getMockedBoardHandlerFactory(BoardHandler boardHandler) {
+		BoardHandlerFactory mockedFactory = mock(BoardHandlerFactory.class);
 		when(mockedFactory.createOthelloBoardHandler(anyObject())).thenReturn(boardHandler);
 		return mockedFactory;
 	}

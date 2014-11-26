@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kth.game.othello.board.Node;
-import kth.game.othello.board.OthelloBoardHandler;
+import kth.game.othello.board.BoardHandler;
 import kth.game.othello.player.Player;
 import kth.game.othello.player.PlayerHandler;
 
@@ -19,7 +19,7 @@ public class OthelloImplTest {
 
 	@Test
 	public void moveTest() throws NoSuchFieldException, IllegalAccessException {
-		OthelloBoardHandler obhMock = mock(OthelloBoardHandler.class);
+		BoardHandler obhMock = mock(BoardHandler.class);
 		PlayerHandler phMock = mock(PlayerHandler.class);
 
 		OthelloImpl othello1 = new OthelloImpl(obhMock, phMock, null);

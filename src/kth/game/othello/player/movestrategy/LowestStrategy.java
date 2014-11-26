@@ -3,10 +3,10 @@ package kth.game.othello.player.movestrategy;
 import java.util.List;
 
 import kth.game.othello.Othello;
+import kth.game.othello.board.BoardHandler;
 import kth.game.othello.board.BoardImpl;
 import kth.game.othello.board.Node;
-import kth.game.othello.board.OthelloBoardHandler;
-import kth.game.othello.board.OthelloBoardHandlerFactory;
+import kth.game.othello.board.BoardHandlerFactory;
 
 /**
  * A really bad move strategy that will make the move that result in the least node swaps. If there are multiple
@@ -15,14 +15,14 @@ import kth.game.othello.board.OthelloBoardHandlerFactory;
  * @author Lucas Wiener
  */
 public class LowestStrategy implements MoveStrategy {
-	OthelloBoardHandlerFactory boardHandlerFactory;
+	BoardHandlerFactory boardHandlerFactory;
 
 	/**
 	 * Creates the lowest move strategy instance.
 	 *
 	 * @param boardHandlerFactory The factory to create othello board handlers.
 	 */
-	public LowestStrategy(OthelloBoardHandlerFactory boardHandlerFactory) {
+	public LowestStrategy(BoardHandlerFactory boardHandlerFactory) {
 		this.boardHandlerFactory = boardHandlerFactory;
 	}
 
@@ -35,7 +35,7 @@ public class LowestStrategy implements MoveStrategy {
 	public Node move(String playerId, Othello othello) {
 		// TODO: This cast will be fixed when Othello is changed to BoardInspector or something equally better.
 		BoardImpl board = ((BoardImpl) othello.getBoard()).copyWithoutObservers();
-		OthelloBoardHandler boardHandler = boardHandlerFactory.createOthelloBoardHandler(board);
+		BoardHandler boardHandler = boardHandlerFactory.createOthelloBoardHandler(board);
 
 		List<Node> validMoves = boardHandler.getValidMoves(playerId);
 
