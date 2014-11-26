@@ -37,20 +37,14 @@ public class OthelloFactoryImpl implements OthelloFactory {
 		MoveStrategy greedyMoveStrategy = new GreedyStrategy(new OthelloBoardHandlerFactory());
 		Player computer1 = new ComputerPlayer("computer1", "Bottler", greedyMoveStrategy);
 		Player computer2 = new ComputerPlayer("computer2", "Bigbot", greedyMoveStrategy);
-		PlayerHandler playerHandler = createPlayerHandler(getPlayerList(computer1, computer2));
-		OthelloBoardHandler boardHandler = create2PlayerSquareOthelloBoardHandler(computer1, computer2);
-		Score score = createScore(boardHandler.getBoard().getNodes(), getPlayerList(computer1, computer2));
-		return new OthelloImpl(boardHandler, playerHandler, score);
+		return create2PlayerSquareOthelloGame(computer1, computer2);
 	}
 
 	@Override
 	public Othello createHumanGame() {
 		HumanPlayer human1 = new HumanPlayer("human1", "HeatoN");
 		HumanPlayer human2 = new HumanPlayer("human2", "Kungen");
-		PlayerHandler playerHandler = createPlayerHandler(getPlayerList(human1, human2));
-		OthelloBoardHandler boardHandler = create2PlayerSquareOthelloBoardHandler(human1, human2);
-		Score score = createScore(boardHandler.getBoard().getNodes(), getPlayerList(human1, human2));
-		return new OthelloImpl(boardHandler, playerHandler, score);
+		return create2PlayerSquareOthelloGame(human1, human2);
 	}
 
 	@Override
@@ -58,10 +52,7 @@ public class OthelloFactoryImpl implements OthelloFactory {
 		MoveStrategy greedyMoveStrategy = new GreedyStrategy(new OthelloBoardHandlerFactory());
 		Player human = new HumanPlayer("human", "HeatoN");
 		Player computer = new ComputerPlayer("computer", "Bottler", greedyMoveStrategy);
-		PlayerHandler playerHandler = createPlayerHandler(getPlayerList(human, computer));
-		OthelloBoardHandler boardHandler = create2PlayerSquareOthelloBoardHandler(human, computer);
-		Score score = createScore(boardHandler.getBoard().getNodes(), getPlayerList(human, computer));
-		return new OthelloImpl(boardHandler, playerHandler, score);
+		return create2PlayerSquareOthelloGame(human, computer);
 	}
 
 	@Override
@@ -76,9 +67,12 @@ public class OthelloFactoryImpl implements OthelloFactory {
 		return new OthelloBoardHandler(new BoardFactory().createBoard(nodeData));
 	}
 
-	private OthelloBoardHandler create2PlayerSquareOthelloBoardHandler(Player player1, Player player2) {
+	private OthelloImpl create2PlayerSquareOthelloGame(Player player1, Player player2) {
+		PlayerHandler playerHandler = createPlayerHandler(getPlayerList(player1, player2));
 		BoardImpl board = new BoardFactory().createOthelloBoard(player1, player2);
-		return new OthelloBoardHandler(board);
+		OthelloBoardHandler boardHandler = new OthelloBoardHandler(board);
+		Score score = createScore(board.getNodes(), getPlayerList(player1, player2));
+		return new OthelloImpl(boardHandler, playerHandler, score);
 	}
 
 	private PlayerHandler createPlayerHandler(List<Player> players) {
