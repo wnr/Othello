@@ -33,10 +33,15 @@ public class RandomStrategy implements MoveStrategy {
 
 	@Override
 	public Node move(String playerId, Othello othello) {
-		// TODO: Make a copy of the Board before creating a board handler with it.
-		BoardImpl board = (BoardImpl) othello.getBoard();
+		//TODO: This cast will be fixed when Othello is changed to BoardInspector or something equally better.
+		BoardImpl board = ((BoardImpl)othello.getBoard()).copyWithoutObservers();
 		OthelloBoardHandler boardHandler = boardHandlerFactory.createOthelloBoardHandler(board);
 		List<Node> validMoves = boardHandler.getValidMoves(playerId);
+
+		if(validMoves.isEmpty()) {
+			return null;
+		}
+
 		return validMoves.get(new java.util.Random().nextInt(validMoves.size()));
 	}
 }

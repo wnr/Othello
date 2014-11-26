@@ -1,10 +1,7 @@
 package kth.game.othello.player.movestrategy;
 
 import kth.game.othello.Othello;
-import kth.game.othello.board.Node;
-import kth.game.othello.board.NodeImpl;
-import kth.game.othello.board.OthelloBoardHandler;
-import kth.game.othello.board.OthelloBoardHandlerFactory;
+import kth.game.othello.board.*;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -81,22 +78,17 @@ public class GreedyStrategyTest {
 		when(mockedBoardHandler.getValidMoves(anyString())).thenReturn(new LinkedList<>());
 
 		Othello mockedOthello = getMockedOthello();
-		GreedyStrategy greedyStrategy = getMockedStrategy(mockedBoardHandler);
+		MoveStrategy greedyStrategy = getMockedStrategy(mockedBoardHandler);
 
 		Node move = greedyStrategy.move("player1", mockedOthello);
 		Assert.assertEquals(null, move);
 	}
 
 	private Othello getMockedOthello() {
-		Othello mockedOthello = mock(Othello.class);
-		when(mockedOthello.getBoard()).thenReturn(null);
-		return mockedOthello;
+		return MoveStrategyTestHelper.getMockedOthello();
 	}
 
 	private GreedyStrategy getMockedStrategy(OthelloBoardHandler boardHandler) {
-		OthelloBoardHandlerFactory mockedFactory = mock(OthelloBoardHandlerFactory.class);
-		when(mockedFactory.createOthelloBoardHandler(anyObject())).thenReturn(boardHandler);
-
-		return new GreedyStrategy(mockedFactory);
+		return new GreedyStrategy(MoveStrategyTestHelper.getMockedBoardHandlerFactory(boardHandler));
 	}
 }

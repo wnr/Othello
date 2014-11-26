@@ -65,15 +65,10 @@ public class RandomStrategyTest {
 	}
 
 	private Othello getMockedOthello() {
-		Othello mockedOthello = mock(Othello.class);
-		when(mockedOthello.getBoard()).thenReturn(null);
-		return mockedOthello;
+		return MoveStrategyTestHelper.getMockedOthello();
 	}
 
-	private MoveStrategy getMockedStrategy(OthelloBoardHandler boardHandler) {
-		OthelloBoardHandlerFactory mockedFactory = mock(OthelloBoardHandlerFactory.class);
-		when(mockedFactory.createOthelloBoardHandler(anyObject())).thenReturn(boardHandler);
-
-		return new LowestStrategy(mockedFactory);
+	private RandomStrategy getMockedStrategy(OthelloBoardHandler boardHandler) {
+		return new RandomStrategy(MoveStrategyTestHelper.getMockedBoardHandlerFactory(boardHandler));
 	}
 }
