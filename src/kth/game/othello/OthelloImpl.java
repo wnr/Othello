@@ -16,17 +16,20 @@ import kth.game.othello.score.Score;
  */
 public class OthelloImpl implements Othello {
 	private final PlayerHandler playerHandler;
-	OthelloBoardHandler othelloBoardHandler;
+	private final OthelloBoardHandler othelloBoardHandler;
+	private final Score score;
 
 	/**
 	 * Constructs an Othello game instance.
 	 *
 	 * @param othelloBoardHandler The handler responsible of both holding the game board and the Othello board logic
 	 * @param playerHandler The handler responsible of both player logic and holding the players to play Othello
+	 * @param score The score object responsible of storing the game score for the players
 	 */
-	public OthelloImpl(OthelloBoardHandler othelloBoardHandler, PlayerHandler playerHandler) {
+	public OthelloImpl(OthelloBoardHandler othelloBoardHandler, PlayerHandler playerHandler, Score score) {
 		this.othelloBoardHandler = othelloBoardHandler;
 		this.playerHandler = playerHandler;
+		this.score = score;
 	}
 
 	@Override
@@ -46,7 +49,7 @@ public class OthelloImpl implements Othello {
 
 	@Override
 	public Score getScore() {
-		return null;
+		return score;
 	}
 
 	@Override
