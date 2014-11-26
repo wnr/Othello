@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  * @author Lucas Wiener
  */
 public class BoardHandler {
-	private BoardImpl board;
+	private final BoardImpl board;
 
 	/**
 	 * Constructs a Othello board handler.

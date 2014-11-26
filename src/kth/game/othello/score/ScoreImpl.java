@@ -14,7 +14,7 @@ import kth.game.othello.board.Node;
  * @author Lucas Wiener
  */
 public class ScoreImpl extends Observable implements Score, Observer {
-	private HashMap<String, ScoreItem> playerScores;
+	private final HashMap<String, ScoreItem> playerScores;
 
 	/**
 	 * Constructs a Score instance that will observe given nodes for changes and will update the player scores according

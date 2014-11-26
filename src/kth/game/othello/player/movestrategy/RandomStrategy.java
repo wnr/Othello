@@ -15,7 +15,7 @@ import kth.game.othello.board.BoardHandlerFactory;
  * @author Lucas Wiener
  */
 public class RandomStrategy implements MoveStrategy {
-	BoardHandlerFactory boardHandlerFactory;
+	private final BoardHandlerFactory boardHandlerFactory;
 
 	/**
 	 * Creates the random move strategy instance.

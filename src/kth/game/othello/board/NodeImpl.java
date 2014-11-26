@@ -10,10 +10,10 @@ import java.util.Observable;
  * @author Lucas Wiener
  */
 public class NodeImpl extends Observable implements Node, Comparable<NodeImpl> {
-	private String nodeId;
+	private final String nodeId;
 	private String playerId;
-	private int x;
-	private int y;
+	private final int x;
+	private final int y;
 
 	/**
 	 * Constructs a node instance. The node-id is determined by the values of x and y. A node should be identified

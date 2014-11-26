@@ -14,8 +14,8 @@ import kth.game.othello.Othello;
 public class Rotation implements TurnDecider {
 	private static final int NO_PLAYER_IN_TURN = -1;
 
-	List<String> players;
-	int playerInTurnIndex;
+	private final List<String> players;
+	private int playerInTurnIndex;
 
 	/**
 	 * The order of the players in the given list is the order that this {@link TurnDecider} will loop through turns.

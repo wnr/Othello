@@ -6,9 +6,8 @@ package kth.game.othello.score;
  * @author Tomas Ekholm
  */
 public class ScoreItem {
-
-	private String playerId;
-	private int score;
+	private final String playerId;
+	private final int score;
 
 	public ScoreItem(String playerId, int score) {
 		this.playerId = playerId;

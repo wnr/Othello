@@ -15,7 +15,7 @@ import kth.game.othello.board.BoardHandlerFactory;
  * @author Lucas Wiener
  */
 public class LowestStrategy implements MoveStrategy {
-	BoardHandlerFactory boardHandlerFactory;
+	private final BoardHandlerFactory boardHandlerFactory;
 
 	/**
 	 * Creates the lowest move strategy instance.

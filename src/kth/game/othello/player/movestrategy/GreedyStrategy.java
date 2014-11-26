@@ -15,7 +15,7 @@ import kth.game.othello.board.BoardHandlerFactory;
  * @author Lucas Wiener
  */
 public class GreedyStrategy implements MoveStrategy {
-	BoardHandlerFactory boardHandlerFactory;
+	private final BoardHandlerFactory boardHandlerFactory;
 
 	/**
 	 * Creates the greedy move strategy instance.

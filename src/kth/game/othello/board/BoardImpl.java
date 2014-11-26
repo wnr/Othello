@@ -14,8 +14,7 @@ import java.util.stream.Collectors;
  * @author Lucas Wiener
  */
 public class BoardImpl implements Board {
-
-	private HashMap<String, NodeImpl> nodes;
+	private final HashMap<String, NodeImpl> nodes;
 
 	/**
 	 * Constructs a new BoardImpl containing the specified nodes

@@ -8,10 +8,10 @@ import kth.game.othello.player.movestrategy.MoveStrategy;
  * @author Lucas Wiener
  */
 public abstract class PlayerImpl implements Player {
-	String id;
-	String name;
-	Type type;
-	MoveStrategy moveStrategy;
+	private final String id;
+	private final String name;
+	private final Type type;
+	private MoveStrategy moveStrategy;
 
 	/**
 	 * Constructs an othello player structure object.
