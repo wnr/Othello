@@ -1,7 +1,13 @@
 package kth.game.othello.board;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import kth.game.othello.board.factory.NodeData;
+import kth.game.othello.board.factory.Square;
 import kth.game.othello.player.Player;
 
 /**
@@ -17,20 +23,29 @@ public class BoardFactory {
 	 *
 	 * @return an Othello Board of size 8
 	 */
-	public static BoardImpl createOthelloBoard(Player player1, Player player2) {
-		// TODO use the Square class here
-		ArrayList<NodeImpl> nodes = new ArrayList<>();
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
-				NodeImpl node = new NodeImpl(i, j);
-				if (i == 3 && j == 3 || i == 4 && j == 4) {
-					node.setOccupantPlayerId(player2.getId());
-				} else if (i == 3 && j == 4 || i == 4 && j == 3) {
-					node.setOccupantPlayerId(player1.getId());
-				}
-				nodes.add(node);
-			}
-		}
-		return new BoardImpl(nodes);
+	public BoardImpl createOthelloBoard(Player player1, Player player2) {
+		List<Player> players = new ArrayList<>();
+		players.add(player1);
+		players.add(player2);
+		return createBoard(new Square().getNodes(8, players));
 	}
+
+	/**
+	 * Create a board using the specified node data
+	 *
+	 * @param nodeDataSet A set containing that make up the board
+	 * @return A board
+	 */
+	public BoardImpl createBoard(Set<NodeData> nodeDataSet) {
+		return new BoardImpl(convertNodeDataSet(nodeDataSet));
+	}
+
+	private static NodeImpl convertNodeData(NodeData nodeData) {
+		return new NodeImpl(nodeData.getOccupantPlayerId(), nodeData.getXCoordinate(), nodeData.getYCoordinate());
+	}
+
+	private static Collection<NodeImpl> convertNodeDataSet(Set<NodeData> nodeDataSet) {
+		return nodeDataSet.stream().map(BoardFactory::convertNodeData).collect(Collectors.toList());
+	}
+
 }
