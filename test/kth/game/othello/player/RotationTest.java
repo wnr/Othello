@@ -65,13 +65,6 @@ public class RotationTest {
 		Assert.assertEquals(expectedList, skippedList);
 	}
 
-	/**
-	 * Creates a new {@link Rotation}. Assumes that the simple method setFirstPlayerInTurn is fully functional.
-	 * 
-	 * @param startingPlayer
-	 * @param playerIds
-	 * @return
-	 */
 	private TurnDecider createRotation(String startingPlayer, String... playerIds) {
 		TurnDecider turnDecider = new Rotation(Arrays.asList(playerIds));
 		turnDecider.setFirstPlayerInTurn(startingPlayer);
