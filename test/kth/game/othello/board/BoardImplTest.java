@@ -83,4 +83,14 @@ public class BoardImplTest {
 		BoardImpl board = create8x8Board();
 		board.getNode(7, 8);
 	}
+
+	@Test
+	public void copyWithoutObservers() {
+		//Without observers
+		{
+			BoardImpl board = create8x8Board();
+			BoardImpl copy = board.copyWithoutObservers();
+			Assert.assertEquals(board, copy);
+		}
+	}
 }

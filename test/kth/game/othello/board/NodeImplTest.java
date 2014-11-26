@@ -82,4 +82,24 @@ public class NodeImplTest {
 														// is 1 for the previous call)
 	}
 
+	@Test
+	public void copyWithoutObserversTest() {
+		//Without observers
+		{
+			NodeImpl node = new NodeImpl("player1", 3, 2);
+			NodeImpl copy = node.copyWithoutObservers();
+			Assert.assertEquals(copy, node);
+		}
+
+		//With observers
+		{
+			Observer observer = mock(Observer.class);
+			NodeImpl node = new NodeImpl("player1", 3, 2);
+			node.addObserver(observer);
+			NodeImpl copy = node.copyWithoutObservers();
+			Assert.assertEquals(copy, node);
+			Assert.assertEquals(0, copy.countObservers());
+		}
+	}
+
 }

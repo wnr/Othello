@@ -1,6 +1,7 @@
 package kth.game.othello.board;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * A simple board implementation, allowing players to occupy nodes
@@ -87,10 +88,37 @@ public class BoardImpl implements Board {
 		nodes.get(nodeId).setOccupantPlayerId(playerId);
 	}
 
+	/**
+	 * Returns a new instance of a BoardImpl containing copies of all nodes present in this board. The node copies will
+	 * not contain the observers added to the original nodes.
+	 * 
+	 * @return A new BoardImpl instance of all copied nodes without node observers.
+	 */
+	public BoardImpl copyWithoutObservers() {
+		return new BoardImpl(nodes.values().stream().map(NodeImpl::copyWithoutObservers).collect(Collectors.toList()));
+	}
+
 	@Override
 	public List<Node> getNodes() {
 		ArrayList<NodeImpl> res = new ArrayList<>(nodes.values());
 		Collections.sort(res);
 		return new ArrayList<>(res);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		BoardImpl board = (BoardImpl) o;
+
+		if (nodes != null ? !nodes.equals(board.nodes) : board.nodes != null) return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		return nodes != null ? nodes.hashCode() : 0;
 	}
 }
