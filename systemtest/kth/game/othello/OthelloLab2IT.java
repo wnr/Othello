@@ -1,8 +1,9 @@
 package kth.game.othello;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
+import java.util.Random;
 
 import kth.game.othello.board.Node;
 import kth.game.othello.board.OthelloBoardHandlerFactory;
@@ -12,29 +13,35 @@ import kth.game.othello.player.HumanPlayer;
 import kth.game.othello.player.Player;
 import kth.game.othello.player.Player.Type;
 import kth.game.othello.player.movestrategy.GreedyStrategy;
+import kth.game.othello.player.movestrategy.LowestStrategy;
 import kth.game.othello.player.movestrategy.MoveStrategy;
+import kth.game.othello.player.movestrategy.RandomStrategy;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 public class OthelloLab2IT {
 
-	// TODO: generate other strategies, maybe random
 	private MoveStrategy getNewMoveStrategy() {
-		return new GreedyStrategy(new OthelloBoardHandlerFactory());
+		int randomNumber = new Random().nextInt(3);
+		if (randomNumber == 0) {
+			return new GreedyStrategy(new OthelloBoardHandlerFactory());
+		}
+		if (randomNumber == 1) {
+			return new RandomStrategy(new OthelloBoardHandlerFactory());
+		}
+		if (randomNumber == 2) {
+			return new LowestStrategy(new OthelloBoardHandlerFactory());
+		}
+		return null;
 	}
 
 	private OthelloFactory getOthelloFactory() {
 		return new OthelloFactoryImpl();
 	}
 
-	private Player createComputer(String name) {
-		return new ComputerPlayer(UUID.randomUUID().toString(), name, getNewMoveStrategy());
-	}
-
-	// TODO: We might want to use this when getOthelloFactory().createGame is implemented
-	private Player createHuman(String name) {
-		return new HumanPlayer(UUID.randomUUID().toString(), name);
+	private Player createComputer(String id) {
+		return new ComputerPlayer(id, id, getNewMoveStrategy());
 	}
 
 	private void makeNumberOfComputerMoves(int numberOfMoves, Othello othello) {
@@ -93,10 +100,13 @@ public class OthelloLab2IT {
 
 	@Test
 	public void threeComputersOnADiamondBoardTest() {
-		List<Player> players = new ArrayList<Player>();
-		players.add(createComputer("black"));
-		players.add(createComputer("white"));
-		players.add(createComputer("orange"));
+		List<Player> players = new ArrayList<>();
+		String blackId = "black";
+		String whiteId = "white";
+		String orangeId = "orange";
+		players.add(createComputer(blackId));
+		players.add(createComputer(whiteId));
+		players.add(createComputer(orangeId));
 		Diamond diamond = new Diamond();
 		Othello othello = getOthelloFactory().createGame(diamond.getNodes(11, players), players);
 		othello.start();
@@ -104,11 +114,18 @@ public class OthelloLab2IT {
 			othello.move();
 		}
 
+		HashMap<String, Integer> actualScore = new HashMap<>();
+		actualScore.put(blackId, 0);
+		actualScore.put(whiteId, 0);
+		actualScore.put(orangeId, 0);
+		othello.getBoard().getNodes().stream().filter(Node::isMarked).forEach(node -> {
+			actualScore.put(node.getOccupantPlayerId(), actualScore.get(node.getOccupantPlayerId()) + 1);
+		});
+
 		// Check the score
-		// TODO: When getOthelloFactory().createGame is implemented, check what score should be the correct ones
-		Assert.assertEquals(6, othello.getScore().getPoints("black"));
-		Assert.assertEquals(6, othello.getScore().getPoints("white"));
-		Assert.assertEquals(6, othello.getScore().getPoints("orange"));
+		Assert.assertEquals(actualScore.get(blackId).intValue(), othello.getScore().getPoints(blackId));
+		Assert.assertEquals(actualScore.get(whiteId).intValue(), othello.getScore().getPoints(whiteId));
+		Assert.assertEquals(actualScore.get(orangeId).intValue(), othello.getScore().getPoints(orangeId));
 
 		Assert.assertFalse(othello.isActive());
 	}
