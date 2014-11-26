@@ -1,15 +1,19 @@
 package kth.game.othello.score;
 
-import kth.game.othello.board.Node;
-import kth.game.othello.board.NodeImpl;
-import org.junit.Assert;
-import org.junit.Test;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 import java.util.Observer;
+
+import kth.game.othello.board.NodeImpl;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 public class ScoreImplTest {
 	@Test

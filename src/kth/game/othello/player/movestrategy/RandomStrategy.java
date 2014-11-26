@@ -9,26 +9,26 @@ import kth.game.othello.board.OthelloBoardHandler;
 import kth.game.othello.board.OthelloBoardHandlerFactory;
 
 /**
- * A greedy move strategy that will make the move that result in the most node swaps. If there are multiple candidates
- * one Node will just be picked.
+ * A really move strategy that will make the move by random. It will simply choose a random node among the possible
+ * nodes to move to.
  *
  * @author Lucas Wiener
  */
-public class GreedyStrategy implements MoveStrategy {
+public class RandomStrategy implements MoveStrategy {
 	OthelloBoardHandlerFactory boardHandlerFactory;
 
 	/**
-	 * Creates the greedy move strategy instance.
+	 * Creates the random move strategy instance.
 	 *
 	 * @param boardHandlerFactory The factory to create othello board handlers.
 	 */
-	public GreedyStrategy(OthelloBoardHandlerFactory boardHandlerFactory) {
+	public RandomStrategy(OthelloBoardHandlerFactory boardHandlerFactory) {
 		this.boardHandlerFactory = boardHandlerFactory;
 	}
 
 	@Override
 	public String getName() {
-		return "Greedy";
+		return "Random";
 	}
 
 	@Override
@@ -36,21 +36,12 @@ public class GreedyStrategy implements MoveStrategy {
 		// TODO: This cast will be fixed when Othello is changed to BoardInspector or something equally better.
 		BoardImpl board = ((BoardImpl) othello.getBoard()).copyWithoutObservers();
 		OthelloBoardHandler boardHandler = boardHandlerFactory.createOthelloBoardHandler(board);
-
 		List<Node> validMoves = boardHandler.getValidMoves(playerId);
 
-		Node highestNode = null;
-		int highestSwaps = 0;
-
-		for (Node n : validMoves) {
-			String nodeId = n.getId();
-			int numSwaps = boardHandler.getNumSwaps(playerId, nodeId);
-			if (numSwaps > highestSwaps) {
-				highestSwaps = numSwaps;
-				highestNode = n;
-			}
+		if (validMoves.isEmpty()) {
+			return null;
 		}
 
-		return highestNode;
+		return validMoves.get(new java.util.Random().nextInt(validMoves.size()));
 	}
 }

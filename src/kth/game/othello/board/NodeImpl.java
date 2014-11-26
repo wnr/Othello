@@ -1,8 +1,6 @@
 package kth.game.othello.board;
 
 import java.util.Observable;
-import java.util.ArrayList;
-import java.util.Observer;
 
 /**
  * Representation of a node, containing information of its position in the board and an id of the occupying player (if
@@ -56,6 +54,15 @@ public class NodeImpl extends Observable implements Node, Comparable<NodeImpl> {
 			setChanged();
 			notifyObservers(previousOccupantPlayerId);
 		}
+	}
+
+	/**
+	 * Creates a new instance with the same values except for the observers.
+	 *
+	 * @return The new instance that has the same values as this node, except for the observers.
+	 */
+	public NodeImpl copyWithoutObservers() {
+		return new NodeImpl(playerId, x, y);
 	}
 
 	@Override

@@ -1,9 +1,9 @@
 package kth.game.othello.player;
 
+import kth.game.othello.player.movestrategy.MoveStrategy;
+
 import org.junit.Assert;
 import org.junit.Test;
-
-import kth.game.othello.player.movestrategy.MoveStrategy;
 import org.mockito.Mockito;
 
 public class PlayerImplTest {
