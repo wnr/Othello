@@ -93,4 +93,19 @@ public class BoardImplTest {
 			Assert.assertEquals(board, copy);
 		}
 	}
+
+	@Test
+	public void getMaxXTest() {
+		Board board = create8x8Board();
+		Assert.assertEquals(7, board.getMaxX());
+	}
+
+	@Test
+	public void getMaxYTest() {
+		List<NodeImpl> nodes = new ArrayList<>();
+		nodes.add(new NodeImpl(0, 1));
+		nodes.add(new NodeImpl(14, 0));
+		Board board = new BoardImpl(nodes);
+		Assert.assertEquals(1, board.getMaxY());
+	}
 }
