@@ -6,6 +6,7 @@ import java.util.Observable;
  * Representation of a node, containing information of its position in the board and an id of the occupying player (if
  * any).
  *
+ * @author Mathias Lindblom
  * @author Erik Odenman
  * @author Lucas Wiener
  */

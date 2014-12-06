@@ -29,6 +29,8 @@ import kth.game.othello.score.ScoreItem;
 /**
  * Implementation of the OthelloFactory interface.
  *
+ * @author Mathias Lindblom
+ * @author Erik Odenman
  * @author Lucas Wiener
  */
 public class OthelloFactoryImpl implements OthelloFactory {

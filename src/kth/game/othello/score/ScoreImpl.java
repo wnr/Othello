@@ -11,6 +11,8 @@ import kth.game.othello.board.Node;
 /**
  * Implements the Score interface.
  *
+ * @author Mathias Lindblom
+ * @author Erik Odenman
  * @author Lucas Wiener
  */
 public class ScoreImpl extends Observable implements Score, Observer {

@@ -8,8 +8,10 @@ import kth.game.othello.Othello;
 /**
  * This {@link TurnDecider} will simply loop (rotate) the player turns according to the order in the player list given
  * in the constructor.
- * 
+ *
  * @author Mathias Lindblom
+ * @author Erik Odenman
+ * @author Lucas Wiener
  */
 public class Rotation implements TurnDecider {
 	private static final int NO_PLAYER_IN_TURN = -1;

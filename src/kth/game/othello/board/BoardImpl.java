@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 /**
  * A simple board implementation, allowing players to occupy nodes
  *
+ * @author Mathias Lindblom
  * @author Erik Odenman
  * @author Lucas Wiener
  */

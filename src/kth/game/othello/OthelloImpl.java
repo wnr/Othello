@@ -13,6 +13,8 @@ import kth.game.othello.score.Score;
  * The implementation of the interface Othello whose purpose is to represent an Othello game.
  *
  * @author Mathias Lindblom
+ * @author Erik Odenman
+ * @author Lucas Wiener
  */
 public class OthelloImpl extends Observable implements Othello {
 	private final PlayerHandler playerHandler;

@@ -10,6 +10,8 @@ import kth.game.othello.rules.Rules;
  * A really move strategy that will make the move by random. It will simply choose a random node among the possible
  * nodes to move to.
  *
+ * @author Mathias Lindblom
+ * @author Erik Odenman
  * @author Lucas Wiener
  */
 public class RandomStrategy implements MoveStrategy {

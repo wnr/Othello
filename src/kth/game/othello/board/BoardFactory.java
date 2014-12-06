@@ -9,6 +9,7 @@ import kth.game.othello.board.factory.NodeData;
 /**
  * A factory for producing Othello Boards.
  *
+ * @author Mathias Lindblom
  * @author Erik Odenman
  * @author Lucas Wiener
  */

@@ -5,6 +5,8 @@ import kth.game.othello.player.movestrategy.MoveStrategy;
 /**
  * This is the implementation of the Player interface.
  *
+ * @author Mathias Lindblom
+ * @author Erik Odenman
  * @author Lucas Wiener
  */
 public abstract class PlayerImpl implements Player {

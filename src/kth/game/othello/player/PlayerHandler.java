@@ -13,6 +13,8 @@ import kth.game.othello.player.turndecider.TurnDecider;
  * A handler with the overall responsibility regarding the players in the game.
  *
  * @author Mathias Lindblom
+ * @author Erik Odenman
+ * @author Lucas Wiener
  */
 public class PlayerHandler {
 	private final List<Player> players;

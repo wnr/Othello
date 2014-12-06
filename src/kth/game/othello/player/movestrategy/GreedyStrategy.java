@@ -10,6 +10,8 @@ import kth.game.othello.rules.Rules;
  * A greedy move strategy that will make the move that result in the most node swaps. If there are multiple candidates
  * one Node will just be picked.
  *
+ * @author Mathias Lindblom
+ * @author Erik Odenman
  * @author Lucas Wiener
  */
 public class GreedyStrategy implements MoveStrategy {

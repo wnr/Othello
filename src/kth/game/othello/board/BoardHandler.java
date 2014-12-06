@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 /**
  * A handler implementing common actions on an othello board. The board handler is responsible of mutating the board.
  *
+ * @author Mathias Lindblom
  * @author Erik Odenman
  * @author Lucas Wiener
  */

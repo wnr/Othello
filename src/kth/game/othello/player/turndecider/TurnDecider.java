@@ -8,6 +8,8 @@ import kth.game.othello.Othello;
  * Interface used for keeping track of the next player in turn that can make a valid move.
  *
  * @author Mathias Lindblom
+ * @author Erik Odenman
+ * @author Lucas Wiener
  */
 public interface TurnDecider {
 

@@ -10,6 +10,8 @@ import kth.game.othello.rules.Rules;
  * A really bad move strategy that will make the move that result in the least node swaps. If there are multiple
  * candidates one Node will just be picked.
  *
+ * @author Mathias Lindblom
+ * @author Erik Odenman
  * @author Lucas Wiener
  */
 public class LowestStrategy implements MoveStrategy {
