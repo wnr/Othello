@@ -15,15 +15,11 @@ import kth.game.othello.rules.Rules;
  * @author Lucas Wiener
  */
 public class LowestStrategy implements MoveStrategy {
-	private final BoardHandlerFactory boardHandlerFactory;
-
 	/**
 	 * Creates the lowest move strategy instance.
-	 *
-	 * @param boardHandlerFactory The factory to create othello board handlers.
 	 */
-	public LowestStrategy(BoardHandlerFactory boardHandlerFactory) {
-		this.boardHandlerFactory = boardHandlerFactory;
+	public LowestStrategy() {
+
 	}
 
 	@Override
@@ -33,18 +29,14 @@ public class LowestStrategy implements MoveStrategy {
 
 	@Override
 	public Node move(String playerId, Rules rules, Board board) {
-		// TODO: Use rules here somehow?
-		BoardImpl copiedBoard = ((BoardImpl) board).copyWithoutObservers();
-		BoardHandler boardHandler = boardHandlerFactory.createOthelloBoardHandler(copiedBoard);
-
-		List<Node> validMoves = boardHandler.getValidMoves(playerId);
+		List<Node> validMoves = rules.getValidMoves(playerId);
 
 		Node lowestNode = null;
 		int lowestSwaps = Integer.MAX_VALUE;
 
 		for (Node n : validMoves) {
 			String nodeId = n.getId();
-			int numSwaps = boardHandler.getNumSwaps(playerId, nodeId);
+			int numSwaps = rules.getNumNodesToSwap(playerId, nodeId);
 			if (numSwaps < lowestSwaps) {
 				lowestSwaps = numSwaps;
 				lowestNode = n;

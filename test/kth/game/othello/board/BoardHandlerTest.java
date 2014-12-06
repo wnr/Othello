@@ -144,10 +144,10 @@ public class BoardHandlerTest {
 		{
 			BoardHandler boardHandler = getInitialGameBoardHandler(player1, player2);
 
-			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, NodeIdUtil.createNodeId(2, 3)));
-			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, NodeIdUtil.createNodeId(3, 2)));
-			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, NodeIdUtil.createNodeId(4, 5)));
-			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, NodeIdUtil.createNodeId(5, 4)));
+			Assert.assertEquals(1, boardHandler.getNumNodesToSwap(player1, NodeIdUtil.createNodeId(2, 3)));
+			Assert.assertEquals(1, boardHandler.getNumNodesToSwap(player1, NodeIdUtil.createNodeId(3, 2)));
+			Assert.assertEquals(1, boardHandler.getNumNodesToSwap(player1, NodeIdUtil.createNodeId(4, 5)));
+			Assert.assertEquals(1, boardHandler.getNumNodesToSwap(player1, NodeIdUtil.createNodeId(5, 4)));
 
 		}
 
@@ -156,19 +156,11 @@ public class BoardHandlerTest {
 			BoardHandler boardHandler = getInitialGameBoardHandler(player1, player2);
 			occupyNodeOnMockedBoard(boardHandler.getBoard(), 2, 3, player2);
 
-			Assert.assertEquals(2, boardHandler.getNumSwaps(player1, NodeIdUtil.createNodeId(1, 3)));
-			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, NodeIdUtil.createNodeId(3, 2)));
-			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, NodeIdUtil.createNodeId(4, 5)));
-			Assert.assertEquals(1, boardHandler.getNumSwaps(player1, NodeIdUtil.createNodeId(5, 4)));
+			Assert.assertEquals(2, boardHandler.getNumNodesToSwap(player1, NodeIdUtil.createNodeId(1, 3)));
+			Assert.assertEquals(1, boardHandler.getNumNodesToSwap(player1, NodeIdUtil.createNodeId(3, 2)));
+			Assert.assertEquals(1, boardHandler.getNumNodesToSwap(player1, NodeIdUtil.createNodeId(4, 5)));
+			Assert.assertEquals(1, boardHandler.getNumNodesToSwap(player1, NodeIdUtil.createNodeId(5, 4)));
 		}
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void invalidGetNumSwapsTest() {
-		String player1 = "player1";
-		String player2 = "player2";
-		BoardHandler boardHandler = getInitialGameBoardHandler(player1, player2);
-		boardHandler.getNumSwaps(player1, "2:2");
 	}
 
 	@Test

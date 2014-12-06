@@ -100,7 +100,7 @@ public class OthelloImpl extends Observable implements Othello {
 			throw new IllegalStateException("Next player in turn is not a computer");
 		}
 
-		String nodeId = playerInTurn.getMoveStrategy().move(playerInTurn.getId(), null, getBoard()).getId();
+		String nodeId = playerInTurn.getMoveStrategy().move(playerInTurn.getId(), boardHandler, getBoard()).getId();
 
 		return move(playerInTurn.getId(), nodeId);
 	}

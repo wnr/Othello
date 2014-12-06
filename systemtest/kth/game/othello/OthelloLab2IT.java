@@ -24,13 +24,13 @@ public class OthelloLab2IT {
 	private MoveStrategy getNewMoveStrategy() {
 		int randomNumber = new Random().nextInt(3);
 		if (randomNumber == 0) {
-			return new GreedyStrategy(new BoardHandlerFactory());
+			return new GreedyStrategy();
 		}
 		if (randomNumber == 1) {
-			return new RandomStrategy(new BoardHandlerFactory());
+			return new RandomStrategy();
 		}
 		if (randomNumber == 2) {
-			return new LowestStrategy(new BoardHandlerFactory());
+			return new LowestStrategy();
 		}
 		return null;
 	}

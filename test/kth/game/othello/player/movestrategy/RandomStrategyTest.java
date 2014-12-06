@@ -13,6 +13,7 @@ import kth.game.othello.board.BoardHandler;
 import kth.game.othello.board.Node;
 import kth.game.othello.board.NodeImpl;
 
+import kth.game.othello.rules.Rules;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -27,17 +28,16 @@ public class RandomStrategyTest {
 			validMoves.add(new NodeImpl(4, 5));
 			validMoves.add(new NodeImpl(5, 4));
 
-			BoardHandler mockedBoardHandler = mock(BoardHandler.class);
-			when(mockedBoardHandler.getNumSwaps(anyString(), eq("2:3"))).thenReturn(1);
-			when(mockedBoardHandler.getNumSwaps(anyString(), eq("3:2"))).thenReturn(1);
-			when(mockedBoardHandler.getNumSwaps(anyString(), eq("4:5"))).thenReturn(1);
-			when(mockedBoardHandler.getNumSwaps(anyString(), eq("5:4"))).thenReturn(1);
-			when(mockedBoardHandler.getValidMoves(anyString())).thenReturn(validMoves);
+			Rules mockedRules = mock(Rules.class);
+			when(mockedRules.getNumNodesToSwap(anyString(), eq("2:3"))).thenReturn(1);
+			when(mockedRules.getNumNodesToSwap(anyString(), eq("3:2"))).thenReturn(1);
+			when(mockedRules.getNumNodesToSwap(anyString(), eq("4:5"))).thenReturn(1);
+			when(mockedRules.getNumNodesToSwap(anyString(), eq("5:4"))).thenReturn(1);
+			when(mockedRules.getValidMoves(anyString())).thenReturn(validMoves);
 
-			Othello mockedOthello = getMockedOthello();
-			MoveStrategy lowestStrategy = getMockedStrategy(mockedBoardHandler);
+			MoveStrategy randomStrategy = new RandomStrategy();
 
-			Node move = lowestStrategy.move("player1", null, mockedOthello.getBoard());
+			Node move = randomStrategy.move("player1", mockedRules, null);
 
 			boolean found = false;
 			for (Node n : validMoves) {
@@ -56,19 +56,11 @@ public class RandomStrategyTest {
 		BoardHandler mockedBoardHandler = mock(BoardHandler.class);
 		when(mockedBoardHandler.getValidMoves(anyString())).thenReturn(new LinkedList<>());
 
-		Othello mockedOthello = getMockedOthello();
-		MoveStrategy lowestStrategy = getMockedStrategy(mockedBoardHandler);
+		Rules mockedRules = mock(Rules.class);
+		MoveStrategy randomStrategy = new RandomStrategy();
 
 		// TODO: Change this
-		Node move = lowestStrategy.move("player1", null, mockedOthello.getBoard());
+		Node move = randomStrategy.move("player1", mockedRules, null);
 		Assert.assertEquals(null, move);
-	}
-
-	private Othello getMockedOthello() {
-		return MoveStrategyTestHelper.getMockedOthello();
-	}
-
-	private RandomStrategy getMockedStrategy(BoardHandler boardHandler) {
-		return new RandomStrategy(MoveStrategyTestHelper.getMockedBoardHandlerFactory(boardHandler));
 	}
 }

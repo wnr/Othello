@@ -15,15 +15,11 @@ import kth.game.othello.rules.Rules;
  * @author Lucas Wiener
  */
 public class RandomStrategy implements MoveStrategy {
-	private final BoardHandlerFactory boardHandlerFactory;
-
 	/**
 	 * Creates the random move strategy instance.
-	 *
-	 * @param boardHandlerFactory The factory to create othello board handlers.
 	 */
-	public RandomStrategy(BoardHandlerFactory boardHandlerFactory) {
-		this.boardHandlerFactory = boardHandlerFactory;
+	public RandomStrategy() {
+
 	}
 
 	@Override
@@ -33,11 +29,7 @@ public class RandomStrategy implements MoveStrategy {
 
 	@Override
 	public Node move(String playerId, Rules rules, Board board) {
-		// TODO: Use rules here somehow?
-		BoardImpl copiedBoard = ((BoardImpl) board).copyWithoutObservers();
-		BoardHandler boardHandler = boardHandlerFactory.createOthelloBoardHandler(copiedBoard);
-
-		List<Node> validMoves = boardHandler.getValidMoves(playerId);
+		List<Node> validMoves = rules.getValidMoves(playerId);
 
 		if (validMoves.isEmpty()) {
 			return null;

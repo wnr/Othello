@@ -35,17 +35,6 @@ public class BoardHandler implements Rules {
 	}
 
 	/**
-	 * Get valid nodes that can be moved to by the given player id.
-	 *
-	 * @param playerId The player that should be checked for valid moves
-	 * @return All valid nodes the player move to
-	 */
-	public List<Node> getValidMoves(String playerId) {
-		return board.getNodes().stream().filter(node -> isMoveValid(playerId, node.getId()))
-				.collect(Collectors.toCollection(LinkedList::new));
-	}
-
-	/**
 	 * Makes a move in the Othello board by occupying the given node id with the player given the player id. Will occupy
 	 * the given node and swap all possible nodes. If the move is invalid, an exception is thrown.
 	 * 
@@ -71,40 +60,6 @@ public class BoardHandler implements Rules {
 		return swaps;
 	}
 
-	/**
-	 * Computes the number of swapped nodes if a move is made by given player to given node. This will not perform the
-	 * actual node.
-	 * 
-	 * @param playerId The player that will make the move.
-	 * @param nodeId The node that the player will move to.
-	 * @return The number of nodes that will be swapped (not including the one moved to).
-	 * @throws IllegalArgumentException if the potential move is not valid or the given node does not exist.
-	 */
-	public int getNumSwaps(String playerId, String nodeId) {
-		int numSwaps = getNodesToSwap(playerId, nodeId).size();
-
-		if (numSwaps == 0) {
-			throw new IllegalArgumentException("Invalid move");
-		}
-
-		return numSwaps;
-	}
-
-	/**
-	 * Check to see if there exist at least one valid move for at least one of the given playerIds
-	 *
-	 * @param playerIds The ID´s of the players to check if a valid move exists.
-	 * @return True if at least one valid move was found for some player
-	 */
-	public boolean hasAnyAValidMove(List<String> playerIds) {
-		for (String playerId : playerIds) {
-			if (hasValidMove(playerId)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	@Override
 	public List<Node> getNodesToSwap(String playerId, String nodeId) {
 		List<Node> swaps = new LinkedList<>();
@@ -118,6 +73,11 @@ public class BoardHandler implements Rules {
 	}
 
 	@Override
+	public int getNumNodesToSwap(String playerId, String nodeId) {
+		return getNodesToSwap(playerId, nodeId).size();
+	}
+
+	@Override
 	public boolean isMoveValid(String playerId, String nodeId) {
 		Node node = board.getNode(nodeId);
 		return !node.isMarked() && !getNodesToSwap(playerId, node.getId()).isEmpty();
@@ -126,6 +86,22 @@ public class BoardHandler implements Rules {
 	@Override
 	public boolean hasValidMove(String playerId) {
 		return !getValidMoves(playerId).isEmpty();
+	}
+
+	@Override
+	public boolean hasAnyAValidMove(List<String> playerIds) {
+		for (String playerId : playerIds) {
+			if (hasValidMove(playerId)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public List<Node> getValidMoves(String playerId) {
+		return board.getNodes().stream().filter(node -> isMoveValid(playerId, node.getId()))
+				.collect(Collectors.toCollection(LinkedList::new));
 	}
 
 	/**

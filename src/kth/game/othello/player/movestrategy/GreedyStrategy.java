@@ -15,15 +15,11 @@ import kth.game.othello.rules.Rules;
  * @author Lucas Wiener
  */
 public class GreedyStrategy implements MoveStrategy {
-	private final BoardHandlerFactory boardHandlerFactory;
-
 	/**
 	 * Creates the greedy move strategy instance.
-	 *
-	 * @param boardHandlerFactory The factory to create othello board handlers.
 	 */
-	public GreedyStrategy(BoardHandlerFactory boardHandlerFactory) {
-		this.boardHandlerFactory = boardHandlerFactory;
+	public GreedyStrategy() {
+
 	}
 
 	@Override
@@ -33,18 +29,14 @@ public class GreedyStrategy implements MoveStrategy {
 
 	@Override
 	public Node move(String playerId, Rules rules, Board board) {
-		// TODO: Use rules here somehow?
-		BoardImpl copiedBoard = ((BoardImpl) board).copyWithoutObservers();
-		BoardHandler boardHandler = boardHandlerFactory.createOthelloBoardHandler(copiedBoard);
-
-		List<Node> validMoves = boardHandler.getValidMoves(playerId);
+		List<Node> validMoves = rules.getValidMoves(playerId);
 
 		Node highestNode = null;
 		int highestSwaps = 0;
 
 		for (Node n : validMoves) {
 			String nodeId = n.getId();
-			int numSwaps = boardHandler.getNumSwaps(playerId, nodeId);
+			int numSwaps = rules.getNumNodesToSwap(playerId, nodeId);
 			if (numSwaps > highestSwaps) {
 				highestSwaps = numSwaps;
 				highestNode = n;

@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 import kth.game.othello.board.BoardFactory;
 import kth.game.othello.board.BoardHandler;
-import kth.game.othello.board.BoardHandlerFactory;
 import kth.game.othello.board.Node;
 import kth.game.othello.board.factory.NodeData;
 import kth.game.othello.board.factory.Square;
@@ -36,7 +35,7 @@ import kth.game.othello.score.ScoreItem;
 public class OthelloFactoryImpl implements OthelloFactory {
 	@Override
 	public Othello createComputerGame() {
-		MoveStrategy greedyMoveStrategy = new GreedyStrategy(new BoardHandlerFactory());
+		MoveStrategy greedyMoveStrategy = new GreedyStrategy();
 		Player computer1 = new ComputerPlayer("computer1", "Bottler", greedyMoveStrategy);
 		Player computer2 = new ComputerPlayer("computer2", "Bigbot", greedyMoveStrategy);
 		return create2PlayerSquareOthelloGame(computer1, computer2);
@@ -51,7 +50,7 @@ public class OthelloFactoryImpl implements OthelloFactory {
 
 	@Override
 	public Othello createHumanVersusComputerGame() {
-		MoveStrategy greedyMoveStrategy = new GreedyStrategy(new BoardHandlerFactory());
+		MoveStrategy greedyMoveStrategy = new GreedyStrategy();
 		Player human = new HumanPlayer("human", "HeatoN");
 		Player computer = new ComputerPlayer("computer", "Bottler", greedyMoveStrategy);
 		return create2PlayerSquareOthelloGame(human, computer);
