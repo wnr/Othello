@@ -11,7 +11,7 @@ import kth.game.othello.view.swing.OthelloViewFactory;
 public class Main {
     public static void main(String[] args) {
         Othello othello = new OthelloFactoryImpl().createComputerGame();
-        OthelloView othelloView = OthelloViewFactory.create(othello, 1000, 5000);
+        OthelloView othelloView = OthelloViewFactory.create(othello);
         othelloView.start();
     }
 }
