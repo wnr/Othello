@@ -1,5 +1,7 @@
 package kth.game.othello.board;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -26,6 +28,24 @@ public class BoardImpl implements Board {
 		for (NodeImpl node : nodes) {
 			this.nodes.put(node.getId(), node);
 		}
+	}
+
+	@Override
+	public int getMaxX() {
+		// TODO: implement me.
+		return 0;
+	}
+
+	@Override
+	public int getMaxY() {
+		// TODO: implement me.
+		return 0;
+	}
+
+	@Override
+	public boolean hasNode(int x, int y) {
+		// TODO: implement me.
+		return false;
 	}
 
 	/**

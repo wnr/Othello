@@ -37,7 +37,8 @@ public class GreedyStrategyTest {
 			Othello mockedOthello = getMockedOthello();
 			GreedyStrategy greedyStrategy = getMockedStrategy(mockedBoardHandler);
 
-			Node move = greedyStrategy.move("player1", mockedOthello);
+			// TODO: Change this.
+			Node move = greedyStrategy.move("player1", null, mockedOthello.getBoard());
 
 			boolean found = false;
 			for (Node n : validMoves) {
@@ -69,7 +70,8 @@ public class GreedyStrategyTest {
 		Othello mockedOthello = getMockedOthello();
 		GreedyStrategy greedyStrategy = getMockedStrategy(mockedBoardHandler);
 
-		Node move = greedyStrategy.move("player1", mockedOthello);
+		// TODO: Change this
+		Node move = greedyStrategy.move("player1", null, mockedOthello.getBoard());
 
 		Assert.assertEquals("1:3", move.getId());
 	}
@@ -82,7 +84,8 @@ public class GreedyStrategyTest {
 		Othello mockedOthello = getMockedOthello();
 		MoveStrategy greedyStrategy = getMockedStrategy(mockedBoardHandler);
 
-		Node move = greedyStrategy.move("player1", mockedOthello);
+		// TODO: Change this
+		Node move = greedyStrategy.move("player1", null, mockedOthello.getBoard());
 		Assert.assertEquals(null, move);
 	}
 

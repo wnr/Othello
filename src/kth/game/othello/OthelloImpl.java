@@ -1,6 +1,7 @@
 package kth.game.othello;
 
 import java.util.List;
+import java.util.Observer;
 
 import kth.game.othello.board.Board;
 import kth.game.othello.board.BoardHandler;
@@ -30,6 +31,22 @@ public class OthelloImpl implements Othello {
 		this.boardHandler = boardHandler;
 		this.playerHandler = playerHandler;
 		this.score = score;
+	}
+
+	@Override
+	public void addGameFinishedObserver(Observer observer) {
+		// TODO: Implement me.
+	}
+
+	@Override
+	public void addMoveObserver(Observer observer) {
+		// TODO: Implement me.
+	}
+
+	@Override
+	public String getId() {
+		// TODO: Implement me.
+		return null;
 	}
 
 	@Override
@@ -79,7 +96,7 @@ public class OthelloImpl implements Othello {
 			throw new IllegalStateException("Next player in turn is not a computer");
 		}
 
-		String nodeId = playerInTurn.getMoveStrategy().move(playerInTurn.getId(), this).getId();
+		String nodeId = playerInTurn.getMoveStrategy().move(playerInTurn.getId(), null, getBoard()).getId();
 
 		return move(playerInTurn.getId(), nodeId);
 	}
@@ -107,5 +124,10 @@ public class OthelloImpl implements Othello {
 	@Override
 	public void start(String playerId) {
 		playerHandler.setStartingPlayer(playerId);
+	}
+
+	@Override
+	public void undo() {
+		// TODO: Implement me.
 	}
 }

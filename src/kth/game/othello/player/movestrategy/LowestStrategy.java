@@ -3,10 +3,8 @@ package kth.game.othello.player.movestrategy;
 import java.util.List;
 
 import kth.game.othello.Othello;
-import kth.game.othello.board.BoardHandler;
-import kth.game.othello.board.BoardImpl;
-import kth.game.othello.board.Node;
-import kth.game.othello.board.BoardHandlerFactory;
+import kth.game.othello.board.*;
+import kth.game.othello.rules.Rules;
 
 /**
  * A really bad move strategy that will make the move that result in the least node swaps. If there are multiple
@@ -32,10 +30,10 @@ public class LowestStrategy implements MoveStrategy {
 	}
 
 	@Override
-	public Node move(String playerId, Othello othello) {
-		// TODO: This cast will be fixed when Othello is changed to BoardInspector or something equally better.
-		BoardImpl board = ((BoardImpl) othello.getBoard()).copyWithoutObservers();
-		BoardHandler boardHandler = boardHandlerFactory.createOthelloBoardHandler(board);
+	public Node move(String playerId, Rules rules, Board board) {
+		// TODO: Use rules here somehow?
+		BoardImpl copiedBoard = ((BoardImpl) board).copyWithoutObservers();
+		BoardHandler boardHandler = boardHandlerFactory.createOthelloBoardHandler(copiedBoard);
 
 		List<Node> validMoves = boardHandler.getValidMoves(playerId);
 

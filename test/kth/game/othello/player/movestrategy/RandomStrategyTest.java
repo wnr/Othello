@@ -37,7 +37,7 @@ public class RandomStrategyTest {
 			Othello mockedOthello = getMockedOthello();
 			MoveStrategy lowestStrategy = getMockedStrategy(mockedBoardHandler);
 
-			Node move = lowestStrategy.move("player1", mockedOthello);
+			Node move = lowestStrategy.move("player1", null, mockedOthello.getBoard());
 
 			boolean found = false;
 			for (Node n : validMoves) {
@@ -59,7 +59,8 @@ public class RandomStrategyTest {
 		Othello mockedOthello = getMockedOthello();
 		MoveStrategy lowestStrategy = getMockedStrategy(mockedBoardHandler);
 
-		Node move = lowestStrategy.move("player1", mockedOthello);
+		// TODO: Change this
+		Node move = lowestStrategy.move("player1", null, mockedOthello.getBoard());
 		Assert.assertEquals(null, move);
 	}
 
