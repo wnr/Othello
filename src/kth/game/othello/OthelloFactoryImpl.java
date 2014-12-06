@@ -8,9 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import kth.game.othello.board.BoardFactory;
-import kth.game.othello.board.BoardHandler;
-import kth.game.othello.board.Node;
+import kth.game.othello.board.*;
 import kth.game.othello.board.factory.NodeData;
 import kth.game.othello.board.factory.Square;
 import kth.game.othello.player.ComputerPlayer;
@@ -65,7 +63,9 @@ public class OthelloFactoryImpl implements OthelloFactory {
 	}
 
 	private BoardHandler createOthelloBoardHandler(Set<NodeData> nodeData) {
-		return new BoardHandler(new BoardFactory().createBoard(nodeData));
+		BoardImpl board = new BoardFactory().createBoard(nodeData);
+		BoardHandler boardHandler = new BoardHandlerFactory().createOthelloBoardHandler(board);
+		return boardHandler;
 	}
 
 	private OthelloImpl create2PlayerSquareOthelloGame(Player player1, Player player2) {

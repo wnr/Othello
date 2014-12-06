@@ -1,7 +1,6 @@
 package kth.game.othello.board;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,7 +46,6 @@ public class BoardHandlerTest {
 
 	private void occupyNodeOnMockedBoard(Board board, int x, int y, String playerId) {
 		occupyMockedNode(board.getNode(x, y), playerId);
-
 	}
 
 	private void occupyMockedNode(Node node, String playerId) {
@@ -71,17 +69,23 @@ public class BoardHandlerTest {
 		occupyMockedNode(nodes[5][7], player2);
 		occupyMockedNode(nodes[6][7], null);
 
-		return new BoardHandler(getMockedBoard(nodes));
+		BoardHistory mockedBoardHistory = mock(BoardHistory.class);
+		return new BoardHandler(getMockedBoard(nodes), mockedBoardHistory);
 	}
 
 	private BoardHandler getInitialGameBoardHandler(String player1, String player2) {
+		BoardHistory mockedBoardHistory = mock(BoardHistory.class);
+		return new BoardHandler(getInitialGameBoard(player1, player2), mockedBoardHistory);
+	}
+
+	private BoardImpl getInitialGameBoard(String player1, String player2) {
 		Node[][] nodes = getMockedNodeMatrix();
 		occupyMockedNode(nodes[3][3], player2);
 		occupyMockedNode(nodes[4][4], player2);
 		occupyMockedNode(nodes[3][4], player1);
 		occupyMockedNode(nodes[4][3], player1);
 		BoardImpl board = getMockedBoard(nodes);
-		return new BoardHandler(board);
+		return board;
 	}
 
 	private boolean nodeListContainsNodeId(List<Node> list, String nodeId) {
@@ -207,6 +211,25 @@ public class BoardHandlerTest {
 		Assert.assertTrue(boardHandler.hasAnyAValidMove(Arrays.asList(player1, player2)));
 
 		Assert.assertTrue(boardHandler.hasAnyAValidMove(Arrays.asList("notPlayer1Id", player2)));
+	}
 
+	@Test
+	public void undoTest() {
+		BoardImpl mockedBoard = getInitialGameBoard("player1", "player2");
+		BoardHistory mockedBoardHistory = mock(BoardHistory.class);
+		BoardHandler boardHandler = new BoardHandler(mockedBoard, mockedBoardHistory);
+
+		boardHandler.move("player1", NodeIdUtil.createNodeId(2, 3));
+
+		List<Node> move = new ArrayList<>();
+		move.add(mockedBoard.getNode(2, 3));
+		move.add(mockedBoard.getNode(3, 3));
+		verify(mockedBoardHistory, times(1)).push(move);
+
+		boardHandler.move("player2", NodeIdUtil.createNodeId(4, 2));
+		move = new ArrayList<>();
+		move.add(mockedBoard.getNode(4, 2));
+		move.add(mockedBoard.getNode(4, 3));
+		verify(mockedBoardHistory, times(1)).push(move);
 	}
 }

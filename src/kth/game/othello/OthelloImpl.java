@@ -138,7 +138,7 @@ public class OthelloImpl extends Observable implements Othello {
 
 	@Override
 	public void undo() {
-		// TODO: Implement me.
+		boardHandler.undo();
 	}
 
 	private void notifyAllGameFinishedObservers() {

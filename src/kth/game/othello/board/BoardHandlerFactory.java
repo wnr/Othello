@@ -12,6 +12,7 @@ public class BoardHandlerFactory {
 	 * @return An BoardHandler instance to handle the given board.
 	 */
 	public BoardHandler createOthelloBoardHandler(BoardImpl board) {
-		return new BoardHandler(board);
+		BoardHistory boardHistory = new BoardHistory(board);
+		return new BoardHandler(board, boardHistory);
 	}
 }
