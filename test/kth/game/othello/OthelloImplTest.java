@@ -40,7 +40,7 @@ public class OthelloImplTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void moveExceptionTest() {
+	public void moveWithNoPlayerInTurnExceptionTest() {
 		PlayerHandler phMock = mock(PlayerHandler.class);
 		OthelloImpl othello = new OthelloImpl(null, phMock, null);
 		when(phMock.getPlayerInTurn()).thenReturn(null);
@@ -48,7 +48,7 @@ public class OthelloImplTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void moveExceptionTest2() {
+	public void moveWrongPlayerExceptionTest() {
 		PlayerHandler phMock = mock(PlayerHandler.class);
 		Player playerMock = mock(Player.class);
 		OthelloImpl othello = new OthelloImpl(null, phMock, null);
