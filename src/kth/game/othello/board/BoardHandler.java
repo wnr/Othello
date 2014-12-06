@@ -1,5 +1,7 @@
 package kth.game.othello.board;
 
+import kth.game.othello.rules.Rules;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,7 +13,7 @@ import java.util.stream.Collectors;
  * @author Erik Odenman
  * @author Lucas Wiener
  */
-public class BoardHandler {
+public class BoardHandler implements Rules {
 	private final BoardImpl board;
 
 	/**
@@ -70,18 +72,6 @@ public class BoardHandler {
 	}
 
 	/**
-	 * Determines if the given player can make a move by occupying the specified node.
-	 *
-	 * @param playerId The player who tries to move
-	 * @param nodeId The node to occupy
-	 * @return True if the given move is valid
-	 */
-	public boolean isMoveValid(String playerId, String nodeId) {
-		Node node = board.getNode(nodeId);
-		return !node.isMarked() && !getNodesToSwap(playerId, node.getId()).isEmpty();
-	}
-
-	/**
 	 * Computes the number of swapped nodes if a move is made by given player to given node. This will not perform the
 	 * actual node.
 	 * 
@@ -101,16 +91,6 @@ public class BoardHandler {
 	}
 
 	/**
-	 * Check to see if there exist a valid move for a given playerId.
-	 *
-	 * @param playerId The player to check if any valid moves exist
-	 * @return True if there exists at least one move that is valid
-	 */
-	public boolean hasAValidMove(String playerId) {
-		return !getValidMoves(playerId).isEmpty();
-	}
-
-	/**
 	 * Check to see if there exist at least one valid move for at least one of the given playerIds
 	 *
 	 * @param playerIds The ID´s of the players to check if a valid move exists.
@@ -118,21 +98,14 @@ public class BoardHandler {
 	 */
 	public boolean hasAnyAValidMove(List<String> playerIds) {
 		for (String playerId : playerIds) {
-			if (hasAValidMove(playerId)) {
+			if (hasValidMove(playerId)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	/**
-	 * Returns the nodes that will be swapped for a move at the given nodeId.
-	 *
-	 * @param playerId The player id that will occupy the given node.
-	 * @param nodeId The id of the node that the given player will occupy.
-	 * @return A list of all nodes swapped in all directions starting from the given node and that it is playerId that
-	 *         will occupy the starting node. The list is empty if it is an invalid move (no swaps possible).
-	 */
+	@Override
 	public List<Node> getNodesToSwap(String playerId, String nodeId) {
 		List<Node> swaps = new LinkedList<>();
 
@@ -142,6 +115,17 @@ public class BoardHandler {
 			}
 		}
 		return new LinkedList<>(swaps);
+	}
+
+	@Override
+	public boolean isMoveValid(String playerId, String nodeId) {
+		Node node = board.getNode(nodeId);
+		return !node.isMarked() && !getNodesToSwap(playerId, node.getId()).isEmpty();
+	}
+
+	@Override
+	public boolean hasValidMove(String playerId) {
+		return !getValidMoves(playerId).isEmpty();
 	}
 
 	/**
@@ -159,8 +143,7 @@ public class BoardHandler {
 	private List<Node> getSwapsDirection(String playerId, Node node, int iStep, int jStep) {
 		List<Node> swaps = new LinkedList<>();
 
-		for (int x = node.getXCoordinate() + iStep, y = node.getYCoordinate() + jStep; board.hasNode(x,
-				y); x += iStep, y += jStep) {
+		for (int x = node.getXCoordinate() + iStep, y = node.getYCoordinate() + jStep; board.hasNode(x, y); x += iStep, y += jStep) {
 			Node n = board.getNode(x, y);
 			if (!n.isMarked()) {
 				return new LinkedList<>();

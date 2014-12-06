@@ -206,12 +206,12 @@ public class BoardHandlerTest {
 		String player2 = "player2";
 		BoardHandler boardHandler = getSpecialEndGameBoardHandler(player1, player2);
 
-		Assert.assertFalse(boardHandler.hasAValidMove(player1));
+		Assert.assertFalse(boardHandler.hasValidMove(player1));
 		Assert.assertFalse(boardHandler.hasAnyAValidMove(Arrays.asList(player1, player2)));
 
 		boardHandler = getInitialGameBoardHandler(player1, player2);
 
-		Assert.assertTrue(boardHandler.hasAValidMove(player1));
+		Assert.assertTrue(boardHandler.hasValidMove(player1));
 		Assert.assertTrue(boardHandler.hasAnyAValidMove(Arrays.asList(player1, player2)));
 
 		Assert.assertTrue(boardHandler.hasAnyAValidMove(Arrays.asList("notPlayer1Id", player2)));
