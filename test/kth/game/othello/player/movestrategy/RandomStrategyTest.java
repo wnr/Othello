@@ -59,7 +59,6 @@ public class RandomStrategyTest {
 		Rules mockedRules = mock(Rules.class);
 		MoveStrategy randomStrategy = new RandomStrategy();
 
-		// TODO: Change this
 		Node move = randomStrategy.move("player1", mockedRules, null);
 		Assert.assertEquals(null, move);
 	}
