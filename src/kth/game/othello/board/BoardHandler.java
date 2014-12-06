@@ -51,7 +51,8 @@ public class BoardHandler implements Rules {
 			throw new IllegalArgumentException("The move is invalid.");
 		}
 
-		swaps.add(node);
+		// The first node should be the one we moved to.
+		swaps.add(0, node);
 
 		for (Node n : swaps) {
 			board.occupyNode(n.getId(), playerId);
