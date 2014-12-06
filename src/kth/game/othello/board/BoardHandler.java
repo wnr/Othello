@@ -158,7 +158,7 @@ public class BoardHandler {
 	private List<Node> getSwapsDirection(String playerId, Node node, int iStep, int jStep) {
 		List<Node> swaps = new LinkedList<>();
 
-		for (int x = node.getXCoordinate() + iStep, y = node.getYCoordinate() + jStep; board.containsNodeOnPosition(x,
+		for (int x = node.getXCoordinate() + iStep, y = node.getYCoordinate() + jStep; board.hasNode(x,
 				y); x += iStep, y += jStep) {
 			Node n = board.getNode(x, y);
 			if (!n.isMarked()) {

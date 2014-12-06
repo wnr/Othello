@@ -36,12 +36,6 @@ public class BoardImpl implements Board {
         return nodes.values().stream().max((Node n1, Node n2) -> Integer.compare(n1.getYCoordinate(), n2.getYCoordinate())).get().getYCoordinate();
     }
 
-    @Override
-    public boolean hasNode(int x, int y) {
-        // TODO: implement me.
-        return false;
-    }
-
     /**
      * The number of nodes on the board.
      *
@@ -71,24 +65,18 @@ public class BoardImpl implements Board {
     }
 
     /**
-     * Determines if the board contains a node at the specified position
-     *
-     * @param x The x-coordinate to search for
-     * @param y The y-coordinate to search for
-     * @return True if a node exists on this position
-     */
-    public boolean containsNodeOnPosition(int x, int y) {
-        return nodes.containsKey(NodeIdUtil.createNodeId(x, y));
-    }
-
-    /**
      * Determines if the board contains a node with the specified id.
      *
      * @param nodeId The nodeId to search for
      * @return True if a node with this id exists
      */
-    public boolean containsNodeWithId(String nodeId) {
+    public boolean hasNode(String nodeId) {
         return nodes.containsKey(nodeId);
+    }
+
+    @Override
+    public boolean hasNode(int x, int y) {
+        return nodes.containsKey(NodeIdUtil.createNodeId(x, y));
     }
 
     /**

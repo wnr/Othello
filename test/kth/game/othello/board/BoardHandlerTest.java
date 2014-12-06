@@ -37,7 +37,7 @@ public class BoardHandlerTest {
 				nodeList.add(nodes[i][j]);
 				when(mockedBoard.getNode(i, j)).thenReturn(nodes[i][j]);
 				when(mockedBoard.getNode(NodeIdUtil.createNodeId(i, j))).thenReturn(nodes[i][j]);
-				when(mockedBoard.containsNodeOnPosition(i, j)).thenReturn(true);
+				when(mockedBoard.hasNode(i, j)).thenReturn(true);
 			}
 		}
 		when(mockedBoard.getNodes()).thenReturn(nodeList);

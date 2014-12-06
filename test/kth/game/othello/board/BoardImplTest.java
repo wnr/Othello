@@ -47,16 +47,16 @@ public class BoardImplTest {
 	}
 
 	@Test
-	public void containsNodeTest() {
+	public void hasNodeTest() {
 		BoardImpl board = create8x8Board();
 		for (int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {
-				Assert.assertTrue(board.containsNodeOnPosition(x, y));
-				Assert.assertTrue(board.containsNodeWithId(NodeIdUtil.createNodeId(x, y)));
+				Assert.assertTrue(board.hasNode(x, y));
+				Assert.assertTrue(board.hasNode(NodeIdUtil.createNodeId(x, y)));
 			}
 		}
-		Assert.assertFalse(board.containsNodeOnPosition(8, 8));
-		Assert.assertFalse(board.containsNodeWithId(NodeIdUtil.createNodeId(8, 8)));
+		Assert.assertFalse(board.hasNode(8, 8));
+		Assert.assertFalse(board.hasNode(NodeIdUtil.createNodeId(8, 8)));
 	}
 
 	@Test
