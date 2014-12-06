@@ -6,8 +6,8 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import kth.game.othello.Othello;
 import kth.game.othello.player.turndecider.TurnDecider;
+import kth.game.othello.rules.Rules;
 
 /**
  * A handler with the overall responsibility regarding the players in the game.
@@ -78,11 +78,11 @@ public class PlayerHandler {
 	 * the player in turn is not able to make a move. If no player is skipped or if no player can make a move. The
 	 * returned list will be empty.
 	 *
-	 * @param othello The othello game to check for valid moves TODO: Will become a OthelloBoardInspector
+	 * @param rules The rules to check for valid moves.
 	 * @return A list of players that were in turn but were skipped since they could not make a move.
 	 */
-	public List<Player> updatePlayerInTurn(Othello othello) {
-		return getPlayers(turnDecider.updatePlayerInTurn(othello));
+	public List<Player> updatePlayerInTurn(Rules rules) {
+		return getPlayers(turnDecider.updatePlayerInTurn(rules));
 	}
 
 	/**

@@ -115,7 +115,7 @@ public class OthelloImpl extends Observable implements Othello {
 		}
 		List<Node> swappedNodes = boardHandler.move(playerId, nodeId);
 
-		playerHandler.updatePlayerInTurn(this);
+		playerHandler.updatePlayerInTurn(boardHandler);
 
 		notifyAllMoveObservers(swappedNodes);
 

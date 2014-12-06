@@ -37,7 +37,7 @@ public class OthelloImplTest {
 
 		List<Node> returnList = othello1.move(playerId1, nodeId);
 		Assert.assertEquals(returnList, nodeList);
-		verify(phMock).updatePlayerInTurn(othello1);
+		verify(phMock).updatePlayerInTurn(obhMock);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
