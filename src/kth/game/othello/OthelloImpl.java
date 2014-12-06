@@ -1,6 +1,8 @@
 package kth.game.othello;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 import java.util.Observer;
 
 import kth.game.othello.board.Board;
@@ -15,10 +17,12 @@ import kth.game.othello.score.Score;
  *
  * @author Mathias Lindblom
  */
-public class OthelloImpl implements Othello {
+public class OthelloImpl extends Observable implements Othello {
 	private final PlayerHandler playerHandler;
 	private final BoardHandler boardHandler;
 	private final Score score;
+	private List<Observer> gameFinishedObservers;
+	private List<Observer> moveObservers;
 
 	/**
 	 * Constructs an Othello game instance.
@@ -31,16 +35,18 @@ public class OthelloImpl implements Othello {
 		this.boardHandler = boardHandler;
 		this.playerHandler = playerHandler;
 		this.score = score;
+		this.gameFinishedObservers = new ArrayList<>();
+		this.moveObservers = new ArrayList<>();
 	}
 
 	@Override
 	public void addGameFinishedObserver(Observer observer) {
-		// TODO: Implement me.
+		gameFinishedObservers.add(observer);
 	}
 
 	@Override
 	public void addMoveObserver(Observer observer) {
-		// TODO: Implement me.
+		moveObservers.add(observer);
 	}
 
 	@Override
@@ -113,6 +119,12 @@ public class OthelloImpl implements Othello {
 
 		playerHandler.updatePlayerInTurn(this);
 
+		notifyAllMoveObservers(swappedNodes);
+
+		if (!isActive()) {
+			notifyAllGameFinishedObservers();
+		}
+
 		return swappedNodes;
 	}
 
@@ -129,5 +141,60 @@ public class OthelloImpl implements Othello {
 	@Override
 	public void undo() {
 		// TODO: Implement me.
+	}
+
+	private void notifyAllGameFinishedObservers() {
+		gameFinishedObservers.stream().forEach(o -> o.update(this, null));
+	}
+
+	private void notifyAllMoveObservers(List<Node> swappedNodes) {
+		moveObservers.stream().forEach(o -> o.update(this, swappedNodes));
+	}
+
+	// Override inherited Observable methods since they are invalid due to Othello having two different observer types.
+
+	@Override
+	public synchronized void addObserver(Observer o) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public synchronized void deleteObserver(Observer o) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void notifyObservers() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void notifyObservers(Object arg) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public synchronized void deleteObservers() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	protected synchronized void setChanged() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	protected synchronized void clearChanged() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public synchronized boolean hasChanged() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public synchronized int countObservers() {
+		throw new UnsupportedOperationException();
 	}
 }
