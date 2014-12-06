@@ -1,9 +1,6 @@
 package kth.game.othello;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 import kth.game.othello.board.Board;
 import kth.game.othello.board.BoardHandler;
@@ -51,8 +48,7 @@ public class OthelloImpl extends Observable implements Othello {
 
 	@Override
 	public String getId() {
-		// TODO: Implement me.
-		return null;
+		return UUID.randomUUID().toString();
 	}
 
 	@Override
