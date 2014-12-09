@@ -224,12 +224,12 @@ public class BoardHandlerTest {
 		List<Node> move = new ArrayList<>();
 		move.add(mockedBoard.getNode(2, 3));
 		move.add(mockedBoard.getNode(3, 3));
-		verify(mockedBoardHistory, times(1)).push(move);
+		verify(mockedBoardHistory, times(1)).save(move);
 
 		boardHandler.move("player2", NodeIdUtil.createNodeId(4, 2));
 		move = new ArrayList<>();
 		move.add(mockedBoard.getNode(4, 2));
 		move.add(mockedBoard.getNode(4, 3));
-		verify(mockedBoardHistory, times(1)).push(move);
+		verify(mockedBoardHistory, times(1)).save(move);
 	}
 }

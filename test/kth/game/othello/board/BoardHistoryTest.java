@@ -19,23 +19,23 @@ public class BoardHistoryTest {
 		firstMove.add(new NodeImpl("player2", 3, 3));
 		firstMove.add(new NodeImpl("player3", 1, 2));
 
-		boardHistory.push(firstMove);
+		boardHistory.save(firstMove);
 
 		List<Node> secondMove = new ArrayList<>();
 		secondMove.add(new NodeImpl("player1", 1, 1));
 		secondMove.add(new NodeImpl("player1", 2, 1));
 		secondMove.add(new NodeImpl("player3", 3, 3));
 
-		boardHistory.push(secondMove);
+		boardHistory.save(secondMove);
 
-		boardHistory.pop();
+		boardHistory.undo();
 		verifyOccupyNode(mockedBoard, secondMove);
 
-		boardHistory.pop();
+		boardHistory.undo();
 		verifyOccupyNode(mockedBoard, firstMove);
 
-		boardHistory.pop();
-		boardHistory.pop();
+		boardHistory.undo();
+		boardHistory.undo();
 	}
 
 	private void verifyOccupyNode(BoardImpl mockedBoard, List<Node> move) {

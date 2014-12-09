@@ -57,7 +57,7 @@ public class BoardHandler implements Rules {
 		// The first node should be the one we moved to.
 		swaps.add(0, node);
 
-		boardHistory.push(swaps);
+		boardHistory.save(swaps);
 
 		for (Node n : swaps) {
 			board.occupyNode(n.getId(), playerId);
@@ -72,7 +72,7 @@ public class BoardHandler implements Rules {
 	 * nothing will happen.
 	 */
 	public void undo() {
-		boardHistory.pop();
+		boardHistory.undo();
 	}
 
 	@Override

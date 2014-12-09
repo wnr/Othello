@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- * Responsible for storing and handling board history moves. Can push (add) and pop (undo) moves.
+ * Responsible for storing and handling board history moves. Can save and undo moves.
  *
  * @author Mathias Lindblom
  * @author Erik Odenman
@@ -32,16 +32,16 @@ public class BoardHistory {
      *
      * @param move The list of nodes that will be swapped by this move.
      */
-    public void push(List<Node> move) {
+    public void save(List<Node> move) {
         moves.push(new ArrayList<>(move));
     }
 
     /**
      * Will undo the previously added move. Will set the occupant player id's of the nodes to the player id's before the
-     * move was performed. The observers of the nodes swapped will be notified as usual. If there is no history to pop,
+     * move was performed. The observers of the nodes swapped will be notified as usual. If there is no history to undo,
      * nothing will happen.
      */
-    public void pop() {
+    public void undo() {
         if (moves.size() == 0) {
             return;
         }
