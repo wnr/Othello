@@ -67,7 +67,7 @@ public class BoardHandler implements Rules {
 	}
 
 	/**
-	 * Will undo the previously added move. Will set the occupant player id's of the nodes to the player id's before the
+	 * Will undo the previously added move. Will set the occupant player id's of the previously changed nodes to the player id's before the
 	 * move was performed. The observers of the nodes swapped will be notified as usual. If there are no moves to undo,
 	 * nothing will happen.
 	 */
