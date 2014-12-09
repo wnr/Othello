@@ -69,13 +69,13 @@ public class BoardHandlerTest {
 		occupyMockedNode(nodes[5][7], player2);
 		occupyMockedNode(nodes[6][7], null);
 
-		BoardHistory mockedBoardHistory = mock(BoardHistory.class);
-		return new BoardHandler(getMockedBoard(nodes), mockedBoardHistory);
+		BoardHistoryHandler mockedBoardHistoryHandler = mock(BoardHistoryHandler.class);
+		return new BoardHandler(getMockedBoard(nodes), mockedBoardHistoryHandler);
 	}
 
 	private BoardHandler getInitialGameBoardHandler(String player1, String player2) {
-		BoardHistory mockedBoardHistory = mock(BoardHistory.class);
-		return new BoardHandler(getInitialGameBoard(player1, player2), mockedBoardHistory);
+		BoardHistoryHandler mockedBoardHistoryHandler = mock(BoardHistoryHandler.class);
+		return new BoardHandler(getInitialGameBoard(player1, player2), mockedBoardHistoryHandler);
 	}
 
 	private BoardImpl getInitialGameBoard(String player1, String player2) {
@@ -216,20 +216,20 @@ public class BoardHandlerTest {
 	@Test
 	public void undoTest() {
 		BoardImpl mockedBoard = getInitialGameBoard("player1", "player2");
-		BoardHistory mockedBoardHistory = mock(BoardHistory.class);
-		BoardHandler boardHandler = new BoardHandler(mockedBoard, mockedBoardHistory);
+		BoardHistoryHandler mockedBoardHistoryHandler = mock(BoardHistoryHandler.class);
+		BoardHandler boardHandler = new BoardHandler(mockedBoard, mockedBoardHistoryHandler);
 
 		boardHandler.move("player1", NodeIdUtil.createNodeId(2, 3));
 
 		List<Node> move = new ArrayList<>();
 		move.add(mockedBoard.getNode(2, 3));
 		move.add(mockedBoard.getNode(3, 3));
-		verify(mockedBoardHistory, times(1)).save(move);
+		verify(mockedBoardHistoryHandler, times(1)).save(move);
 
 		boardHandler.move("player2", NodeIdUtil.createNodeId(4, 2));
 		move = new ArrayList<>();
 		move.add(mockedBoard.getNode(4, 2));
 		move.add(mockedBoard.getNode(4, 3));
-		verify(mockedBoardHistory, times(1)).save(move);
+		verify(mockedBoardHistoryHandler, times(1)).save(move);
 	}
 }

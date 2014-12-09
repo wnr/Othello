@@ -12,7 +12,7 @@ import java.util.Stack;
  * @author Erik Odenman
  * @author Lucas Wiener
  */
-public class BoardHistory {
+public class BoardHistoryHandler {
 	private Stack<List<Node>> moves;
 	private final BoardImpl board;
 
@@ -21,7 +21,7 @@ public class BoardHistory {
 	 *
 	 * @param board The board that the instance should handle the history for.
 	 */
-	public BoardHistory(BoardImpl board) {
+	public BoardHistoryHandler(BoardImpl board) {
 		this.board = board;
 		moves = new Stack<>();
 	}

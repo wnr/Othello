@@ -8,34 +8,34 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
-public class BoardHistoryTest {
+public class BoardHistoryHandlerTest {
 	@Test
 	public void pushAndPopTest() {
 		BoardImpl mockedBoard = mock(BoardImpl.class);
-		BoardHistory boardHistory = new BoardHistory(mockedBoard);
+		BoardHistoryHandler boardHistoryHandler = new BoardHistoryHandler(mockedBoard);
 
 		List<Node> firstMove = new ArrayList<>();
 		firstMove.add(new NodeImpl("player1", 0, 0));
 		firstMove.add(new NodeImpl("player2", 3, 3));
 		firstMove.add(new NodeImpl("player3", 1, 2));
 
-		boardHistory.save(firstMove);
+		boardHistoryHandler.save(firstMove);
 
 		List<Node> secondMove = new ArrayList<>();
 		secondMove.add(new NodeImpl("player1", 1, 1));
 		secondMove.add(new NodeImpl("player1", 2, 1));
 		secondMove.add(new NodeImpl("player3", 3, 3));
 
-		boardHistory.save(secondMove);
+		boardHistoryHandler.save(secondMove);
 
-		boardHistory.undo();
+		boardHistoryHandler.undo();
 		verifyOccupyNode(mockedBoard, secondMove);
 
-		boardHistory.undo();
+		boardHistoryHandler.undo();
 		verifyOccupyNode(mockedBoard, firstMove);
 
-		boardHistory.undo();
-		boardHistory.undo();
+		boardHistoryHandler.undo();
+		boardHistoryHandler.undo();
 	}
 
 	private void verifyOccupyNode(BoardImpl mockedBoard, List<Node> move) {

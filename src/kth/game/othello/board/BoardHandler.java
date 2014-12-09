@@ -15,17 +15,17 @@ import java.util.stream.Collectors;
  */
 public class BoardHandler implements Rules {
 	private final BoardImpl board;
-	private final BoardHistory boardHistory;
+	private final BoardHistoryHandler boardHistoryHandler;
 
 	/**
 	 * Constructs a Othello board handler.
 	 *
 	 * @param board The board to handle.
-	 * @param boardHistory The board history instance that will handle undoing moves.
+	 * @param boardHistoryHandler The board history instance that will handle undoing moves.
 	 */
-	public BoardHandler(BoardImpl board, BoardHistory boardHistory) {
+	public BoardHandler(BoardImpl board, BoardHistoryHandler boardHistoryHandler) {
 		this.board = board;
-		this.boardHistory = boardHistory;
+		this.boardHistoryHandler = boardHistoryHandler;
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class BoardHandler implements Rules {
 		// The first node should be the one we moved to.
 		swaps.add(0, node);
 
-		boardHistory.save(swaps);
+		boardHistoryHandler.save(swaps);
 
 		for (Node n : swaps) {
 			board.occupyNode(n.getId(), playerId);
@@ -72,7 +72,7 @@ public class BoardHandler implements Rules {
 	 * nothing will happen.
 	 */
 	public void undo() {
-		boardHistory.undo();
+		boardHistoryHandler.undo();
 	}
 
 	@Override
