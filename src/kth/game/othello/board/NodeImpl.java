@@ -32,6 +32,16 @@ public class NodeImpl extends Observable implements Node, Comparable<NodeImpl> {
 	}
 
 	/**
+	 * Constructs a node with the same player id, x and y coordinates as the given node. Basically creates a copy of the
+	 * given node.
+	 * 
+	 * @param node The node to create a copy of.
+	 */
+	public NodeImpl(Node node) {
+		this(node.getOccupantPlayerId(), node.getXCoordinate(), node.getYCoordinate());
+	}
+
+	/**
 	 * Constructs a node instance. The node-id is determined by the values of x and y. A node should be identified
 	 * uniquely given the x- and y-coordinate
 	 *

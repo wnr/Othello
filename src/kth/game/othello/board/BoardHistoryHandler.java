@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 /**
  * Responsible for storing and handling board history moves. Can save and undo moves.
@@ -28,12 +29,13 @@ public class BoardHistoryHandler {
 
 	/**
 	 * Saves a move history. Now the board history will remember this as the last move, and will be able to undo the
-	 * move. This method should be called before the player id has actually been changed in the board by the move.
+	 * move. This method should be called before the player id has actually been changed in the board by the move. Will
+	 * copy the nodes given in the move list.
 	 *
-	 * @param move The list of nodes that will be swapped by this move.
+	 * @param move The list of nodes that will be swapped by this move. The nodes will be copied without observers.
 	 */
 	public void save(List<Node> move) {
-		moves.push(new ArrayList<>(move));
+		moves.push(move.stream().map(NodeImpl::new).collect(Collectors.toCollection(ArrayList<Node>::new)));
 	}
 
 	/**
